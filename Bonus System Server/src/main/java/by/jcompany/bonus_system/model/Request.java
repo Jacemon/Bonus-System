@@ -1,6 +1,7 @@
 package by.jcompany.bonus_system.model;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,12 @@ public class Request implements Serializable {
     
     public Request(String requestType, Object requestObject) {
         this.requestType = requestType;
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         this.requestString = gson.toJson(requestObject);
+    }
+    
+    @Override
+    public String toString() {
+        return '\t' + requestType + '\n' + requestString.indent(4);
     }
 }

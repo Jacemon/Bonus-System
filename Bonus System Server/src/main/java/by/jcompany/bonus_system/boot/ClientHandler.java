@@ -4,11 +4,13 @@ import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
 import by.jcompany.bonus_system.entity.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 class ClientHandler implements Runnable {
     private final int clientNumber;
@@ -16,7 +18,7 @@ class ClientHandler implements Runnable {
     private final ObjectInputStream objectInputStream;
     private final ObjectOutputStream objectOutputStream;
     
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
     ClientHandler(Socket clientSocket, int clientNumber) throws IOException {
         this.clientNumber = clientNumber;
@@ -30,20 +32,17 @@ class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-            Response serverResponse = null;
+            Response serverResponse;
             Request clientRequest;
             
             do {
+                clientRequest = (Request) objectInputStream.readObject();
                 try {
-                    clientRequest = (Request) objectInputStream.readObject();
-                    
                     String requestType = clientRequest.getRequestType();
                     String requestString = clientRequest.getRequestString();
                     
-                    System.out.println("message received: '" +
-                        requestType + " " +
-                        requestString + "'");
-    
+                    System.out.println("client #" + clientNumber + " -> server: ");
+                    System.out.println(clientRequest);
                     
                     if (requestType.equals("QUIT")) {
                         break;
@@ -56,28 +55,31 @@ class ClientHandler implements Runnable {
                             serverResponse = new Response("OK", "User created");
                         }
                         case "READ_ALL_USERS" -> {
+                            List<User> users = ClientFunctions.readAllUsers();
+                            serverResponse = new Response("OK", users);
                         }
+                        default -> serverResponse =
+                            new Response("WARNING", "Not defined error!");
                     }
-                } catch (IOException exception) {
-                    serverResponse = new Response("ERROR", "Server file invalid!");
-                    System.out.println(serverResponse);
+                } catch (Exception exception) {
+                    serverResponse = new Response("ERROR", "Not defined error!");
                 }
                 
+                System.out.println("server -> client #" + clientNumber + ": ");
+                System.out.println(serverResponse);
                 objectOutputStream.writeObject(serverResponse);
             } while (true);
         } catch (Exception exception) {
             exception.printStackTrace();
         } finally {
             try {
-                assert objectInputStream != null;
                 objectInputStream.close();
-                assert objectOutputStream != null;
                 objectOutputStream.close();
                 socket.close();
-                
-                System.out.println("connection closed with client #" + clientNumber + "...");
             } catch (Exception exception) {
                 exception.printStackTrace();
+            } finally {
+                System.out.println("connection closed with client #" + clientNumber + "...");
             }
         }
     }

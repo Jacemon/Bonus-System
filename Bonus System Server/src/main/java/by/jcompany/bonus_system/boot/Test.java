@@ -12,9 +12,9 @@ public class Test {
         Service<Employee, Integer> employeeService = new EmployeeService();
         Service<User, String> userService = new UserService();
         
-        String password = "123123123";
-        userService.create(new User("login2", HashManager.getHash(password)));
-        
-        employeeService.create(new Employee("Eugene", "Bel"));
+        User user = userService.read("login2");
+        Employee employee = employeeService.read(1);
+        user.setEmployee(employee);
+        userService.update(user);
     }
 }

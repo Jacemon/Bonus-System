@@ -23,7 +23,7 @@ public class Server {
                     Scanner in = new Scanner(System.in);
                     if (in.nextLine().equals(exitServerString)) {
                         exit = true;
-                        System.out.print("Server will closed when next client was processed...");
+                        System.out.print("server will closed when next client was processed...");
                     }
                 }
             });
@@ -39,9 +39,11 @@ public class Server {
         } finally {
             try {
                 assert serverSocket != null;
-                serverSocket.close();//закрытие сокета сервера
+                serverSocket.close();
             } catch (Exception exception) {
-                exception.printStackTrace();//вызывается метод исключения е
+                exception.printStackTrace();
+            } finally {
+                System.out.println("server closed...");
             }
         }
     }
