@@ -2,7 +2,7 @@ package by.jcompany.bonus_system.service;
 
 import java.util.List;
 
-public interface Service<T, IdType> {
+public interface Service<T, K> {
     boolean create(T entity);
     
     List<T> readAll();
@@ -11,5 +11,5 @@ public interface Service<T, IdType> {
     
     boolean delete(T entity);
     
-    T read(IdType id);
+    T read(K id);
 }

@@ -2,7 +2,7 @@ package by.jcompany.bonus_system.dao;
 
 import java.util.List;
 
-public interface Dao<T, IdType> {
+public interface Dao<T, K> {
     boolean create(T order);
     
     List<T> readAll();
@@ -11,5 +11,5 @@ public interface Dao<T, IdType> {
     
     boolean delete(T order);
     
-    T read(IdType orderId);
+    T read(K orderId);
 }

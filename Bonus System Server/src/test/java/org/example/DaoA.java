@@ -1,20 +1,18 @@
-package by.jcompany.bonus_system.dao;
+package org.example;
 
-import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public class UserDao implements Dao<User, String> {
-    @Override
-    public boolean create(User user) {
+public abstract class DaoA<T, K> {
+    public boolean create(T entity) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.persist(user);
+            session.persist(entity);
             transaction.commit();
         } catch (HibernateException exception) {
             exception.printStackTrace();
@@ -23,24 +21,28 @@ public class UserDao implements Dao<User, String> {
         return true;
     }
     
-    @Override
-    public List<User> readAll() {
+    
+    
+    public Set<T> readAll(Class<T> aClass) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return new ArrayList<>(session.createQuery("FROM User", User.class).getResultList());
+            T t;
+            
+            System.out.println(aClass.getName());
+            System.out.println(aClass);
+            return new HashSet<>(session.createQuery("FROM " + aClass.getName(), aClass).getResultList());
         } catch (HibernateException exception) {
             exception.printStackTrace();
             return null;
         }
     }
     
-    @Override
-    public boolean update(User user) {
+    public boolean update(T entity) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            if (user.getLogin() == null) {
+            /*if (entity.getLogin() == null) {
                 throw new HibernateException("Entity has null id");
-            }
-            session.merge(user);
+            }*/
+            session.merge(entity);
             transaction.commit();
         } catch (HibernateException exception) {
             exception.printStackTrace();
@@ -49,11 +51,10 @@ public class UserDao implements Dao<User, String> {
         return true;
     }
     
-    @Override
-    public boolean delete(User user) {
+    public boolean delete(T entity) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.remove(user);
+            session.remove(entity);
             transaction.commit();
         } catch (HibernateException exception) {
             exception.printStackTrace();
@@ -62,10 +63,9 @@ public class UserDao implements Dao<User, String> {
         return true;
     }
     
-    @Override
-    public User read(String login) {
+    public T read(K id, Class<T> aClass) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return session.get(User.class, login);
+            return session.get(aClass, id);
         } catch (HibernateException exception) {
             exception.printStackTrace();
             return null;

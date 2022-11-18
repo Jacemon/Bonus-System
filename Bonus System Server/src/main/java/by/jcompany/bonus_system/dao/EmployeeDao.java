@@ -25,15 +25,13 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     
     @Override
     public List<Employee> readAll() {
-        List<Employee> employees;
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            employees = new ArrayList<>(session.createQuery("FROM Employee",
+            return new ArrayList<>(session.createQuery("FROM Employee",
                 Employee.class).getResultList());
         } catch (HibernateException exception) {
             exception.printStackTrace();
             return null;
         }
-        return employees;
     }
     
     @Override
@@ -67,13 +65,11 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     
     @Override
     public Employee read(Integer id) {
-        Employee employee;
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            employee = session.get(Employee.class, id);
+            return session.get(Employee.class, id);
         } catch (HibernateException exception) {
             exception.printStackTrace();
             return null;
         }
-        return employee;
     }
 }

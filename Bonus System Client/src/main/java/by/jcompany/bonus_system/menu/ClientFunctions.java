@@ -8,7 +8,7 @@ import by.jcompany.bonus_system.util.HashManager;
 
 import java.io.IOException;
 
-public class MenuFunctions {
+public class ClientFunctions {
     private static final Connection connection;
     
     static {
