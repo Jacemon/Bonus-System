@@ -47,8 +47,15 @@ public class Task {
     @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Bonus> bonuses = new LinkedHashSet<>();
     
+    public Task(String description, Instant creationTime, Status status) {
+        this.description = description;
+        this.creationTime = creationTime;
+        this.status = status;
+    }
+    
     public Task(String description, Instant creationTime) {
         this.description = description;
         this.creationTime = creationTime;
+        this.status = Status.NEW;
     }
 }
