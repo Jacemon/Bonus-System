@@ -20,7 +20,7 @@ create table `employee`
 
 create table `role`
 (
-    id   int         not null
+    id   int auto_increment
         primary key,
     name varchar(20) not null
 );
@@ -39,7 +39,7 @@ create table `task`
 
 create table `bonus`
 (
-    id      int         not null
+    id      int auto_increment
         primary key,
     type    varchar(20) not null,
     amount  float       not null,
