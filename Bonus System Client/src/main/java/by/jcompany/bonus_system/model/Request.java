@@ -2,11 +2,14 @@ package by.jcompany.bonus_system.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -17,7 +20,10 @@ public class Request implements Serializable {
     
     public Request(String requestType, Object requestObject) {
         this.requestType = requestType;
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson2 = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Instant.class,
+            (JsonDeserializer<Instant>) (json, type, jsonDeserializationContext) ->
+            ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant()).create();
         this.requestString = gson.toJson(requestObject);
     }
     

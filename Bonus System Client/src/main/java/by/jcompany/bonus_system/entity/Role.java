@@ -14,17 +14,13 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class Employee {
+public class Role {
     private Integer id;
-    private String firstName;
-    private String lastName;
+    private String name;
+  
+    private Set<User> users = new LinkedHashSet<>();
     
-    private User user;
-    
-    private Set<Task> tasks = new LinkedHashSet<>();
-    
-    public Employee(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Role(String name) {
+        this.name = name;
     }
 }

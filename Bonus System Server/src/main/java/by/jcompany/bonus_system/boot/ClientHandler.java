@@ -5,11 +5,14 @@ import by.jcompany.bonus_system.model.Response;
 import by.jcompany.bonus_system.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 class ClientHandler implements Runnable {
@@ -18,7 +21,10 @@ class ClientHandler implements Runnable {
     private final ObjectInputStream objectInputStream;
     private final ObjectOutputStream objectOutputStream;
     
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson2 = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Instant.class,
+        (JsonDeserializer<Instant>) (json, type, jsonDeserializationContext) ->
+        ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant()).create();
     
     ClientHandler(Socket clientSocket, int clientNumber) throws IOException {
         this.clientNumber = clientNumber;
@@ -59,7 +65,7 @@ class ClientHandler implements Runnable {
                             serverResponse = new Response("OK", users);
                         }
                         default -> serverResponse =
-                            new Response("WARNING", "Not defined error!");
+                            new Response("WARNING", "Command not exist!");
                     }
                 } catch (Exception exception) {
                     serverResponse = new Response("ERROR", "Not defined error!");

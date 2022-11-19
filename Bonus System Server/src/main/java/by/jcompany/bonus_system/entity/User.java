@@ -28,6 +28,7 @@ public class User {
     @JoinColumn(name = "employee_id")
     private Employee employee;
     
+    // todo Вот и как мне избежать EAGER?
     @ManyToMany(mappedBy = "users", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     private Set<Role> roles = new LinkedHashSet<>();
     
