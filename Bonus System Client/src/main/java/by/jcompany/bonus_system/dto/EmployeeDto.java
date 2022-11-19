@@ -1,29 +1,27 @@
-package by.jcompany.bonus_system.entity;
+package by.jcompany.bonus_system.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Employee {
+public class EmployeeDto {
     private Integer id;
     private String firstName;
     private String lastName;
     
-    private User user;
+    private UserDto user;
     
-    private Set<Task> tasks = new LinkedHashSet<>();
+    private Set<TaskDto> tasks = new LinkedHashSet<>();
     
-    public Employee(String firstName, String lastName) {
+    public EmployeeDto(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

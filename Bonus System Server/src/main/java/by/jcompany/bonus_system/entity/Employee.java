@@ -28,7 +28,7 @@ public class Employee {
     private String lastName;
     
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.EAGER)
-    private User user;
+    private transient User user;
     
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Task> tasks = new LinkedHashSet<>();

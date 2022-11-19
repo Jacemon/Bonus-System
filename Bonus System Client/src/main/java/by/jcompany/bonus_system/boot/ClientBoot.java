@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class ClientBoot {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        ClientFunctions.createUser("login10", "123123");
         ClientFunctions.readAllUsers();
+        ClientFunctions.createRole("GUEST");
         ClientFunctions.quit();
     }
 }

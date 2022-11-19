@@ -4,10 +4,9 @@ import java.net.ServerSocket;
 import java.util.Scanner;
 
 public class Server {
+    public static final int SERVER_PORT = 4040;
     public static boolean exit = false;
     public static String exitServerString = "exit";
-    
-    public static final int SERVER_PORT = 4040;
     
     public static void start() {
         ServerSocket serverSocket = null;

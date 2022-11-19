@@ -6,8 +6,8 @@ module by.jcompany.bonus_system {
     
     exports by.jcompany.bonus_system.temp;
     opens by.jcompany.bonus_system.temp to javafx.fxml;
-    exports by.jcompany.bonus_system.entity;
-    opens by.jcompany.bonus_system.entity to com.google.gson;
+    exports by.jcompany.bonus_system.dto;
+    opens by.jcompany.bonus_system.dto to com.google.gson;
     exports by.jcompany.bonus_system.model;
     opens by.jcompany.bonus_system.model to javafx.fxml;
     exports by.jcompany.bonus_system.util;

@@ -1,7 +1,6 @@
 package by.jcompany.bonus_system.util;
 
-import by.jcompany.bonus_system.entity.Employee;
-import by.jcompany.bonus_system.entity.User;
+import by.jcompany.bonus_system.entity.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -13,8 +12,11 @@ public class HibernateSessionFactory {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration().configure();
-                configuration.addAnnotatedClass(User.class);
+                configuration.addAnnotatedClass(Bonus.class);
                 configuration.addAnnotatedClass(Employee.class);
+                configuration.addAnnotatedClass(Role.class);
+                configuration.addAnnotatedClass(Task.class);
+                configuration.addAnnotatedClass(User.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());

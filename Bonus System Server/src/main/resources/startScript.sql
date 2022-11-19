@@ -3,12 +3,11 @@ create database `bonus_system`;
 
 use `bonus_system`;
 
-drop table if exists `user_role`;
 drop table if exists `user`;
+drop table if exists `role`;
 drop table if exists `bonus`;
 drop table if exists `employee`;
 drop table if exists `task`;
-drop table if exists `role`;
 
 create table `employee`
 (
@@ -18,11 +17,10 @@ create table `employee`
     last_name  varchar(20) not null
 );
 
-create table `role`
+create table role
 (
-    id   int auto_increment
-        primary key,
     name varchar(20) not null
+        primary key
 );
 
 create table `task`
@@ -55,20 +53,10 @@ create table `user`
         primary key,
     employee_id   int         null,
     password_hash blob        not null,
-    constraint user_employee_null_fk
-        foreign key (employee_id) references employee (id)
-);
-
-create table `user_role`
-(
-    id         int auto_increment
-        primary key,
-    user_login varchar(40) not null,
-    role_id    int         not null,
-    constraint user_role_role_id_fk
-        foreign key (role_id) references role (id)
-            on delete cascade,
-    constraint user_role_user_login_fk
-        foreign key (user_login) references user (login)
-            on delete cascade
+    role_name     varchar(20) null,
+    constraint user_employee_id_fk
+        foreign key (employee_id) references employee (id),
+    constraint user_role_name_fk
+        foreign key (role_name) references role (name)
+            on delete set null
 );

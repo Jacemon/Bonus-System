@@ -17,19 +17,11 @@ import java.util.Set;
 @Table(name = "role")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
-    
     @Column(name = "name", nullable = false, length = 20)
     private String name;
     
-    @ToString.Exclude
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "user_role",
-        joinColumns = @JoinColumn(name = "role_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_login"))
-    private Set<User> users = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "role", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    private transient Set<User> users = new LinkedHashSet<>();
     
     public Role(String name) {
         this.name = name;

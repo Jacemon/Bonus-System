@@ -1,6 +1,6 @@
 package by.jcompany.bonus_system.dao;
 
-import by.jcompany.bonus_system.entity.Task;
+import by.jcompany.bonus_system.entity.Role;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -9,12 +9,12 @@ import org.hibernate.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDao implements Dao<Task, Integer> {
+public class RoleDao implements Dao<Role, String> {
     @Override
-    public boolean create(Task task) {
+    public boolean create(Role role) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.persist(task);
+            session.persist(role);
             transaction.commit();
         } catch (HibernateException exception) {
             exception.printStackTrace();
@@ -24,9 +24,9 @@ public class TaskDao implements Dao<Task, Integer> {
     }
     
     @Override
-    public List<Task> readAll() {
+    public List<Role> readAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return new ArrayList<>(session.createQuery("FROM Task", Task.class).getResultList());
+            return new ArrayList<>(session.createQuery("FROM Role", Role.class).getResultList());
         } catch (HibernateException exception) {
             exception.printStackTrace();
             return null;
@@ -34,13 +34,13 @@ public class TaskDao implements Dao<Task, Integer> {
     }
     
     @Override
-    public boolean update(Task task) {
+    public boolean update(Role role) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            if (task.getId() == null) {
+            if (role.getName() == null) {
                 throw new HibernateException("Entity has null id");
             }
-            session.merge(task);
+            session.merge(role);
             transaction.commit();
         } catch (HibernateException exception) {
             exception.printStackTrace();
@@ -50,10 +50,10 @@ public class TaskDao implements Dao<Task, Integer> {
     }
     
     @Override
-    public boolean delete(Task task) {
+    public boolean delete(Role role) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.remove(task);
+            session.remove(role);
             transaction.commit();
         } catch (HibernateException exception) {
             exception.printStackTrace();
@@ -62,10 +62,9 @@ public class TaskDao implements Dao<Task, Integer> {
         return true;
     }
     
-    @Override
-    public Task read(Integer id) {
+    public Role read(String name) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return session.get(Task.class, id);
+            return session.get(Role.class, name);
         } catch (HibernateException exception) {
             exception.printStackTrace();
             return null;

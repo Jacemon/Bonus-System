@@ -2,29 +2,18 @@ package by.jcompany.bonus_system.boot;
 
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
-import by.jcompany.bonus_system.entity.User;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
+import jakarta.persistence.PersistenceException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.util.List;
 
 class ClientHandler implements Runnable {
     private final int clientNumber;
     private final Socket socket;
     private final ObjectInputStream objectInputStream;
     private final ObjectOutputStream objectOutputStream;
-    
-    private final Gson gson2 = new GsonBuilder().setPrettyPrinting().create();
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Instant.class,
-        (JsonDeserializer<Instant>) (json, type, jsonDeserializationContext) ->
-        ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant()).create();
     
     ClientHandler(Socket clientSocket, int clientNumber) throws IOException {
         this.clientNumber = clientNumber;
@@ -33,6 +22,8 @@ class ClientHandler implements Runnable {
         socket = clientSocket;
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        
+        ClientFunctionsCreator.create();
     }
     
     @Override
@@ -54,21 +45,16 @@ class ClientHandler implements Runnable {
                         break;
                     }
                     
-                    switch (requestType) {
-                        case "CREATE_USER" -> {
-                            User user = gson.fromJson(requestString, User.class);
-                            ClientFunctions.createUser(user);
-                            serverResponse = new Response("OK", "User created");
-                        }
-                        case "READ_ALL_USERS" -> {
-                            List<User> users = ClientFunctions.readAllUsers();
-                            serverResponse = new Response("OK", users);
-                        }
-                        default -> serverResponse =
-                            new Response("WARNING", "Command not exist!");
-                    }
+                    Object response = ClientFunctions.executeFunction(requestType, requestString);
+                    serverResponse = new Response("OK", response);
+                    
+                } catch (NullPointerException exception) {
+                    serverResponse = new Response("ERROR", "Command not exist!");
+                } catch (PersistenceException exception) {
+                    serverResponse = new Response("ERROR", "Could not create entity!");
                 } catch (Exception exception) {
                     serverResponse = new Response("ERROR", "Not defined error!");
+                    exception.printStackTrace();
                 }
                 
                 System.out.println("server -> client #" + clientNumber + ": ");

@@ -1,4 +1,4 @@
-package by.jcompany.bonus_system.entity;
+package by.jcompany.bonus_system.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +9,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Bonus {
+public class BonusDto {
     private Integer id;
     private String type;
     private Float amount;
     
-    private Task task;
+    private TaskDto task;
     
-    public Bonus(String type, Float amount) {
+    public BonusDto(String type, Float amount) {
         this.type = type;
         this.amount = amount;
     }

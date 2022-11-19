@@ -6,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 @NoArgsConstructor
 @Getter
 @Setter
@@ -28,9 +25,9 @@ public class User {
     @JoinColumn(name = "employee_id")
     private Employee employee;
     
-    // todo Вот и как мне избежать EAGER?
-    @ManyToMany(mappedBy = "users", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
-    private Set<Role> roles = new LinkedHashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_name")
+    private Role role;
     
     public User(String login, byte[] passwordHash) {
         this.login = login;
