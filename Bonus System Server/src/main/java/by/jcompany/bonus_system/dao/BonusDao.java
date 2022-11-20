@@ -1,72 +1,75 @@
-package org.example;
+package by.jcompany.bonus_system.dao;
 
+import by.jcompany.bonus_system.entity.Bonus;
+import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
+import jakarta.persistence.PersistenceException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class DaoA<T, K> {
-    public boolean create(T entity) {
+public class BonusDao implements Dao<Bonus, Integer> {
+    @Override
+    public boolean create(Bonus bonus) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(bonus);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
         return true;
     }
     
-    
-    
-    public Set<T> readAll(Class<T> aClass) {
+    @Override
+    public List<Bonus> readAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            T t;
-            
-            System.out.println(aClass.getName());
-            System.out.println(aClass);
-            return new HashSet<>(session.createQuery("FROM " + aClass.getName(), aClass).getResultList());
-        } catch (HibernateException exception) {
+            return new ArrayList<>(session.createQuery("FROM Bonus",
+                Bonus.class).getResultList());
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }
     }
     
-    public boolean update(T entity) {
+    @Override
+    public boolean update(Bonus bonus) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            /*if (entity.getLogin() == null) {
+            if (bonus.getId() == null) {
                 throw new HibernateException("Entity has null id");
-            }*/
-            session.merge(entity);
+            }
+            session.merge(bonus);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
         return true;
     }
     
-    public boolean delete(T entity) {
+    @Override
+    public boolean delete(Bonus bonus) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(bonus);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
         return true;
     }
     
-    public T read(K id, Class<T> aClass) {
+    @Override
+    public Bonus read(Integer id) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return session.get(aClass, id);
-        } catch (HibernateException exception) {
+            return session.get(Bonus.class, id);
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }

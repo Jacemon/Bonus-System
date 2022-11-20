@@ -18,18 +18,26 @@ public class Bonus {
     @Column(name = "id", nullable = false)
     private Integer id;
     
-    @Column(name = "type", nullable = false, length = 20)
-    private String type;
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private BonusType type;
     
     @Column(name = "amount", nullable = false)
     private Float amount;
     
+    // todo 4
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
     
-    public Bonus(String type, Float amount) {
+    public Bonus(BonusType type, Float amount) {
         this.type = type;
         this.amount = amount;
+    }
+    
+    public enum BonusType {
+        POINTS,
+        MONEY
     }
 }

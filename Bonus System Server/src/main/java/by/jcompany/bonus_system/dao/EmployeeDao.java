@@ -2,6 +2,7 @@ package by.jcompany.bonus_system.dao;
 
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
+import jakarta.persistence.PersistenceException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,7 +17,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
             Transaction transaction = session.beginTransaction();
             session.persist(employee);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -28,7 +29,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM Employee",
                 Employee.class).getResultList());
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -43,7 +44,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
             }
             session.merge(employee);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -56,7 +57,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
             Transaction transaction = session.beginTransaction();
             session.remove(employee);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -67,7 +68,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     public Employee read(Integer id) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return session.get(Employee.class, id);
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }

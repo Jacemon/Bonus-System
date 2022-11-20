@@ -2,6 +2,7 @@ package by.jcompany.bonus_system.dao;
 
 import by.jcompany.bonus_system.entity.Role;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
+import jakarta.persistence.PersistenceException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,7 +17,7 @@ public class RoleDao implements Dao<Role, String> {
             Transaction transaction = session.beginTransaction();
             session.persist(role);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -27,7 +28,7 @@ public class RoleDao implements Dao<Role, String> {
     public List<Role> readAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM Role", Role.class).getResultList());
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -42,7 +43,7 @@ public class RoleDao implements Dao<Role, String> {
             }
             session.merge(role);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -55,7 +56,7 @@ public class RoleDao implements Dao<Role, String> {
             Transaction transaction = session.beginTransaction();
             session.remove(role);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -65,7 +66,7 @@ public class RoleDao implements Dao<Role, String> {
     public Role read(String name) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return session.get(Role.class, name);
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }

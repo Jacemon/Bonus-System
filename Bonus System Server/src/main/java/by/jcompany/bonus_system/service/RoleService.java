@@ -1,12 +1,13 @@
 package by.jcompany.bonus_system.service;
 
+import by.jcompany.bonus_system.dao.Dao;
 import by.jcompany.bonus_system.dao.RoleDao;
 import by.jcompany.bonus_system.entity.Role;
 
 import java.util.List;
 
 public class RoleService implements Service<Role, String> {
-    RoleDao roleDao = new RoleDao();
+    Dao<Role, String> roleDao = new RoleDao();
     
     @Override
     public boolean create(Role role) {

@@ -2,6 +2,7 @@ package by.jcompany.bonus_system.dao;
 
 import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
+import jakarta.persistence.PersistenceException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,7 +17,7 @@ public class UserDao implements Dao<User, String> {
             Transaction transaction = session.beginTransaction();
             session.persist(user);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -27,7 +28,7 @@ public class UserDao implements Dao<User, String> {
     public List<User> readAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM User", User.class).getResultList());
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -42,7 +43,7 @@ public class UserDao implements Dao<User, String> {
             }
             session.merge(user);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -55,7 +56,7 @@ public class UserDao implements Dao<User, String> {
             Transaction transaction = session.beginTransaction();
             session.remove(user);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -66,7 +67,7 @@ public class UserDao implements Dao<User, String> {
     public User read(String login) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return session.get(User.class, login);
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }

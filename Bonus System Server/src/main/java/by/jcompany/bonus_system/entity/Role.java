@@ -20,6 +20,7 @@ public class Role {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
     
+    // todo
     @OneToMany(mappedBy = "role", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     private transient Set<User> users = new LinkedHashSet<>();
     

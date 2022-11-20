@@ -20,6 +20,7 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private byte[] passwordHash;
     
+    // todo 3
     @ToString.Exclude
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")

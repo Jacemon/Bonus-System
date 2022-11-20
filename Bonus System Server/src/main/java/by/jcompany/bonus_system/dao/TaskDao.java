@@ -2,6 +2,7 @@ package by.jcompany.bonus_system.dao;
 
 import by.jcompany.bonus_system.entity.Task;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
+import jakarta.persistence.PersistenceException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,7 +17,7 @@ public class TaskDao implements Dao<Task, Integer> {
             Transaction transaction = session.beginTransaction();
             session.persist(task);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -27,7 +28,7 @@ public class TaskDao implements Dao<Task, Integer> {
     public List<Task> readAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM Task", Task.class).getResultList());
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -42,7 +43,7 @@ public class TaskDao implements Dao<Task, Integer> {
             }
             session.merge(task);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -55,7 +56,7 @@ public class TaskDao implements Dao<Task, Integer> {
             Transaction transaction = session.beginTransaction();
             session.remove(task);
             transaction.commit();
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -66,7 +67,7 @@ public class TaskDao implements Dao<Task, Integer> {
     public Task read(Integer id) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return session.get(Task.class, id);
-        } catch (HibernateException exception) {
+        } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;
         }

@@ -11,13 +11,18 @@ import lombok.ToString;
 @ToString
 public class BonusDto {
     private Integer id;
-    private String type;
+    private BonusType type;
     private Float amount;
     
     private TaskDto task;
     
-    public BonusDto(String type, Float amount) {
+    public BonusDto(BonusType type, Float amount) {
         this.type = type;
         this.amount = amount;
+    }
+    
+    public enum BonusType {
+        POINTS,
+        MONEY
     }
 }

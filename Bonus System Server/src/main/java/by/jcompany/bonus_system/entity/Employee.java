@@ -27,6 +27,7 @@ public class Employee {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
     
+    // todo
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.EAGER)
     private transient User user;
     
