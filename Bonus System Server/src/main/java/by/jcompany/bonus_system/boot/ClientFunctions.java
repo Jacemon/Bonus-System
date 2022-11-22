@@ -18,7 +18,7 @@ public class ClientFunctions {
     public static void addFunction(String command, Function<String, Object> function) {
         functions.put(command, function);
     }
-
+    
     public static Object executeFunction(String requestType, String requestString) throws NullPointerException {
         return functions.get(requestType).apply(requestString);
     }

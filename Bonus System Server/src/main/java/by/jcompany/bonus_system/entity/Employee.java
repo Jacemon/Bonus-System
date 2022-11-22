@@ -15,7 +15,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "employee")
-public class Employee {
+public class Employee implements IdHandler {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -30,9 +30,8 @@ public class Employee {
     /**
      * User could not be created or updated. Instead, set user's employee with User.setEmployee()
      */
-    // todo
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.EAGER)
-    private transient User user;
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "employee", fetch = FetchType.EAGER)
+    private transient User user; // todo 6
     
     /**
      * Use Task.setEmployee to add task to employee
@@ -40,16 +39,22 @@ public class Employee {
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     private Set<Task> tasks = new LinkedHashSet<>();
     
+    /* TODO можно бы доделать это
     public void addTask(Task task) {
         tasks.add(task);
     }
     
     public void removeTask(Task task) {
         tasks.remove(task);
-    }
+    }*/
     
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+    
+    @Override
+    public Object getIdField() {
+        return getId();
     }
 }

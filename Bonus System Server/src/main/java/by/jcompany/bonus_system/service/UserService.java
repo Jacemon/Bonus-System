@@ -11,9 +11,6 @@ public class UserService implements Service<User, String> {
     
     @Override
     public boolean create(User user) {
-        if (user.getEmployee() != null) {
-            user.getEmployee().setUser(user);
-        }
         return userDao.create(user);
     }
     
@@ -24,15 +21,11 @@ public class UserService implements Service<User, String> {
     
     @Override
     public boolean update(User user) {
-        if (user.getEmployee() != null) {
-            user.getEmployee().setUser(user);
-        }
         return userDao.update(user);
     }
     
     @Override
     public boolean delete(User user) {
-        user.setEmployee(null);
         return userDao.delete(user);
     }
     

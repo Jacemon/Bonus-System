@@ -1,7 +1,6 @@
 package by.jcompany.bonus_system.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "bonus")
-public class Bonus {
+public class Bonus implements IdHandler {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -29,6 +28,11 @@ public class Bonus {
     public Bonus(BonusType type, Float amount) {
         this.type = type;
         this.amount = amount;
+    }
+    
+    @Override
+    public Object getIdField() {
+        return getId();
     }
     
     public enum BonusType {

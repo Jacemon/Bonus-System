@@ -15,6 +15,13 @@ public class UserDao implements Dao<User, String> {
     public boolean create(User user) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
+            if (user.getEmployee() != null) {
+                if (user.getEmployee().getId() == null) {
+                    session.persist(user.getEmployee());
+                } else {
+                    session.merge(user.getEmployee());
+                }
+            }
             session.persist(user);
             transaction.commit();
         } catch (PersistenceException exception) {

@@ -17,7 +17,7 @@ create table `employee`
     last_name  varchar(20) not null
 );
 
-create table role
+create table `role`
 (
     name varchar(20) not null
         primary key
@@ -40,12 +40,12 @@ create table `task`
     is_completed  tinyint(1) default 0                 not null,
     employee_id   int                                  null,
     bonus_id      int                                  not null,
-    constraint task_bonus_id_fk
-        foreign key (bonus_id) references bonus (id)
-            on delete cascade,
     constraint task_employee_id_fk
         foreign key (employee_id) references employee (id)
-            on delete set null
+            on delete set null,
+    constraint task_bonus_id_fk
+        foreign key (bonus_id) references bonus (id)
+            on delete cascade
 );
 
 create table `user`

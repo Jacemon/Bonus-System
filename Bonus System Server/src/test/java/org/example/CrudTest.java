@@ -4,19 +4,29 @@ import by.jcompany.bonus_system.entity.Bonus;
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.entity.Task;
 import by.jcompany.bonus_system.entity.User;
-import by.jcompany.bonus_system.service.*;
+import by.jcompany.bonus_system.service.EmployeeService;
+import by.jcompany.bonus_system.service.Service;
+import by.jcompany.bonus_system.service.TaskService;
+import by.jcompany.bonus_system.service.UserService;
 import by.jcompany.bonus_system.util.HashManager;
+import by.jcompany.bonus_system.util.HibernateSessionFactory;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+// TODO узнать как это делать с тестовой бд
 public class CrudTest {
     Service<User, String> userService = new UserService();
     Service<Employee, Integer> employeeService = new EmployeeService();
     Service<Task, Integer> taskService = new TaskService();
-    Service<Bonus, Integer> bonusService = new BonusService();
+    
+    static {
+        HibernateSessionFactory.getSessionFactory();
+    }
     
     String getRandomNumberString() {
         Random random = new Random();
@@ -33,6 +43,7 @@ public class CrudTest {
     // Common CRUD
     @Test
     void CrudUser() {
+        System.out.println("------------CrudUser------------");
         try {
             String login = "testUser" + getRandomNumberString();
             if (!userService.create(new User(login, HashManager.getHash(login)))) {
@@ -64,6 +75,7 @@ public class CrudTest {
     @Test
     void CrudEmployee() {
         try {
+            System.out.println("------------CrudEmployee------------");
             String name = "testEmpl" + getRandomNumberString();
             Employee employee = new Employee(name, name);
             if (!employeeService.create(employee)) {
@@ -94,24 +106,39 @@ public class CrudTest {
     // CRUD for Role don't needed
     
     @Test
-    void CrudTask() {
+    void CreateAndDeleteTask() {
         try {
+            System.out.println("------------CreateAndDeleteTask------------");
             String desc = "testTask" + getRandomNumberString();
             Task task = new Task(desc, new Bonus(Bonus.BonusType.MONEY, 1.0f));
+
             if (!taskService.create(task)) {
                 throw new Exception("Cannot create task " + desc + " !");
             }
-            
+
             System.out.println(task);
             
             String newDesc = "testTask" + getRandomNumberString();
             task.setDescription(newDesc);
             task.setCompleted(true);
+            task.setCreationTime(new Date(0).toInstant());
             
             if (!taskService.update(task)) {
-                throw new Exception("Cannot update task!");
+                throw new Exception("Cannot update task to true!");
             }
-            
+            System.out.println(task);
+    
+            if (!task.isCompleted()) {
+                throw new Exception("Incorrect completed false!");
+            }
+            if (!task.getCreationTime().equals(new Date(0).toInstant())) {
+                throw new Exception("Incorrect completed false!");
+            }
+    
+            task.setCompleted(false);
+            if (!taskService.update(task)) {
+                throw new Exception("Cannot update task to false!");
+            }
             System.out.println(task);
             
             if (!taskService.delete(task)) {
@@ -119,84 +146,114 @@ public class CrudTest {
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            fail("Failed to make CRUD task operations.");
+            fail("Failed to make CD task operations.");
         }
     }
     
-    // todo delete serviceBonus
-    /*@Test
-    void CrudBonus() {
+    @Test
+    void UpdateTaskWithDescriptionAndDefaultCreationTimeAndIsCompleted() {
         try {
-            Float amount = new Random().nextFloat() * 10;
-            Task task = new Task("testBonsTask" + getRandomNumberString(), new Bonus(Bonus.BonusType.POINTS, amount));
-            taskService.create(task);
+            System.out.println("------------UpdateTaskWithDescriptionAndDefaultCreationTimeAndIsCompleted------------");
+            String desc = "testTask" + getRandomNumberString();
+            Task task = new Task(desc, new Bonus(Bonus.BonusType.MONEY, 1.0f));
             
-            Bonus bonus = new Bonus(Bonus.BonusType.MONEY, amount);
-            bonus.setTask(task);
+            if (!taskService.create(task)) {
+                throw new Exception("Cannot create task " + desc + " !");
+            }
+            System.out.println(task);
             
-            if (!bonusService.create(bonus)) {
-                throw new Exception("Cannot create bonus " + amount + " !");
+            task.setCreationTime(new Date(0).toInstant());
+            task.setCompleted(true);
+            String newDesc = "testTask" + getRandomNumberString();
+            task.setDescription(newDesc);
+            if (!taskService.update(task)) {
+                throw new Exception("Cannot create task " + desc + " !");
             }
             
-            bonus = bonusService.read(bonusService.readAll().get(0).getId());
-            System.out.println(bonus);
-            
-            bonus.setAmount(new Random().nextFloat());
-            bonus.setType(Bonus.BonusType.POINTS);
-            
-            if (!bonusService.update(bonus)) {
-                throw new Exception("Cannot update bonus!");
+            if (!task.getDescription().equals(newDesc)) {
+                throw new Exception("Creation time is not true!");
+            }
+            if (!task.getCreationTime().equals(new Date(0).toInstant())) {
+                throw new Exception("Creation time is not true!");
+            }
+            if (!task.isCompleted()) {
+                throw new Exception("Completed is not true!");
             }
             
-            System.out.println(bonus);
-            
-            if (!bonusService.delete(bonus)) {
-                throw new Exception("Cannot delete bonus!");
-            }
             if (!taskService.delete(task)) {
-                throw new Exception("Cannot delete bonus!");
+                throw new Exception("Cannot delete task!");
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            fail("Failed to make CRUD bonus operations.");
+            fail("Failed to make composite update task operations.");
         }
-    }*/
+    }
+    
+    /**
+     * CRUD for bonus task don't exist and all operations with bonuses
+     * can be done using bonuses CRUD
+     */
+    
+    @Disabled
+    @Test
+    void CreateTaskWithDefaultCreationTimeAndIsCompleted() {
+        try {
+            System.out.println("------------CreateTaskWithDefaultCreationTimeAndIsCompleted------------");
+            String desc = "testTask" + getRandomNumberString();
+            Task task = new Task(desc, new Bonus(Bonus.BonusType.MONEY, 1.0f));
+            task.setCreationTime(new Date(0).toInstant());
+            task.setCompleted(true);
+            
+            if (!taskService.create(task)) {
+                throw new Exception("Cannot create task " + desc + " !");
+            }
+            System.out.println(task);
+            if (!task.getCreationTime().equals(new Date(0).toInstant())) {
+                throw new Exception("Creation time is not true!");
+            }
+            if (!task.isCompleted()) {
+                throw new Exception("Completed is not true!");
+            }
+            
+            if (!taskService.delete(task)) {
+                throw new Exception("Cannot delete task!");
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail("Failed to make composite create task operation.");
+        }
+    }
     
     // Composite CRUD
     
     @Test
-    void CrudUserWithEmployee() {
+    void CrudEmployeeWithUser() {
         try {
+            System.out.println("------------CrudEmployeeWithUser------------");
             String login = "testUser" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
-            String name2 = "testEmpl" + getRandomNumberString();
-            
-            User user = new User(login, HashManager.getHash(login));
             Employee employee = new Employee(name, name);
-            Employee employee2 = new Employee(name2, name2);
-            user.setEmployee(employee);
+            User user = new User(login, HashManager.getHash(login));
+            employee.setUser(user);
             
+            if (!employeeService.create(employee)) {
+                throw new Exception("Cannot create employee " + name + " with new User!");
+            }
             if (!userService.create(user)) {
-                throw new Exception("Cannot create user " + login + " !");
+                throw new Exception("Not correct to create employee " + name + " with new User!");
             }
-            System.out.println(user);
-            System.out.println(user.getEmployee());
-            
-            user.setEmployee(employee2);
-            if (!userService.update(user)) {
-                throw new Exception("Cannot create user " + login + " !");
+            employee.setUser(user); // it's persisted here
+            if (!employeeService.update(employee)) {
+                throw new Exception("Cannot create employee " + name + " with new User!");
+            }
+            if (employeeService.read(employee.getId()).getUser() != null) {
+                throw new Exception("Not correct to update employee " + name + " with new User!");
             }
             
-            System.out.println(user);
-            System.out.println(user.getEmployee());
-    
             if (!userService.delete(user)) {
                 throw new Exception("Cannot delete user!");
             }
             if (!employeeService.delete(employee)) {
-                throw new Exception("Cannot delete employee!");
-            }
-            if (!employeeService.delete(employee2)) {
                 throw new Exception("Cannot delete employee!");
             }
         } catch (Exception exception) {
@@ -204,57 +261,140 @@ public class CrudTest {
             fail("Failed to make new User with new Employee.");
         }
     }
-    
-    // ставить нал у бонус, перед созданием таски
+    /**
+     * Проверяет создание Пользователя и добавление ему Работника.
+     * 4 типа:
+     *  - совместное создание юзера и работника через userService
+     *  - раздельное создание и установка юзеру работника
+     *  - создание юзера с уже созданным работником
+     *  - создание работника через обновление созданного юзера
+     */
     @Test
-    void CrudEmployeeWithTask() {
+    void CrudUserWithEmployee() {
         try {
-            String desc = "testTask" + getRandomNumberString();
-            String desc2 = "testTask" + getRandomNumberString();
+            System.out.println("------------CreateUserWithEmployee------------");
+            String login = "testUser" + getRandomNumberString();
+            String login2 = "testUserS" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
+            String name2 = "testEmplS" + getRandomNumberString();
             
+            User user = new User(login, HashManager.getHash(login));
+            User user2 = new User(login2, HashManager.getHash(login2));
             Employee employee = new Employee(name, name);
+            Employee employee2 = new Employee(name2, name2);
+            user.setEmployee(employee);
             
-            if (!employeeService.create(employee)) {
-                throw new Exception("Cannot create employee " + name + " !");
+            if (!userService.create(user)) {
+                throw new Exception("Cannot create user " + login + " with new Employee!");
+            }
+            System.out.println(user);
+            System.out.println(user.getEmployee());
+            
+            user.setEmployee(employee2);
+            if (!userService.update(user)) {
+                throw new Exception("Cannot update user " + login + " with new Employee!");
+            }
+            System.out.println(user);
+            System.out.println(user.getEmployee());
+            
+            Employee employee3 = new Employee(name, name);
+            Employee employee4 = new Employee(name2, name2);
+            if (!employeeService.create(employee3)) {
+                throw new Exception("Cannot create employee!");
+            }
+            if (!employeeService.create(employee4)) {
+                throw new Exception("Cannot create employee!");
             }
             
-            Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
-            task.setEmployee(employee);
-            
-            Task task2 = new Task(desc2, new Bonus(Bonus.BonusType.POINTS, 100.0f));
-            
-            if (!taskService.create(task)) {
-                throw new Exception("Cannot create task " + desc + " !");
+            user2.setEmployee(employee3);
+            if (!userService.create(user2)) {
+                throw new Exception("Cannot create user " + login + " !");
             }
-            if (!taskService.create(task2)) {
-                throw new Exception("Cannot create task " + desc2 + " !");
+            System.out.println(user2);
+            System.out.println(user2.getEmployee());
+            if (user2.getEmployee() == null) {
+                throw new Exception("Cannot create user " + login + " with old Employee!");
             }
-            
-            task.setEmployee(null);
-            task2.setEmployee(employee);
     
-            System.out.println(task);
-            System.out.println(task2);
+            user2.setEmployee(employee4);
+            if (!userService.update(user2)) {
+                throw new Exception("Cannot update user " + login + " !");
+            }
+            System.out.println(user2);
+            System.out.println(user2.getEmployee());
+            if (user2.getEmployee() == null) {
+                throw new Exception("Cannot update user " + login + " with old Employee!");
+            }
     
-            if (!taskService.update(task)) {
-                throw new Exception("Cannot update task " + desc + " !");
+            if (userService.read(user.getLogin()).getEmployee() == null) {
+                throw new Exception("Incorrect user without employee!");
             }
-            if (!taskService.update(task2)) {
-                throw new Exception("Cannot update task " + desc2 + " !");
-            }
-            
-            task.setBonus(new Bonus(Bonus.BonusType.MONEY, 10.0f));
-            if (!taskService.update(task)) {
-                throw new Exception("Cannot update task " + desc + " !");
+            if (userService.read(user2.getLogin()).getEmployee() == null) {
+                throw new Exception("Incorrect user without employee 2!");
             }
             
             if (!employeeService.delete(employee)) {
                 throw new Exception("Cannot delete employee!");
             }
+            if (!userService.delete(user)) {
+                throw new Exception("Cannot delete user!");
+            }
+            if (!employeeService.delete(employee2)) {
+                throw new Exception("Cannot delete employee 2!");
+            }
+            if (!employeeService.delete(employee3)) {
+                throw new Exception("Cannot delete employee 3!");
+            }
+            if (!userService.delete(user2)) {
+                throw new Exception("Cannot delete user 2!");
+            }
+            if (!employeeService.delete(employee4)) {
+                throw new Exception("Cannot delete employee 4!");
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail("Failed to make new User with new Employee.");
+        }
+    }
     
-            if (!taskService.delete(task) || !taskService.delete(task2)) {
-                throw new Exception("Cannot delete tasks!");
+    @Test
+    void DeleteEmployeeWithTasks() {
+        try {
+            System.out.println("------------DeleteEmployeeWithUser------------");
+            String desc = "testTask" + getRandomNumberString();
+            String name = "testEmpl" + getRandomNumberString();
+        
+            Employee employee = new Employee(name, name);
+            Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
+            Task task2 = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
+        
+            if (!employeeService.create(employee)) {
+                throw new Exception("Cannot create employee " + name + " !");
+            }
+        
+            task.setEmployee(employee);
+            task2.setEmployee(employee);
+        
+            if (!taskService.create(task)) {
+                throw new Exception("Cannot create task " + desc + " !");
+            }
+            if (!taskService.create(task2)) {
+                throw new Exception("Cannot create task " + desc + " !");
+            }
+            System.out.println(task);
+            System.out.println(task2);
+            
+            if (!taskService.delete(task)) {
+                throw new Exception("Cannot delete task!");
+            }
+            if (!(employeeService.read(employee.getId()).getTasks().size() == 1)) {
+                throw new Exception("Incorrect deleting task!");
+            }
+            if (!employeeService.delete(employee)) {
+                throw new Exception("Cannot delete employee!");
+            }
+            if (!taskService.delete(task2)) {
+                throw new Exception("Cannot delete task!");
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -262,42 +402,50 @@ public class CrudTest {
         }
     }
     
-    /*@Test
-    void CrudTaskWithBonus() {
+    @Test
+    void CrudEmployeeWithTaskWithBonus() {
         try {
+            System.out.println("------------CrudEmployeeWithTaskWithBonus------------");
             String desc = "testTask" + getRandomNumberString();
-            String desc2 = "testTask" + getRandomNumberString();
-            Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 10.0f));
-            Task task2 = new Task(desc2, new Bonus(Bonus.BonusType.POINTS, 100.0f));
-
+            String name = "testEmpl" + getRandomNumberString();
+            
+            Employee employee = new Employee(name, name);
+            Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
+            
+            if (!employeeService.create(employee)) {
+                throw new Exception("Cannot create employee " + name + " !");
+            }
+            
+            task.setEmployee(employee);
+            
             if (!taskService.create(task)) {
                 throw new Exception("Cannot create task " + desc + " !");
             }
-            
-            Bonus bonus = new Bonus(Bonus.BonusType.MONEY, 100.0f);
-            bonus.setTask(task);
-    
             System.out.println(task);
-            System.out.println(task2);
             
-            if (!bonusService.create(bonus)) {
-                throw new Exception("Cannot create bonus!");
+            task.setEmployee(null);
+            
+            if (!taskService.update(task)) {
+                throw new Exception("Cannot update task " + desc + " !");
             }
+            System.out.println(task);
             
-            bonus.setTask(task2);
-            if (!bonusService.update(bonus)) {
-                throw new Exception("Cannot update bonus!");
+            task.setBonus(new Bonus(Bonus.BonusType.MONEY, 10.0f));
+            task.setEmployee(employee);
+            if (!taskService.update(task)) {
+                throw new Exception("Cannot update task " + desc + " !");
             }
+            System.out.println(task);
             
-            System.out.println(taskService.read(task.getId()));
-            System.out.println(taskService.read(task2.getId()));
-            
-            if (!taskService.delete(task) || !taskService.delete(task2)) {
-                throw new Exception("Cannot delete tasks!");
+            if (!taskService.delete(task)) {
+                throw new Exception("Cannot delete task!");
+            }
+            if (!employeeService.delete(employee)) {
+                throw new Exception("Cannot delete employee!");
             }
         } catch (Exception exception) {
             exception.printStackTrace();
             fail("Failed to make new Employee with new Tasks.");
         }
-    }*/
+    }
 }

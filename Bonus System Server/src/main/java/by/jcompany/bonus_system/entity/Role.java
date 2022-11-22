@@ -15,15 +15,20 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role implements IdHandler {
     @Id
     @Column(name = "name", nullable = false, length = 20)
     private String name;
     
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
-    private transient Set<User> users = new LinkedHashSet<>(); // todo
+    private transient Set<User> users = new LinkedHashSet<>(); // todo 2
     
     public Role(String name) {
         this.name = name;
+    }
+    
+    @Override
+    public Object getIdField() {
+        return getName();
     }
 }
