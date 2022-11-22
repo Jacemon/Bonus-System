@@ -42,17 +42,4 @@ public class User implements IdHandler {
     public Object getIdField() {
         return getLogin();
     }
-    
-    @Embeddable
-    public class UserId implements Serializable {
-        private static final long serialVersionUID = -7439365299556496804L;
-        @Size(max = 40)
-        @NotNull
-        @Column(name = "login", nullable = false, length = 40)
-        private String login;
-        
-        @NotNull
-        @Column(name = "id", nullable = false)
-        private Integer id;
-    }
 }
