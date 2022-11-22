@@ -1,5 +1,6 @@
 package by.jcompany.bonus_system.entity;
 
+import by.jcompany.bonus_system.service.BonusService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -37,12 +38,6 @@ public class Task {
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Instant creationTime;
     
-    //@Lob
-    //@Column(name = "status", nullable = false)
-    // @ColumnDefault(value = "'NEW'") // todo удалить нвр
-    //@Enumerated(EnumType.STRING)
-    //private Status status = Status.NEW;
-    
     @Column(name = "is_completed", nullable = false)
     @ColumnDefault(value = "false")
     private boolean isCompleted;
@@ -52,9 +47,9 @@ public class Task {
     @JoinColumn(name = "employee_id")
     private Employee employee; // 1
     
-    @NotNull
-    @OneToOne(mappedBy = "task", fetch = FetchType.EAGER, orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.MERGE})
-    private Bonus bonus; // todo 2
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "bonus_id", nullable = false)
+    private Bonus bonus;
     
     public Task(String description) {
         this.description = description;
@@ -65,23 +60,7 @@ public class Task {
         this.bonus = bonus;
     }
     
-/*    public void setEmployee(Employee employee) {
-        this.employee = employee;
-        if (employee != null) {
-            status = Status.TAKEN;
-        } else {
-            status = Status.NEW;
-        }
-    }*/
-    
-    /*public void setBonus(Bonus bonus) {
+    public void setBonus(Bonus bonus) {
         this.bonus = bonus;
-        bonus.setTask(this);
-    }*/
-    
-/*    public enum Status {
-        NEW,
-        TAKEN,
-        COMPLETED;
-    }*/
+    }
 }

@@ -23,6 +23,14 @@ create table role
         primary key
 );
 
+create table `bonus`
+(
+    id     int auto_increment
+        primary key,
+    type   varchar(20) not null,
+    amount float       not null
+);
+
 create table `task`
 (
     id            int auto_increment
@@ -31,21 +39,13 @@ create table `task`
     creation_time timestamp  default CURRENT_TIMESTAMP not null,
     is_completed  tinyint(1) default 0                 not null,
     employee_id   int                                  null,
+    bonus_id      int                                  not null,
+    constraint task_bonus_id_fk
+        foreign key (bonus_id) references bonus (id)
+            on delete cascade,
     constraint task_employee_id_fk
         foreign key (employee_id) references employee (id)
             on delete set null
-);
-
-create table `bonus`
-(
-    id      int auto_increment
-        primary key,
-    type    varchar(20) not null,
-    amount  float       not null,
-    task_id int         not null,
-    constraint bonus_task_id_fk
-        foreign key (task_id) references task (id)
-            on delete cascade
 );
 
 create table `user`

@@ -15,6 +15,9 @@ public class TaskDao implements Dao<Task, Integer> {
     public boolean create(Task task) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
+            if (task.getBonus().getId() == null) {
+                session.persist(task.getBonus());
+            }
             session.persist(task);
             transaction.commit();
         } catch (PersistenceException exception) {
@@ -40,6 +43,9 @@ public class TaskDao implements Dao<Task, Integer> {
             Transaction transaction = session.beginTransaction();
             if (task.getId() == null) {
                 throw new HibernateException("Entity has null id");
+            }
+            if (task.getBonus().getId() == null) {
+                session.persist(task.getBonus());
             }
             session.merge(task);
             transaction.commit();

@@ -123,15 +123,16 @@ public class CrudTest {
         }
     }
     
-    @Test
+    // todo delete serviceBonus
+    /*@Test
     void CrudBonus() {
         try {
             Float amount = new Random().nextFloat() * 10;
-            Task task = new Task("testBonsTask" + getRandomNumberString());
+            Task task = new Task("testBonsTask" + getRandomNumberString(), new Bonus(Bonus.BonusType.POINTS, amount));
             taskService.create(task);
             
             Bonus bonus = new Bonus(Bonus.BonusType.MONEY, amount);
-            bonus.setTask(taskService.read(taskService.readAll().get(0).getId()));
+            bonus.setTask(task);
             
             if (!bonusService.create(bonus)) {
                 throw new Exception("Cannot create bonus " + amount + " !");
@@ -159,7 +160,7 @@ public class CrudTest {
             exception.printStackTrace();
             fail("Failed to make CRUD bonus operations.");
         }
-    }
+    }*/
     
     // Composite CRUD
     
@@ -204,6 +205,7 @@ public class CrudTest {
         }
     }
     
+    // ставить нал у бонус, перед созданием таски
     @Test
     void CrudEmployeeWithTask() {
         try {
@@ -211,23 +213,22 @@ public class CrudTest {
             String desc2 = "testTask" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
             
-            Task task = new Task(desc);
             Employee employee = new Employee(name, name);
-            task.setEmployee(employee);
-            
-            task.setBonus(new Bonus(Bonus.BonusType.POINTS, 100.0f));
             
             if (!employeeService.create(employee)) {
                 throw new Exception("Cannot create employee " + name + " !");
             }
             
-            Task task2 = new Task(desc2);
-            task2.setBonus(new Bonus(Bonus.BonusType.POINTS, 100.0f));
-            if (!taskService.create(task2)) {
-                throw new Exception("Cannot create task " + desc2 + " !");
-            }
+            Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
+            task.setEmployee(employee);
+            
+            Task task2 = new Task(desc2, new Bonus(Bonus.BonusType.POINTS, 100.0f));
+            
             if (!taskService.create(task)) {
                 throw new Exception("Cannot create task " + desc + " !");
+            }
+            if (!taskService.create(task2)) {
+                throw new Exception("Cannot create task " + desc2 + " !");
             }
             
             task.setEmployee(null);
@@ -261,7 +262,7 @@ public class CrudTest {
         }
     }
     
-    @Test
+    /*@Test
     void CrudTaskWithBonus() {
         try {
             String desc = "testTask" + getRandomNumberString();
@@ -282,7 +283,7 @@ public class CrudTest {
             if (!bonusService.create(bonus)) {
                 throw new Exception("Cannot create bonus!");
             }
-            bonus = bonusService.read(bonus.getId());
+            
             bonus.setTask(task2);
             if (!bonusService.update(bonus)) {
                 throw new Exception("Cannot update bonus!");
@@ -298,5 +299,5 @@ public class CrudTest {
             exception.printStackTrace();
             fail("Failed to make new Employee with new Tasks.");
         }
-    }
+    }*/
 }

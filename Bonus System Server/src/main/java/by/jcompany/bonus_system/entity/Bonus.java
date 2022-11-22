@@ -1,6 +1,7 @@
 package by.jcompany.bonus_system.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,12 +25,6 @@ public class Bonus {
     
     @Column(name = "amount", nullable = false)
     private Float amount;
-    
-    // todo 4
-    @ToString.Exclude
-    @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_id", nullable = false)
-    private Task task;
     
     public Bonus(BonusType type, Float amount) {
         this.type = type;

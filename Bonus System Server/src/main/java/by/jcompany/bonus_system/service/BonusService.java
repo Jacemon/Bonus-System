@@ -6,6 +6,7 @@ import by.jcompany.bonus_system.entity.Bonus;
 
 import java.util.List;
 
+// todo выпилить
 public class BonusService implements Service<Bonus, Integer> {
     Dao<Bonus, Integer> bonusDao = new BonusDao();
     
