@@ -3,6 +3,7 @@ package by.jcompany.bonus_system.service;
 import by.jcompany.bonus_system.dao.Dao;
 import by.jcompany.bonus_system.dao.EmployeeDao;
 import by.jcompany.bonus_system.entity.Employee;
+import by.jcompany.bonus_system.entity.Task;
 
 import java.util.List;
 
@@ -26,6 +27,9 @@ public class EmployeeService implements Service<Employee, Integer> {
     
     @Override
     public boolean delete(Employee employee) {
+        for (Task task : employee.getTasks()) {
+            task.setEmployee(null);
+        }
         return employeeDao.delete(employee);
     }
     

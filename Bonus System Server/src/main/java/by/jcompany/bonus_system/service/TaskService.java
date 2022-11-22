@@ -11,6 +11,7 @@ public class TaskService implements Service<Task, Integer> {
     
     @Override
     public boolean create(Task task) {
+        task.getBonus().setTask(task);
         return taskDao.create(task);
     }
     
@@ -21,6 +22,7 @@ public class TaskService implements Service<Task, Integer> {
     
     @Override
     public boolean update(Task task) {
+        task.getBonus().setTask(task);
         return taskDao.update(task);
     }
     

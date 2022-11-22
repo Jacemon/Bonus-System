@@ -41,6 +41,9 @@ public class UserDao implements Dao<User, String> {
             if (user.getLogin() == null) {
                 throw new HibernateException("Entity has null id");
             }
+            if (user.getEmployee() != null && user.getEmployee().getId() == null) {
+                session.persist(user.getEmployee());
+            }
             session.merge(user);
             transaction.commit();
         } catch (PersistenceException exception) {

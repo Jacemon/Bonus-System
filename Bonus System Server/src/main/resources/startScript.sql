@@ -27,12 +27,13 @@ create table `task`
 (
     id            int auto_increment
         primary key,
-    description   text                                                         not null,
-    creation_time timestamp                          default CURRENT_TIMESTAMP not null,
-    status        enum ('NEW', 'TAKEN', 'COMPLETED') default 'NEW'             not null,
-    employee_id   int                                                          null,
+    description   text                                 not null,
+    creation_time timestamp  default CURRENT_TIMESTAMP not null,
+    is_completed  tinyint(1) default 0                 not null,
+    employee_id   int                                  null,
     constraint task_employee_id_fk
         foreign key (employee_id) references employee (id)
+            on delete set null
 );
 
 create table `bonus`

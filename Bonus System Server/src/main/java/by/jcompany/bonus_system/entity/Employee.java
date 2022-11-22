@@ -27,12 +27,26 @@ public class Employee {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
     
+    /**
+     * User could not be created or updated. Instead, set user's employee with User.setEmployee()
+     */
     // todo
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.EAGER)
     private transient User user;
     
-    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, orphanRemoval = true)
+    /**
+     * Use Task.setEmployee to add task to employee
+     */
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     private Set<Task> tasks = new LinkedHashSet<>();
+    
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+    
+    public void removeTask(Task task) {
+        tasks.remove(task);
+    }
     
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;

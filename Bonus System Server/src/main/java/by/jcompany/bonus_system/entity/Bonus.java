@@ -27,7 +27,7 @@ public class Bonus {
     
     // todo 4
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
     

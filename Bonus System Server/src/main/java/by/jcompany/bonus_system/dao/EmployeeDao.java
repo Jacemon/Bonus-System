@@ -1,6 +1,7 @@
 package by.jcompany.bonus_system.dao;
 
 import by.jcompany.bonus_system.entity.Employee;
+import by.jcompany.bonus_system.entity.Task;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
 import jakarta.persistence.PersistenceException;
 import org.hibernate.HibernateException;
@@ -55,6 +56,11 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     public boolean delete(Employee employee) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
+            for (Task task : employee.getTasks()) {
+                if (task.getId() != null) {
+                    session.merge(task);
+                }
+            }
             session.remove(employee);
             transaction.commit();
         } catch (PersistenceException exception) {
