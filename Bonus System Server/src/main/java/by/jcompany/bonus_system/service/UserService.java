@@ -6,8 +6,8 @@ import by.jcompany.bonus_system.entity.User;
 
 import java.util.List;
 
-public class UserService implements Service<User, String> {
-    Dao<User, String> userDao = new UserDao();
+public class UserService implements Service<User, Integer> {
+    UserDao userDao = new UserDao();
     
     @Override
     public boolean create(User user) {
@@ -30,6 +30,10 @@ public class UserService implements Service<User, String> {
     }
     
     @Override
+    public User read(Integer id) {
+        return userDao.read(id);
+    }
+    
     public User read(String login) {
         return userDao.read(login);
     }

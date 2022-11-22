@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 // TODO узнать как это делать с тестовой бд
 public class CrudTest {
-    Service<User, String> userService = new UserService();
+    UserService userService = new UserService();
     Service<Employee, Integer> employeeService = new EmployeeService();
     Service<Task, Integer> taskService = new TaskService();
     
@@ -42,15 +42,40 @@ public class CrudTest {
     
     // Common CRUD
     @Test
+    void ReadUserByLogin() {
+        System.out.println("------------ReadUserByLogin------------");
+        try {
+            String login = "testUser" + getRandomNumberString();
+            User user = new User(login, HashManager.getHash(login));
+            if (!userService.create(user)) {
+                throw new Exception("Cannot create user " + login + " !");
+            }
+            System.out.println(user);
+        
+            user = userService.read(login);
+            System.out.println(user);
+    
+            if (!userService.delete(user)) {
+                throw new Exception("Cannot delete user " + login + " !");
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail("Failed to make CRUD employee operations.");
+        }
+    }
+    
+    @Test
     void CrudUser() {
         System.out.println("------------CrudUser------------");
         try {
             String login = "testUser" + getRandomNumberString();
-            if (!userService.create(new User(login, HashManager.getHash(login)))) {
+            User user = new User(login, HashManager.getHash(login));
+            if (!userService.create(user)) {
                 throw new Exception("Cannot create user " + login + " !");
             }
+            System.out.println(user);
             
-            User user = userService.read(login);
+            user = userService.read(user.getId());
             System.out.println(user);
     
             String newLogin = "testUser" + getRandomNumberString();
@@ -326,10 +351,10 @@ public class CrudTest {
                 throw new Exception("Cannot update user " + login + " with old Employee!");
             }
     
-            if (userService.read(user.getLogin()).getEmployee() == null) {
+            if (userService.read(user.getId()).getEmployee() == null) {
                 throw new Exception("Incorrect user without employee!");
             }
-            if (userService.read(user2.getLogin()).getEmployee() == null) {
+            if (userService.read(user2.getId()).getEmployee() == null) {
                 throw new Exception("Incorrect user without employee 2!");
             }
             

@@ -4,13 +4,14 @@ import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
 import jakarta.persistence.PersistenceException;
 import org.hibernate.HibernateException;
+import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao implements Dao<User, String> {
+public class UserDao implements Dao<User, Integer> {
     @Override
     public boolean create(User user) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
@@ -45,7 +46,7 @@ public class UserDao implements Dao<User, String> {
     public boolean update(User user) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            if (user.getLogin() == null) {
+            if (user.getId() == null) {
                 throw new HibernateException("Entity has null id");
             }
             if (user.getEmployee() != null && user.getEmployee().getId() == null) {
@@ -74,9 +75,20 @@ public class UserDao implements Dao<User, String> {
     }
     
     @Override
+    public User read(Integer id) {
+        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+            return session.get(User.class, id);
+        } catch (PersistenceException exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
     public User read(String login) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return session.get(User.class, login);
+            //return session.bySimpleNaturalId(User.class).load(login);
+            return session.createQuery("from User where login = '" + login + '\'', User.class)
+                .getResultList().get(0);
         } catch (PersistenceException exception) {
             exception.printStackTrace();
             return null;

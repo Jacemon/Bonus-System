@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NaturalId;
 
 import java.io.Serializable;
 
@@ -15,10 +18,15 @@ import java.io.Serializable;
 @Setter
 @ToString
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "login", name = "user_pk"))
 public class User implements IdHandler {
     @Id
-    @Column(name = "login", nullable = false, length = 40)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+    
+    @NaturalId(mutable = true)
+    @Column(name = "login", nullable = false, length = 40, unique = true)
     private String login;
     
     @Column(name = "password_hash", nullable = false)
