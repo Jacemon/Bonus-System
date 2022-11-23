@@ -1,13 +1,7 @@
 package org.example;
 
-import by.jcompany.bonus_system.entity.Bonus;
-import by.jcompany.bonus_system.entity.Employee;
-import by.jcompany.bonus_system.entity.Task;
-import by.jcompany.bonus_system.entity.User;
-import by.jcompany.bonus_system.service.EmployeeService;
-import by.jcompany.bonus_system.service.Service;
-import by.jcompany.bonus_system.service.TaskService;
-import by.jcompany.bonus_system.service.UserService;
+import by.jcompany.bonus_system.entity.*;
+import by.jcompany.bonus_system.service.*;
 import by.jcompany.bonus_system.util.HashManager;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
 import org.junit.jupiter.api.Disabled;
@@ -21,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 // TODO узнать как это делать с тестовой бд
 public class CrudTest {
     UserService userService = new UserService();
+    RoleService roleService = new RoleService();
     Service<Employee, Integer> employeeService = new EmployeeService();
     Service<Task, Integer> taskService = new TaskService();
     
@@ -38,7 +33,7 @@ public class CrudTest {
         return randomString.toString();
     }
     
-    // Correct CRUD operations
+    //-- Correct CRUD operations
     
     // Common CRUD
     @Test
@@ -88,6 +83,36 @@ public class CrudTest {
     
             System.out.println(user);
             
+            if (!userService.delete(user)) {
+                throw new Exception("Cannot delete user!");
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail("Failed to make CRUD user operations.");
+        }
+    }
+    
+    @Test
+    void UpdateUserRole() {
+        System.out.println("------------UpdateUserRole------------");
+        try {
+            String login = "testUser" + getRandomNumberString();
+            User user = new User(login, HashManager.getHash(login));
+            if (!userService.create(user)) {
+                throw new Exception("Cannot create user " + login + " !");
+            }
+            System.out.println(user);
+        
+            user.setRole(new Role("ADMIN", 2));
+            System.out.println(user);
+        
+            if (!userService.update(user)) {
+                throw new Exception("Cannot update user!");
+            }
+        
+            user = userService.read(user.getLogin());
+            System.out.println(user);
+        
             if (!userService.delete(user)) {
                 throw new Exception("Cannot delete user!");
             }
@@ -470,7 +495,83 @@ public class CrudTest {
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            fail("Failed to make new Employee with new Tasks.");
+            fail(exception.getMessage());
+        }
+    }
+    
+    //-- Errors
+    
+    @Test
+    void ReadNotExistedRole() {
+        System.out.println("------------ReadNotExistedRole------------");
+        try {
+            if (roleService.read("null") == null) {
+                throw new CorrectException("Read null Role");
+            }
+        } catch (CorrectException ignored) {
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail(exception.getMessage());
+        }
+    }
+    
+    @Test
+    void CreateDuplicateUser() {
+        System.out.println("------------CreateDuplicateUser------------");
+        String login = "testUser" + getRandomNumberString();
+        User user = new User(login, HashManager.getHash(login));
+        User user2 = new User(login, HashManager.getHash(login));
+        try {
+            
+            if (!userService.create(user)) {
+                throw new Exception("Cannot create new user " + login + "!");
+            }
+            if (!userService.create(user2)) {
+                throw new CorrectException("Cannot create duplicate user " + login + "!");
+            }
+            throw new Exception("Duplicate user was created!");
+        } catch (CorrectException exception) {
+            userService.delete(user);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail(exception.getMessage());
+        }
+    }
+    
+    @Test
+    void CreateUserWithId() {
+        System.out.println("------------CreateUserWithId------------");
+        try {
+            String login = "testUser" + getRandomNumberString();
+            User user = new User(login, HashManager.getHash(login));
+            user.setId(999);
+            
+            if (!userService.create(user)) {
+                throw new CorrectException("Cannot create user with id!");
+            }
+            throw new Exception("User with id was created!");
+        } catch (CorrectException ignored) {
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail(exception.getMessage());
+        }
+    }
+    
+    @Test
+    void CreateUserWithNotExistedRole() {
+        System.out.println("------------CreateUserWithNotExistedRole------------");
+        try {
+            String login = "testUser" + getRandomNumberString();
+            User user = new User(login, HashManager.getHash(login), new Role("SUPER_ROLE", 0));
+            
+            if (!userService.create(user)) {
+                throw new CorrectException("Cannot create user with not existed role!");
+            }
+            throw new Exception("User with id was created!");
+        } catch (CorrectException ignored) {
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail(exception.getMessage());
         }
     }
 }

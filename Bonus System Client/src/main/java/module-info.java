@@ -14,6 +14,6 @@ module by.jcompany.bonus_system {
     opens by.jcompany.bonus_system.util to javafx.fxml;
     exports by.jcompany.bonus_system.boot;
     opens by.jcompany.bonus_system.boot to javafx.fxml;
-    exports by.jcompany.bonus_system.menu;
-    opens by.jcompany.bonus_system.menu to javafx.fxml;
+    exports by.jcompany.bonus_system.menu.function;
+    opens by.jcompany.bonus_system.menu.function to javafx.fxml;
 }

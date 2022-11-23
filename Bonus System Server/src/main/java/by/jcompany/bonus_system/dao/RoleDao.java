@@ -17,7 +17,7 @@ public class RoleDao implements Dao<Role, String> {
             Transaction transaction = session.beginTransaction();
             session.persist(role);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -28,7 +28,7 @@ public class RoleDao implements Dao<Role, String> {
     public List<Role> readAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM Role", Role.class).getResultList());
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -43,7 +43,7 @@ public class RoleDao implements Dao<Role, String> {
             }
             session.merge(role);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -56,7 +56,7 @@ public class RoleDao implements Dao<Role, String> {
             Transaction transaction = session.beginTransaction();
             session.remove(role);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -66,7 +66,7 @@ public class RoleDao implements Dao<Role, String> {
     public Role read(String name) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return session.get(Role.class, name);
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }

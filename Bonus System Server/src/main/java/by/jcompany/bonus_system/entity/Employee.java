@@ -30,8 +30,9 @@ public class Employee implements IdHandler {
     /**
      * User could not be created or updated. Instead, set user's employee with User.setEmployee()
      */
+    @ToString.Exclude
     @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "employee", fetch = FetchType.EAGER)
-    private transient User user; // todo 6
+    private transient User user;
     
     /**
      * Use Task.setEmployee to add task to employee

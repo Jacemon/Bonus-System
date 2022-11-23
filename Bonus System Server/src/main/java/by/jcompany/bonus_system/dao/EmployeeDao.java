@@ -18,7 +18,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
             Transaction transaction = session.beginTransaction();
             session.persist(employee);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -30,7 +30,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM Employee",
                 Employee.class).getResultList());
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -45,7 +45,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
             }
             session.merge(employee);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -63,7 +63,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
             }
             session.remove(employee);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -74,7 +74,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     public Employee read(Integer id) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return session.get(Employee.class, id);
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }

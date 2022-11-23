@@ -33,7 +33,7 @@ public class Task implements IdHandler {
      */
     @Generated(GenerationTime.INSERT)
     @Column(name = "creation_time", nullable = false, insertable = false)
-    private Instant creationTime;
+    private transient Instant creationTime;
     
     /**
      * Use Task.setComplete() in persisted Tasks, or there will be no effect

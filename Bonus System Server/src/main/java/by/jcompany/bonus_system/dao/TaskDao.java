@@ -20,7 +20,7 @@ public class TaskDao implements Dao<Task, Integer> {
             }
             session.persist(task);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -31,7 +31,7 @@ public class TaskDao implements Dao<Task, Integer> {
     public List<Task> readAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM Task", Task.class).getResultList());
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -49,7 +49,7 @@ public class TaskDao implements Dao<Task, Integer> {
             }
             session.merge(task);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -62,7 +62,7 @@ public class TaskDao implements Dao<Task, Integer> {
             Transaction transaction = session.beginTransaction();
             session.remove(task);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -73,7 +73,7 @@ public class TaskDao implements Dao<Task, Integer> {
     public Task read(Integer id) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return session.get(Task.class, id);
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }

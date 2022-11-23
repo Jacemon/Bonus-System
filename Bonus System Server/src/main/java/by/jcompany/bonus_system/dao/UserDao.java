@@ -25,7 +25,7 @@ public class UserDao implements Dao<User, Integer> {
             }
             session.persist(user);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -36,7 +36,7 @@ public class UserDao implements Dao<User, Integer> {
     public List<User> readAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM User", User.class).getResultList());
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -54,7 +54,7 @@ public class UserDao implements Dao<User, Integer> {
             }
             session.merge(user);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -67,7 +67,7 @@ public class UserDao implements Dao<User, Integer> {
             Transaction transaction = session.beginTransaction();
             session.remove(user);
             transaction.commit();
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return false;
         }
@@ -78,7 +78,7 @@ public class UserDao implements Dao<User, Integer> {
     public User read(Integer id) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return session.get(User.class, id);
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }
@@ -89,7 +89,7 @@ public class UserDao implements Dao<User, Integer> {
             //return session.bySimpleNaturalId(User.class).load(login);
             return session.createQuery("from User where login = '" + login + '\'', User.class)
                 .getResultList().get(0);
-        } catch (PersistenceException exception) {
+        } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
         }

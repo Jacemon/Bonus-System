@@ -10,6 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserDto {
+    private Integer id;
     private String login;
     private byte[] passwordHash;
     

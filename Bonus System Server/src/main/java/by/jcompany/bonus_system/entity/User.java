@@ -32,18 +32,23 @@ public class User implements IdHandler {
     @Column(name = "password_hash", nullable = false)
     private byte[] passwordHash;
     
-    @ToString.Exclude // todo 3
     @OneToOne(cascade = { CascadeType.MERGE })
     @JoinColumn(name = "employee_id")
-    private Employee employee; // 3
+    private Employee employee;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_name")
-    private Role role; // todo 4
+    @JoinColumn(name = "role_name", nullable = false)
+    private Role role;
     
+    public User(String login, byte[] passwordHash, Role role) {
+        this.login = login;
+        this.passwordHash = passwordHash;
+        this.role = role;
+    }
     public User(String login, byte[] passwordHash) {
         this.login = login;
         this.passwordHash = passwordHash;
+        this.role = new Role("UNDEFINED", -1);
     }
     
     @Override

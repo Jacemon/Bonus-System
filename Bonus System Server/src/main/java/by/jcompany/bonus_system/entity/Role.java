@@ -20,11 +20,22 @@ public class Role implements IdHandler {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
     
+    @Column(name = "access_level", nullable = false)
+    private Integer accessLevel;
+    
+    // TODO вообще оно должно быть LAZY
+    @ToString.Exclude
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
-    private transient Set<User> users = new LinkedHashSet<>(); // todo 2
+    private transient Set<User> users = new LinkedHashSet<>();
     
     public Role(String name) {
         this.name = name;
+        this.accessLevel = -1;
+    }
+    
+    public Role(String name, Integer accessLevel) {
+        this.name = name;
+        this.accessLevel = accessLevel;
     }
     
     @Override

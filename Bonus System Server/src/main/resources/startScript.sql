@@ -5,9 +5,17 @@ use `bonus_system`;
 
 drop table if exists `user`;
 drop table if exists `role`;
+drop table if exists `task`;
 drop table if exists `bonus`;
 drop table if exists `employee`;
-drop table if exists `task`;
+
+create table `bonus`
+(
+    id     int auto_increment
+        primary key,
+    type   enum ('POINTS', 'MONEY') not null,
+    amount float                    not null
+);
 
 create table `employee`
 (
@@ -19,17 +27,13 @@ create table `employee`
 
 create table `role`
 (
-    name varchar(20) not null
-        primary key
-);
-
-create table `bonus`
-(
-    id     int auto_increment
+    name             varchar(20)    not null
         primary key,
-    type   varchar(20) not null,
-    amount float       not null
+    access_level int default -1 not null
 );
+insert into `role` (name) values ('UNDEFINED');
+insert into `role` (name, access_level) values ('ADMIN', 0);
+insert into `role` (name, access_level) values ('COMMON', 4);
 
 create table `task`
 (
@@ -38,26 +42,28 @@ create table `task`
     description   text                                 not null,
     creation_time timestamp  default CURRENT_TIMESTAMP not null,
     is_completed  tinyint(1) default 0                 not null,
-    employee_id   int                                  null,
     bonus_id      int                                  not null,
-    constraint task_employee_id_fk
-        foreign key (employee_id) references employee (id)
-            on delete set null,
+    employee_id   int                                  null,
     constraint task_bonus_id_fk
         foreign key (bonus_id) references bonus (id)
-            on delete cascade
+            on delete cascade,
+    constraint task_employee_id_fk
+        foreign key (employee_id) references employee (id)
+            on delete set null
 );
 
 create table `user`
 (
-    login         varchar(40) not null
+    id            int auto_increment
         primary key,
-    employee_id   int         null,
+    login         varchar(40) not null,
     password_hash blob        not null,
-    role_name     varchar(20) null,
+    role_name     varchar(20) not null,
+    employee_id   int         null,
+    constraint user_pk
+        unique (login),
     constraint user_employee_id_fk
         foreign key (employee_id) references employee (id),
     constraint user_role_name_fk
         foreign key (role_name) references role (name)
-            on delete set null
 );

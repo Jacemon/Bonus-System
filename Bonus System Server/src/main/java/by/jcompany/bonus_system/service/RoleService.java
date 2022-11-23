@@ -11,7 +11,7 @@ public class RoleService implements Service<Role, String> {
     
     @Override
     public boolean create(Role role) {
-        return roleDao.create(role);
+        return roleDao.create(prepareRole(role));
     }
     
     @Override
@@ -21,16 +21,26 @@ public class RoleService implements Service<Role, String> {
     
     @Override
     public boolean update(Role role) {
-        return roleDao.update(role);
+        return roleDao.update(prepareRole(role));
     }
     
     @Override
     public boolean delete(Role role) {
-        return roleDao.delete(role);
+        return roleDao.delete(prepareRole(role));
     }
     
     @Override
     public Role read(String id) {
-        return roleDao.read(id);
+        return roleDao.read(prepareRoleName(id));
+    }
+    
+    private Role prepareRole(Role role) {
+        role.setName(prepareRoleName(role.getName()));
+        return role;
+    }
+    private String prepareRoleName(String roleName) {
+        roleName = roleName.trim();
+        roleName = roleName.toUpperCase();
+        return roleName;
     }
 }

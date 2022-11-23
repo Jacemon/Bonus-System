@@ -1,13 +1,16 @@
-package by.jcompany.bonus_system.boot;
+package by.jcompany.bonus_system.server;
 
+import by.jcompany.bonus_system.server.init.CommandCreator;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
+import by.jcompany.bonus_system.util.FunctionManager;
 import jakarta.persistence.PersistenceException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.file.AccessDeniedException;
 
 class ClientHandler implements Runnable {
     private final int clientNumber;
@@ -22,8 +25,6 @@ class ClientHandler implements Runnable {
         socket = clientSocket;
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-        
-        ClientFunctionsCreator.create();
     }
     
     @Override
@@ -45,9 +46,11 @@ class ClientHandler implements Runnable {
                         break;
                     }
                     
-                    Object response = ClientFunctions.executeFunction(requestType, requestString);
+                    Object response = FunctionManager.executeFunction(requestType, requestString);
                     serverResponse = new Response("OK", response);
-                    
+    
+                } catch (AccessDeniedException exception) {
+                    serverResponse = new Response("ERROR", "Forbidden!");
                 } catch (NullPointerException exception) {
                     serverResponse = new Response("ERROR", "Command not exist!");
                 } catch (PersistenceException exception) {

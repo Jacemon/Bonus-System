@@ -14,10 +14,16 @@ import java.util.Set;
 @ToString
 public class RoleDto {
     private String name;
+    private Integer permissionLevel;
     
     private Set<UserDto> users = new LinkedHashSet<>();
     
     public RoleDto(String name) {
         this.name = name;
+    }
+    
+    public RoleDto(String name, Integer permissionLevel) {
+        this.name = name;
+        this.permissionLevel = permissionLevel;
     }
 }

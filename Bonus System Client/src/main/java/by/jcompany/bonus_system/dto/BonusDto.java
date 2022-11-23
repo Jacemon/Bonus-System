@@ -14,8 +14,6 @@ public class BonusDto {
     private BonusType type;
     private Float amount;
     
-    private TaskDto task;
-    
     public BonusDto(BonusType type, Float amount) {
         this.type = type;
         this.amount = amount;
