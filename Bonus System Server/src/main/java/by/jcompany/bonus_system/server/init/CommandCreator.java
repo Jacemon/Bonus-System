@@ -8,6 +8,7 @@ import by.jcompany.bonus_system.server.function.GeneralFunctions;
 import by.jcompany.bonus_system.server.function.RoleFunctions;
 import by.jcompany.bonus_system.server.function.UserFunctions;
 import by.jcompany.bonus_system.util.FunctionManager;
+import by.jcompany.bonus_system.util.FunctionManager.ClientRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -33,27 +34,29 @@ public class CommandCreator {
     public static void create() {
         FunctionManager.addFunction("LOGIN", new FunctionManager.ClientFunction(
             null,
-            (String requestString) -> {
-                User user = gson.fromJson(requestString, User.class);
-                return GeneralFunctions.login(user);
-                /*if (GeneralFunctions.login(user) != null) {
-                    return "User log in";
-                }
-                return "Login or password is incorrect";*/
+            (ClientRequest clientRequest) -> {
+                User user = gson.fromJson(clientRequest.requestString, User.class);
+                return GeneralFunctions.login(user, clientRequest.client);
             }
         ));
         FunctionManager.addFunction("LOGOUT", new FunctionManager.ClientFunction(
             null,
-            (String requestString) -> {
-                return GeneralFunctions.logout();
-                //return "User log out";
+            (ClientRequest clientRequest) -> GeneralFunctions.logout(clientRequest.client)
+        ));
+        
+        FunctionManager.addFunction("QUIT", new FunctionManager.ClientFunction(
+            null,
+            (ClientRequest clientRequest) -> {
+                GeneralFunctions.quit(clientRequest.client);
+                return null;
             }
         ));
         
+        
         FunctionManager.addFunction("CREATE_USER", new FunctionManager.ClientFunction(
             new Role("ADMIN"),
-            (String requestString) -> {
-                User user = gson.fromJson(requestString, User.class);
+            (ClientRequest clientRequest) -> {
+                User user = gson.fromJson(clientRequest.requestString, User.class);
                 if (UserFunctions.createUser(user)) {
                     return "User created";
                 }
@@ -62,12 +65,12 @@ public class CommandCreator {
         ));
         FunctionManager.addFunction("READ_ALL_USERS", new FunctionManager.ClientFunction(
             new Role("ADMIN"),
-            (String requestString) -> UserFunctions.readAllUsers()
+            (ClientRequest clientRequest) -> UserFunctions.readAllUsers()
         ));
         FunctionManager.addFunction("CREATE_ROLE", new FunctionManager.ClientFunction(
             new Role("ADMIN"),
-            (String requestString) -> {
-                Role role = gson.fromJson(requestString, Role.class);
+            (ClientRequest clientRequest) -> {
+                Role role = gson.fromJson(clientRequest.requestString, Role.class);
                 if (RoleFunctions.createRole(role)) {
                     return "Role created";
                 }

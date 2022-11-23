@@ -20,8 +20,12 @@ public class ClientHandler implements Runnable {
     private final ObjectInputStream objectInputStream;
     private final ObjectOutputStream objectOutputStream;
     
-    @Getter @Setter
+    @Getter
+    @Setter
     private User clientUser = null;
+    @Getter
+    @Setter
+    private boolean quit = false;
     
     ClientHandler(Socket clientSocket, int clientNumber) throws IOException {
         this.clientNumber = clientNumber;
@@ -47,19 +51,8 @@ public class ClientHandler implements Runnable {
                     System.out.println("client #" + clientNumber + " -> server: ");
                     System.out.println(clientRequest);
                     
-                    if (command.equals("QUIT")) {
-                        break;
-                    }
-                    
-                    Object response = FunctionManager.executeFunction(command, requestString, clientUser);
+                    Object response = FunctionManager.executeFunction(command, requestString, this);
                     serverResponse = new Response("OK", response);
-                    
-                    if (command.equals("LOGIN")) {
-                        clientUser = (User) response;
-                    }
-                    if (command.equals("LOGOUT")) {
-                        clientUser = null;
-                    }
                 } catch (AccessDeniedException exception) {
                     serverResponse = new Response("ERROR", "Forbidden!");
                 } catch (NullPointerException exception) {
@@ -71,10 +64,12 @@ public class ClientHandler implements Runnable {
                     exception.printStackTrace();
                 }
                 
-                System.out.println("server -> client #" + clientNumber + ": ");
-                System.out.println(serverResponse);
-                objectOutputStream.writeObject(serverResponse);
-            } while (true);
+                if (!quit) {
+                    System.out.println("server -> client #" + clientNumber + ": ");
+                    System.out.println(serverResponse);
+                    objectOutputStream.writeObject(serverResponse);
+                }
+            } while (!quit);
         } catch (Exception exception) {
             exception.printStackTrace();
         } finally {

@@ -8,10 +8,10 @@ import java.io.IOException;
 public class ClientBoot {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         GeneralFunctions.login("login", "password");
-        // todo не передавать пассворд хеш
         GeneralFunctions.login("admin", "admin");
         UserFunctions.readAllUsers();
         System.in.read();
+        UserFunctions.readAllUsers();
         GeneralFunctions.logout();
         UserFunctions.readAllUsers();
         GeneralFunctions.quit();
