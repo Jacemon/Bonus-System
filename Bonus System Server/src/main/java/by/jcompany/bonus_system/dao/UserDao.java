@@ -2,9 +2,7 @@ package by.jcompany.bonus_system.dao;
 
 import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.util.HibernateSessionFactory;
-import jakarta.persistence.PersistenceException;
 import org.hibernate.HibernateException;
-import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

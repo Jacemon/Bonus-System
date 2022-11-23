@@ -1,13 +1,13 @@
 package by.jcompany.bonus_system.server.init;
 
-import by.jcompany.bonus_system.util.FunctionManager;
-import by.jcompany.bonus_system.server.function.GeneralFunctions;
-import by.jcompany.bonus_system.server.function.RoleFunctions;
-import by.jcompany.bonus_system.server.function.UserFunctions;
 import by.jcompany.bonus_system.entity.Role;
 import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
+import by.jcompany.bonus_system.server.function.GeneralFunctions;
+import by.jcompany.bonus_system.server.function.RoleFunctions;
+import by.jcompany.bonus_system.server.function.UserFunctions;
+import by.jcompany.bonus_system.util.FunctionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -20,8 +20,8 @@ public class CommandCreator {
         .setPrettyPrinting()
         .registerTypeAdapter(Instant.class,
             (JsonDeserializer<Instant>)
-            (json, type, jsonDeserializationContext) ->
-            ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant())
+                (json, type, jsonDeserializationContext) ->
+                    ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant())
         .create();
     
     static {
@@ -35,17 +35,18 @@ public class CommandCreator {
             null,
             (String requestString) -> {
                 User user = gson.fromJson(requestString, User.class);
-                if (GeneralFunctions.login(user)) {
+                return GeneralFunctions.login(user);
+                /*if (GeneralFunctions.login(user) != null) {
                     return "User log in";
                 }
-                return "Login or password is incorrect";
+                return "Login or password is incorrect";*/
             }
         ));
         FunctionManager.addFunction("LOGOUT", new FunctionManager.ClientFunction(
             null,
             (String requestString) -> {
-                GeneralFunctions.logout();
-                return "User log out";
+                return GeneralFunctions.logout();
+                //return "User log out";
             }
         ));
         

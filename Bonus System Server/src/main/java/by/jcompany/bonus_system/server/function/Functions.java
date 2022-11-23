@@ -1,10 +1,10 @@
 package by.jcompany.bonus_system.server.function;
 
-import by.jcompany.bonus_system.util.FunctionManager;
 import by.jcompany.bonus_system.service.EmployeeService;
 import by.jcompany.bonus_system.service.RoleService;
 import by.jcompany.bonus_system.service.TaskService;
 import by.jcompany.bonus_system.service.UserService;
+import by.jcompany.bonus_system.util.FunctionManager;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package by.jcompany.bonus_system.menu.function;
+package by.jcompany.bonus_system.function;
 
 import by.jcompany.bonus_system.dto.UserDto;
 import by.jcompany.bonus_system.model.Request;

@@ -6,6 +6,7 @@ public class RoleFunctions extends Functions {
     public static boolean createRole(Role role) {
         return roleService.create(role);
     }
+    
     public static Integer readRoleAccessLevel(Role role) {
         if (role == null) {
             return null;

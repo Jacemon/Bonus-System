@@ -1,4 +1,4 @@
-package org.example;
+package by.jcompany;
 
 import by.jcompany.bonus_system.entity.*;
 import by.jcompany.bonus_system.service.EmployeeService;

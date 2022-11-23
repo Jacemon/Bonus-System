@@ -1,17 +1,11 @@
 package by.jcompany.bonus_system.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NaturalId;
-
-import java.io.Serializable;
 
 @NoArgsConstructor
 @Getter
@@ -45,6 +39,7 @@ public class User implements IdHandler {
         this.passwordHash = passwordHash;
         this.role = role;
     }
+    
     public User(String login, byte[] passwordHash) {
         this.login = login;
         this.passwordHash = passwordHash;

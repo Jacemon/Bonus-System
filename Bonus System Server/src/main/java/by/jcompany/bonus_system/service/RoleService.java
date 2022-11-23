@@ -38,6 +38,7 @@ public class RoleService implements Service<Role, String> {
         role.setName(prepareRoleName(role.getName()));
         return role;
     }
+    
     private String prepareRoleName(String roleName) {
         roleName = roleName.trim();
         roleName = roleName.toUpperCase();

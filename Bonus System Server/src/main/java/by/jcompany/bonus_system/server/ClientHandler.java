@@ -1,10 +1,12 @@
 package by.jcompany.bonus_system.server;
 
-import by.jcompany.bonus_system.server.init.CommandCreator;
+import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
 import by.jcompany.bonus_system.util.FunctionManager;
 import jakarta.persistence.PersistenceException;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,11 +14,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.nio.file.AccessDeniedException;
 
-class ClientHandler implements Runnable {
+public class ClientHandler implements Runnable {
     private final int clientNumber;
     private final Socket socket;
     private final ObjectInputStream objectInputStream;
     private final ObjectOutputStream objectOutputStream;
+    
+    @Getter @Setter
+    private User clientUser = null;
     
     ClientHandler(Socket clientSocket, int clientNumber) throws IOException {
         this.clientNumber = clientNumber;
@@ -36,19 +41,25 @@ class ClientHandler implements Runnable {
             do {
                 clientRequest = (Request) objectInputStream.readObject();
                 try {
-                    String requestType = clientRequest.getRequestType();
+                    String command = clientRequest.getRequestType();
                     String requestString = clientRequest.getRequestString();
                     
                     System.out.println("client #" + clientNumber + " -> server: ");
                     System.out.println(clientRequest);
                     
-                    if (requestType.equals("QUIT")) {
+                    if (command.equals("QUIT")) {
                         break;
                     }
                     
-                    Object response = FunctionManager.executeFunction(requestType, requestString);
+                    Object response = FunctionManager.executeFunction(command, requestString, clientUser);
                     serverResponse = new Response("OK", response);
-    
+                    
+                    if (command.equals("LOGIN")) {
+                        clientUser = (User) response;
+                    }
+                    if (command.equals("LOGOUT")) {
+                        clientUser = null;
+                    }
                 } catch (AccessDeniedException exception) {
                     serverResponse = new Response("ERROR", "Forbidden!");
                 } catch (NullPointerException exception) {
