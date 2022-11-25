@@ -1,5 +1,6 @@
 package by.jcompany.bonus_system.model;
 
+import by.jcompany.bonus_system.util.json.GsonManager;
 import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class Request implements Serializable {
-    private static Gson gson = null;
+    private static Gson gson = GsonManager.getGson();
     private String requestType;
     private String requestString;
     
@@ -21,10 +22,6 @@ public class Request implements Serializable {
         }
         this.requestType = requestType;
         this.requestString = gson.toJson(requestObject);
-    }
-    
-    public static void setGson(Gson gson) {
-        Request.gson = gson;
     }
     
     @Override

@@ -6,9 +6,9 @@ import by.jcompany.bonus_system.service.Service;
 import by.jcompany.bonus_system.service.TaskService;
 import by.jcompany.bonus_system.service.UserService;
 import by.jcompany.bonus_system.util.HashManager;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
+import by.jcompany.bonus_system.util.json.AnnotationExclusionStrategy;
+import by.jcompany.bonus_system.util.json.GsonManager;
+import com.google.gson.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -17,12 +17,43 @@ import java.time.ZonedDateTime;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class JsonParserTest {
-    Gson gson = new GsonBuilder()
-        .setPrettyPrinting()
-        .registerTypeAdapter(Instant.class,
-            (JsonDeserializer<Instant>) (json, type, jsonDeserializationContext) ->
-                ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant())
-        .create();
+    Gson gson = GsonManager.getGson();
+    
+    /*public static class InstantTypeAdapter extends TypeAdapter<Instant> {
+        public InstantTypeAdapter() {
+        }
+        
+        @Override
+        public void write(JsonWriter out, Instant date) throws IOException {
+            if (date == null) {
+                out.nullValue();
+            } else {
+                out.value(String.format(String.valueOf(date)));
+            }
+        }
+        
+        @Override
+        public Instant read(JsonReader in) throws IOException {
+            try {
+                if (in.peek() == JsonToken.NULL) {
+                    in.nextNull();
+                    return null;
+                }
+                String date = in.nextString();
+                if (date == null) {
+                    return null;
+                }
+                return ZonedDateTime.parse(date).toInstant();
+            } catch (IllegalArgumentException e) {
+                throw new JsonParseException(e);
+            }
+        }
+    }*/
+    
+    
+    /*Gson gson = new GsonBuilder()
+        .registerTypeAdapter(Instant.class, new InstantTypeAdapter())
+        .create();*/
     
     UserService userService = new UserService();
     Service<Employee, Integer> employeeService = new EmployeeService();
@@ -54,6 +85,11 @@ public class JsonParserTest {
             
             System.out.println(user);
             System.out.println(gson.toJson(user));
+    
+            /*String str = gson.toJson(new Date().toInstant());
+            System.out.println(str);
+            Instant date = gson.fromJson(str, Instant.class);
+            System.out.println(date);*/
         } catch (Exception exception) {
             exception.printStackTrace();
             fail();

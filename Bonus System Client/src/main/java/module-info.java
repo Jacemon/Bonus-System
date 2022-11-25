@@ -3,7 +3,7 @@ module by.jcompany.bonus_system {
     requires javafx.fxml;
     requires com.google.gson;
     requires lombok;
-    
+
     exports by.jcompany.bonus_system.temp;
     opens by.jcompany.bonus_system.temp to javafx.fxml;
     exports by.jcompany.bonus_system.dto;
@@ -16,4 +16,6 @@ module by.jcompany.bonus_system {
     opens by.jcompany.bonus_system.boot to javafx.fxml;
     exports by.jcompany.bonus_system.function;
     opens by.jcompany.bonus_system.function to javafx.fxml;
+    exports by.jcompany.bonus_system;
+    opens by.jcompany.bonus_system to javafx.fxml;
 }

@@ -25,11 +25,6 @@ public class CommandCreator {
                     ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant())
         .create();
     
-    static {
-        Request.setGson(gson);
-        Response.setGson(gson);
-    }
-    
     // todo доделать обработчик роли
     public static void create() {
         FunctionManager.addFunction("LOGIN", new FunctionManager.ClientFunction(
@@ -43,7 +38,6 @@ public class CommandCreator {
             null,
             (ClientRequest clientRequest) -> GeneralFunctions.logout(clientRequest.client)
         ));
-        
         FunctionManager.addFunction("QUIT", new FunctionManager.ClientFunction(
             null,
             (ClientRequest clientRequest) -> {
@@ -51,8 +45,6 @@ public class CommandCreator {
                 return null;
             }
         ));
-        
-        
         FunctionManager.addFunction("CREATE_USER", new FunctionManager.ClientFunction(
             new Role("ADMIN"),
             (ClientRequest clientRequest) -> {

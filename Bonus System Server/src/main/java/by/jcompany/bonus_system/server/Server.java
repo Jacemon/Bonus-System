@@ -14,6 +14,7 @@ public class Server {
     public static void start() {
         CommandCreator.create();
         InitDatabaseRows.tryInitAdmin();
+        InitDatabaseRows.tryInitUndefinedRole();
         
         ServerSocket serverSocket = null;
         int clientCount = 0;

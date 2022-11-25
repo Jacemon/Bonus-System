@@ -1,5 +1,6 @@
 package by.jcompany.bonus_system.entity;
 
+import by.jcompany.bonus_system.util.json.Exclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,7 @@ public class Task implements IdHandler {
      */
     @Generated(GenerationTime.INSERT)
     @Column(name = "creation_time", nullable = false, insertable = false)
-    private transient Instant creationTime;
+    private Instant creationTime;
     
     /**
      * Use Task.setComplete() in persisted Tasks, or there will be no effect
@@ -46,6 +47,7 @@ public class Task implements IdHandler {
     @JoinColumn(name = "bonus_id", nullable = false)
     private Bonus bonus;
     
+    @Exclude
     @ToString.Exclude // todo 1
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")

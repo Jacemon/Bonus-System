@@ -9,7 +9,7 @@ public class HashManager {
         MessageDigest digest;
         byte[] hash = null;
         try {
-            digest = MessageDigest.getInstance("MD5");
+            digest = MessageDigest.getInstance("SHA-256");
             digest.reset();
             hash = digest.digest(stringForHash.getBytes(StandardCharsets.UTF_8));
         } catch (NoSuchAlgorithmException exception) {

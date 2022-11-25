@@ -26,7 +26,7 @@ public class Role implements IdHandler {
     // TODO вообще оно должно быть LAZY
     @ToString.Exclude
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
-    private transient Set<User> users = new LinkedHashSet<>();
+    private Set<User> users = new LinkedHashSet<>();
     
     public Role(String name) {
         this.name = name;

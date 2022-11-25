@@ -10,7 +10,6 @@ public class ClientBoot {
         GeneralFunctions.login("login", "password");
         GeneralFunctions.login("admin", "admin");
         UserFunctions.readAllUsers();
-        System.in.read();
         UserFunctions.readAllUsers();
         GeneralFunctions.logout();
         UserFunctions.readAllUsers();

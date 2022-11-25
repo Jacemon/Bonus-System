@@ -10,7 +10,7 @@ import java.io.IOException;
 public class GeneralFunctions extends Functions {
     public static void login(String login, String password) throws IOException, ClassNotFoundException {
         connection.makeRequest(new Request("LOGIN",
-            new UserDto(login, HashManager.getHash(login)))
+            new UserDto(login, HashManager.getHash(password)))
         );
         Response response = connection.getResponse();
         System.out.println(response);

@@ -13,20 +13,12 @@ import java.time.ZonedDateTime;
 
 public abstract class Functions {
     static final Connection connection;
-    static final Gson gson = new GsonBuilder()
-        .setPrettyPrinting()
-        .registerTypeAdapter(Instant.class,
-            (JsonDeserializer<Instant>) (json, type, jsonDeserializationContext) ->
-                ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant())
-        .create();
     
     static {
         try {
             connection = new Connection();
-            Response.setGson(gson);
-            Request.setGson(gson);
         } catch (IOException exception) {
-            // ошибка соединения
+            // Ошибка соединения
             throw new RuntimeException(exception);
         }
     }
