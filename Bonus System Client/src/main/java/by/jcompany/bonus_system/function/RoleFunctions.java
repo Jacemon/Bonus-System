@@ -1,6 +1,6 @@
 package by.jcompany.bonus_system.function;
 
-import by.jcompany.bonus_system.dto.RoleDto;
+import by.jcompany.bonus_system.model.dto.RoleDto;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
 

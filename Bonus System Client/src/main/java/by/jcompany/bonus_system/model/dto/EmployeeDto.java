@@ -1,4 +1,4 @@
-package by.jcompany.bonus_system.dto;
+package by.jcompany.bonus_system.model.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +16,6 @@ public class EmployeeDto {
     private Integer id;
     private String firstName;
     private String lastName;
-    
-    private UserDto user;
     
     private Set<TaskDto> tasks = new LinkedHashSet<>();
     

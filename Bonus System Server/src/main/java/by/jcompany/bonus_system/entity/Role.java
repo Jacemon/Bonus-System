@@ -1,5 +1,6 @@
 package by.jcompany.bonus_system.entity;
 
+import by.jcompany.bonus_system.util.json.Exclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,9 @@ public class Role implements IdHandler {
     @Column(name = "access_level", nullable = false)
     private Integer accessLevel;
     
-    // TODO вообще оно должно быть LAZY
+    @Exclude
     @ToString.Exclude
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER) // TODO вообще оно должно быть LAZY
     private Set<User> users = new LinkedHashSet<>();
     
     public Role(String name) {

@@ -1,4 +1,4 @@
-package by.jcompany.bonus_system.dto;
+package by.jcompany.bonus_system.model.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Set;
 @ToString
 public class RoleDto {
     private String name;
-    private Integer permissionLevel;
+    private Integer accessLevel;
     
     private Set<UserDto> users = new LinkedHashSet<>();
     
@@ -22,8 +22,8 @@ public class RoleDto {
         this.name = name;
     }
     
-    public RoleDto(String name, Integer permissionLevel) {
+    public RoleDto(String name, Integer accessLevel) {
         this.name = name;
-        this.permissionLevel = permissionLevel;
+        this.accessLevel = accessLevel;
     }
 }

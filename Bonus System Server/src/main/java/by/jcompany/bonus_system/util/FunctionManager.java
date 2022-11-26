@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 // todo Как идея: можно сделать этот класс не статическим, и делать его экземпляр в КлиентХендлер,
-//  после чего заполнять его заново для каждого клиента функциями.
+//  после чего заполнять его заново для каждого клиента функциями. Тогда перенести поле уровня доступа
+//  из КлиентХендлер можно в этот класс
 public class FunctionManager {
     private static final Map<String, ClientFunction> functions = new HashMap<>();
     

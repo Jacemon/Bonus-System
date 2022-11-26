@@ -55,11 +55,11 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     public boolean delete(Employee employee) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            for (Task task : employee.getTasks()) {
+/*            for (Task task : employee.getTasks()) {
                 if (task.getId() != null) {
                     session.merge(task);
                 }
-            }
+            }*/
             session.remove(employee);
             transaction.commit();
         } catch (RuntimeException exception) {

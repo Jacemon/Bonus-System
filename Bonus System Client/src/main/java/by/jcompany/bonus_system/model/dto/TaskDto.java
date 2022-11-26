@@ -1,4 +1,4 @@
-package by.jcompany.bonus_system.dto;
+package by.jcompany.bonus_system.model.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

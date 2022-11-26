@@ -1,5 +1,6 @@
-package by.jcompany.bonus_system.dto;
+package by.jcompany.bonus_system.model.dto;
 
+import by.jcompany.bonus_system.entity.Bonus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +15,10 @@ public class BonusDto {
     private BonusType type;
     private Float amount;
     
-    public BonusDto(BonusType type, Float amount) {
-        this.type = type;
-        this.amount = amount;
+    public BonusDto(Bonus bonus) {
+        this.id = bonus.getId();
+        this.type = BonusType.valueOf(bonus.getType().toString());
+        this.amount = bonus.getAmount();
     }
     
     public enum BonusType {

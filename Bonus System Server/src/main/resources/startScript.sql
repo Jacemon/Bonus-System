@@ -63,7 +63,8 @@ create table `user`
     constraint user_pk
         unique (login),
     constraint user_employee_id_fk
-        foreign key (employee_id) references employee (id),
+        foreign key (employee_id) references employee (id)
+            on delete set null,
     constraint user_role_name_fk
         foreign key (role_name) references role (name)
 );
