@@ -1,20 +1,44 @@
 package by.jcompany.bonus_system.util.json;
 
 import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 
 public class GsonManager {
-    private static Gson gson = new GsonBuilder()
+    private static final Gson gson = new GsonBuilder()
         .setPrettyPrinting()
-        // Instant de(se)rialization
-        .registerTypeAdapter(Instant.class,
-            (JsonDeserializer<Instant>) (json, type, jsonDeserializationContext) ->
-                ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toInstant())
-        .registerTypeAdapter(Instant.class,
-            (JsonSerializer<Instant>) (json, type, jsonDeserializationContext) ->
-                new JsonPrimitive(json.toString()))
+        // Instant (de)serialization
+        .registerTypeAdapter(Instant.class, new TypeAdapter<Instant>() {
+            @Override
+            public void write(JsonWriter jsonWriter, Instant instant) throws IOException {
+                if (instant == null) {
+                    jsonWriter.nullValue();
+                } else {
+                    jsonWriter.value(instant.toString());
+                }
+            }
+            @Override
+            public Instant read(JsonReader jsonReader) throws IOException {
+                try {
+                    if (jsonReader.peek() == JsonToken.NULL) {
+                        jsonReader.nextNull();
+                        return null;
+                    }
+                    String instant = jsonReader.nextString();
+                    if (instant == null) {
+                        return null;
+                    }
+                    return ZonedDateTime.parse(instant).toInstant();
+                } catch (IllegalArgumentException exception) {
+                    throw new JsonParseException(exception);
+                }
+            }
+        })
         // @Exclude annotation
         .setExclusionStrategies(new AnnotationExclusionStrategy())
         .create();

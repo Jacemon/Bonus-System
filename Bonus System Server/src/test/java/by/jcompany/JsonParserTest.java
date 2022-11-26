@@ -122,7 +122,7 @@ public class JsonParserTest {
     void RoleToJson() {
         try {
             User user = new User("login", HashManager.getHash("password"),
-                new Role("ADMIN"));
+                new Role("ADMIn"));
             Employee employee = new Employee("First Name", "Second Name");
             user.setEmployee(employee);
             userService.create(user);
