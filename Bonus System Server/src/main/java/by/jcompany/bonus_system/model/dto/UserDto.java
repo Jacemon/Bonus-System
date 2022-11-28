@@ -20,6 +20,7 @@ public class UserDto {
     private RoleDto role;
     
     public UserDto(User user) {
+        this.id = user.getId();
         this.login = user.getLogin();
         this.passwordHash = null;
         this.role = new RoleDto(user.getRole(), true);
@@ -30,6 +31,7 @@ public class UserDto {
     }
     
     public UserDto(User user, boolean clean) {
+        this.id = user.getId();
         this.login = user.getLogin();
         this.passwordHash = null;
         this.role = null;

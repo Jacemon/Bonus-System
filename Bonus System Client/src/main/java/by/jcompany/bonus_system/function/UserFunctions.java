@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserFunctions extends Functions {
-    public static void createUser(String login, String password) throws IOException, ClassNotFoundException {
+    public static String createUser(String login, String password) throws IOException, ClassNotFoundException {
         connection.makeRequest(new Request("CREATE_USER",
             new UserDto(login, HashManager.getHash(password))));
         Response response = connection.getResponse();
-        System.out.println(response);
+        return response.getResponseString();
     }
     
     public static List<UserDto> readAllUsers() throws IOException, ClassNotFoundException {
@@ -24,7 +24,12 @@ public class UserFunctions extends Functions {
         Response response = connection.getResponse();
         if (!response.isError()) {
             Type type = new TypeToken<ArrayList<UserDto>>(){}.getType();
-            return (List<UserDto>) response.getResponseObject(type);
+            try {
+                List<UserDto> users = (List<UserDto>) response.getResponseObject(type);
+                return users;
+            } catch (Exception exceptio) {
+                return null;
+            }
         }
         return null;
     }

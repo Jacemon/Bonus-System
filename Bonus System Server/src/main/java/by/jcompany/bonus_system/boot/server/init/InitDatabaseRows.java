@@ -20,7 +20,7 @@ public class InitDatabaseRows {
         RoleService roleService = new RoleService();
         if (roleService.read("ADMIN") == null) {
             if (roleService.create(new Role("ADMIN", 0))) {
-                System.out.println("Role 'ADMIN' with MAX(0) access level was created!");
+                System.out.println("Role 'ADMIN' with 'MAX(0)' access level was created!");
             }
         }
     }
@@ -33,6 +33,15 @@ public class InitDatabaseRows {
                 HashManager.getHash("admin"), new Role("ADMIN"))
             )) {
                 System.out.println("Login 'admin' with role 'ADMIN' was created!");
+            }
+        }
+    }
+    
+    public static void tryInitCommonRole() {
+        RoleService roleService = new RoleService();
+        if (roleService.read("COMMON") == null) {
+            if (roleService.create(new Role("COMMON", 4))) {
+                System.out.println("Role 'COMMON' with '4' access level was created!");
             }
         }
     }

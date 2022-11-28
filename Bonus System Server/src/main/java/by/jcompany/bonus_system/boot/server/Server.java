@@ -1,6 +1,6 @@
 package by.jcompany.bonus_system.boot.server;
 
-import by.jcompany.bonus_system.boot.server.init.CommandCreator;
+import by.jcompany.bonus_system.boot.server.init.InitCommands;
 import by.jcompany.bonus_system.boot.server.init.InitDatabaseRows;
 
 import java.net.ServerSocket;
@@ -12,9 +12,10 @@ public class Server {
     public static String exitServerString = "exit";
     
     public static void start() {
-        CommandCreator.create();
+        InitCommands.create();
         InitDatabaseRows.tryInitAdmin();
         InitDatabaseRows.tryInitUndefinedRole();
+        InitDatabaseRows.tryInitCommonRole();
         
         ServerSocket serverSocket = null;
         int clientCount = 0;

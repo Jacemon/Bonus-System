@@ -15,7 +15,7 @@ import com.google.gson.JsonDeserializer;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 
-public class CommandCreator {
+public class InitCommands {
     private static final Gson gson = new GsonBuilder()
         .setPrettyPrinting()
         .registerTypeAdapter(Instant.class,
@@ -60,7 +60,8 @@ public class CommandCreator {
         ));
         CommandManager.addCommand("READ_ALL_USERS", new CommandManager.ServerCommand(
             new Role("ADMIN"),
-            (ClientRequestString clientRequestString) -> UserFunctions.readAllUsers()
+            (ClientRequestString clientRequestString) -> UserFunctions.readAllUsers().stream()
+                .map(UserDto::new).toList()
         ));
         CommandManager.addCommand("CREATE_ROLE", new CommandManager.ServerCommand(
             new Role("ADMIN"),
