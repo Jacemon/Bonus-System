@@ -1,4 +1,4 @@
-package by.jcompany.bonus_system.server.function;
+package by.jcompany.bonus_system.boot.server.function;
 
 import by.jcompany.bonus_system.entity.Role;
 

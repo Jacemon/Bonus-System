@@ -1,7 +1,7 @@
-package by.jcompany.bonus_system.server;
+package by.jcompany.bonus_system.boot.server;
 
-import by.jcompany.bonus_system.server.init.CommandCreator;
-import by.jcompany.bonus_system.server.init.InitDatabaseRows;
+import by.jcompany.bonus_system.boot.server.init.CommandCreator;
+import by.jcompany.bonus_system.boot.server.init.InitDatabaseRows;
 
 import java.net.ServerSocket;
 import java.util.Scanner;

@@ -23,7 +23,10 @@ public class UserDto {
         this.login = user.getLogin();
         this.passwordHash = null;
         this.role = new RoleDto(user.getRole(), true);
-        this.employee = new EmployeeDto(user.getEmployee()/*, true*/);
+        this.employee = null;
+        if (user.getEmployee() != null) {
+            this.employee = new EmployeeDto(user.getEmployee()/*, true*/);
+        }
     }
     
     public UserDto(User user, boolean clean) {

@@ -7,16 +7,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 
 @NoArgsConstructor
 @Getter
 @Setter
 public class Response implements Serializable {
     private static Gson gson = GsonManager.getGson();
-    private String responseType;
+    private ResponseType responseType;
     private String responseString;
     
-    public Response(String responseType, Object responseObject) {
+    public Response(ResponseType responseType, Object responseObject) {
         if (gson == null) {
             throw new IllegalArgumentException("Gson must be set (Response.setGson)");
         }
@@ -26,6 +27,19 @@ public class Response implements Serializable {
     
     @Override
     public String toString() {
-        return '\t' + responseType + '\n' + responseString.indent(4);
+        return '\t' + responseType.toString() + '\n' + responseString.indent(4);
+    }
+    
+    public Object getResponseObject(Type type) {
+        return gson.fromJson(responseString, type);
+    }
+    
+    public boolean isError() {
+        return responseType.equals(ResponseType.ERROR);
+    }
+    
+    public enum ResponseType implements Serializable {
+        OK,
+        ERROR
     }
 }

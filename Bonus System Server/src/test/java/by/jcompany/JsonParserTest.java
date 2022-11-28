@@ -26,8 +26,7 @@ public class JsonParserTest {
     EmployeeService employeeService = new EmployeeService();
     RoleService roleService = new RoleService();
     TaskService taskService = new TaskService();
-    
-    // TODO не забудь
+
     @Test
     void UserToJson() {
         try {

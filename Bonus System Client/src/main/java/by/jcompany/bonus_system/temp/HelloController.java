@@ -3,6 +3,7 @@ package by.jcompany.bonus_system.temp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+// todo выкосить
 public class HelloController {
     @FXML
     private Label welcomeText;

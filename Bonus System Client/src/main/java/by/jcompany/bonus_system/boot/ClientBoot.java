@@ -7,12 +7,12 @@ import java.io.IOException;
 
 public class ClientBoot {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        GeneralFunctions.login("login", "password");
-        GeneralFunctions.login("admin", "admin");
-        UserFunctions.readAllUsers();
-        UserFunctions.readAllUsers();
-        GeneralFunctions.logout();
-        UserFunctions.readAllUsers();
+        System.out.println(GeneralFunctions.login("login", "password"));
+        System.out.println(GeneralFunctions.login("admin", "admin"));
+        System.out.println(UserFunctions.readAllUsers());
+        System.out.println(UserFunctions.readAllUsers());
+        System.out.println(GeneralFunctions.logout());
+        System.out.println(UserFunctions.readAllUsers());
         GeneralFunctions.quit();
     }
 }

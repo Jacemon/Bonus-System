@@ -16,6 +16,7 @@ public class Connection implements AutoCloseable {
     private final ObjectOutputStream objectOutputStream;
     private final ObjectInputStream objectInputStream;
     
+    // todo попробовать java.nio
     public Connection() throws IOException {
         clientSocket = new Socket(IP_ADDRESS, PORT);
         objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());

@@ -1,9 +1,9 @@
-package by.jcompany.bonus_system.server;
+package by.jcompany.bonus_system.boot.server;
 
 import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
-import by.jcompany.bonus_system.util.FunctionManager;
+import by.jcompany.bonus_system.util.CommandManager;
 import jakarta.persistence.PersistenceException;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +15,10 @@ import java.net.Socket;
 import java.nio.file.AccessDeniedException;
 
 public class ClientHandler implements Runnable {
+    @Getter
+    @Setter
+    private static double pointCost = 0.0f;
+    
     private final int clientNumber;
     private final Socket socket;
     private final ObjectInputStream objectInputStream;
@@ -45,22 +49,23 @@ public class ClientHandler implements Runnable {
             do {
                 clientRequest = (Request) objectInputStream.readObject();
                 try {
-                    String command = clientRequest.getRequestType();
-                    String requestString = clientRequest.getRequestString();
-                    
                     System.out.println("client #" + clientNumber + " -> server: ");
                     System.out.println(clientRequest);
                     
-                    Object response = FunctionManager.executeFunction(command, requestString, this);
-                    serverResponse = new Response("OK", response);
-                } catch (AccessDeniedException exception) {
-                    serverResponse = new Response("ERROR", "Forbidden!");
+/*                    Object responseObject = CommandManager.executeCommand(clientRequest.getRequestType(),
+                        clientRequest.getRequestString(), this);
+                    serverResponse = new Response(Response.ResponseType.OK, responseObject);*/
+                    
+                    serverResponse = CommandManager.executeCommand(clientRequest.getRequestType(),
+                        clientRequest.getRequestString(), this);
+                /*} catch (AccessDeniedException exception) {
+                    serverResponse = new Response(Response.ResponseType.ERROR, "Forbidden!");
                 } catch (NullPointerException exception) {
-                    serverResponse = new Response("ERROR", "Command not exist!");
+                    serverResponse = new Response(Response.ResponseType.ERROR, "Command not exist!");
                 } catch (PersistenceException exception) {
-                    serverResponse = new Response("ERROR", "Could not create entity!");
+                    serverResponse = new Response(Response.ResponseType.ERROR, "Could not create entity!");*/
                 } catch (Exception exception) {
-                    serverResponse = new Response("ERROR", "Not defined error!");
+                    serverResponse = new Response(Response.ResponseType.ERROR, "Not defined error!");
                     exception.printStackTrace();
                 }
                 
