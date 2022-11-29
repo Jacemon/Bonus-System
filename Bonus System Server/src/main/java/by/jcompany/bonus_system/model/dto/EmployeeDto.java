@@ -25,7 +25,7 @@ public class EmployeeDto {
         this.id = employee.getId();
         this.firstName = employee.getFirstName();
         this.lastName = employee.getLastName();
-
+        
         for (Task task : employee.getTasks()) {
             this.tasks.add(new TaskDto(task, true));
         }

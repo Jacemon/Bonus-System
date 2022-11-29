@@ -3,7 +3,6 @@ package by.jcompany.bonus_system.function;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
 import by.jcompany.bonus_system.model.dto.EmployeeDto;
-import by.jcompany.bonus_system.model.dto.UserDto;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -25,7 +24,8 @@ public class EmployeeFunctions extends Functions {
         connection.makeRequest(new Request("READ_ALL_EMPLOYEES", null));
         Response response = connection.getResponse();
         if (!response.isError()) {
-            Type type = new TypeToken<ArrayList<EmployeeDto>>(){}.getType();
+            Type type = new TypeToken<ArrayList<EmployeeDto>>() {
+            }.getType();
             return (List<EmployeeDto>) response.getResponseObject(type);
         }
         return null;

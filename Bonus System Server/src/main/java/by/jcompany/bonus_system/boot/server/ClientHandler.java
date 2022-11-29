@@ -4,7 +4,6 @@ import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
 import by.jcompany.bonus_system.util.CommandManager;
-import jakarta.persistence.PersistenceException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.nio.file.AccessDeniedException;
 
 public class ClientHandler implements Runnable {
     private final int clientNumber;
@@ -48,18 +46,8 @@ public class ClientHandler implements Runnable {
                     System.out.println("client #" + clientNumber + " -> server: ");
                     System.out.println(clientRequest);
                     
-/*                    Object responseObject = CommandManager.executeCommand(clientRequest.getRequestType(),
-                        clientRequest.getRequestString(), this);
-                    serverResponse = new Response(Response.ResponseType.OK, responseObject);*/
-                    
                     serverResponse = CommandManager.executeCommand(clientRequest.getRequestType(),
                         clientRequest.getRequestString(), this);
-                /*} catch (AccessDeniedException exception) {
-                    serverResponse = new Response(Response.ResponseType.ERROR, "Forbidden!");
-                } catch (NullPointerException exception) {
-                    serverResponse = new Response(Response.ResponseType.ERROR, "Command not exist!");
-                } catch (PersistenceException exception) {
-                    serverResponse = new Response(Response.ResponseType.ERROR, "Could not create entity!");*/
                 } catch (Exception exception) {
                     serverResponse = new Response(Response.ResponseType.ERROR, "Not defined error!");
                     exception.printStackTrace();

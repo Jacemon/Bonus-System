@@ -1,10 +1,9 @@
 package by.jcompany.bonus_system.function;
 
-import by.jcompany.bonus_system.model.dto.BonusDto;
-import by.jcompany.bonus_system.model.dto.TaskDto;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
-import by.jcompany.bonus_system.model.dto.UserDto;
+import by.jcompany.bonus_system.model.dto.BonusDto;
+import by.jcompany.bonus_system.model.dto.TaskDto;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -29,7 +28,8 @@ public class TaskFunctions extends Functions {
         connection.makeRequest(new Request("READ_ALL_TASKS", null));
         Response response = connection.getResponse();
         if (!response.isError()) {
-            Type type = new TypeToken<ArrayList<TaskDto>>(){}.getType();
+            Type type = new TypeToken<ArrayList<TaskDto>>() {
+            }.getType();
             return (List<TaskDto>) response.getResponseObject(type);
         }
         return null;

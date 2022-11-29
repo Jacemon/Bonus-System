@@ -1,6 +1,9 @@
 package by.jcompany.bonus_system.util.json;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -22,6 +25,7 @@ public class GsonManager {
                     jsonWriter.value(instant.toString());
                 }
             }
+            
             @Override
             public Instant read(JsonReader jsonReader) throws IOException {
                 try {

@@ -1,8 +1,8 @@
 package by.jcompany.bonus_system.util;
 
-import by.jcompany.bonus_system.entity.Role;
 import by.jcompany.bonus_system.boot.server.ClientHandler;
 import by.jcompany.bonus_system.boot.server.function.RoleFunctions;
+import by.jcompany.bonus_system.entity.Role;
 import by.jcompany.bonus_system.model.Response;
 import lombok.AllArgsConstructor;
 
@@ -39,13 +39,9 @@ public class CommandManager {
                 return new Response(Response.ResponseType.ERROR, exception.getMessage());
             }
         }
-        // If user not set other command don't accessible
-        if (client.getClientUser() == null) {
-            return new Response(Response.ResponseType.ERROR, "Forbidden!");
-        }
         // Checking that command access level higher than user access level
-        Integer clientAccessLevel = client.getClientUser().getRole().getAccessLevel();
-        if (functionAccessLevel >= clientAccessLevel) {
+        if (client.getClientUser() == null &&
+            functionAccessLevel >= client.getClientUser().getRole().getAccessLevel()) {
             // Checking exceptions in command
             try {
                 return new Response(Response.ResponseType.OK,
@@ -54,7 +50,7 @@ public class CommandManager {
                 return new Response(Response.ResponseType.ERROR, exception.getMessage());
             }
         }
-        return new Response(Response.ResponseType.ERROR, "Forbidden! Low user access level");
+        return new Response(Response.ResponseType.ERROR, "Forbidden");
     }
     
     @AllArgsConstructor

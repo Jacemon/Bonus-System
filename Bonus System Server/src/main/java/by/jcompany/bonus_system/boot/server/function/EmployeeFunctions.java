@@ -2,6 +2,7 @@ package by.jcompany.bonus_system.boot.server.function;
 
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.entity.Task;
+
 import java.util.List;
 
 public class EmployeeFunctions extends Functions {

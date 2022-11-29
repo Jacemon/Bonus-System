@@ -1,7 +1,7 @@
 package by.jcompany.bonus_system.boot.server.function;
 
-import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.boot.server.ClientHandler;
+import by.jcompany.bonus_system.entity.User;
 
 import java.util.Arrays;
 

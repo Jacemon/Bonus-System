@@ -3,9 +3,6 @@ package by.jcompany.bonus_system.boot;
 import by.jcompany.bonus_system.function.EmployeeFunctions;
 import by.jcompany.bonus_system.function.GeneralFunctions;
 import by.jcompany.bonus_system.function.TaskFunctions;
-import by.jcompany.bonus_system.function.UserFunctions;
-import by.jcompany.bonus_system.model.dto.BonusDto;
-import by.jcompany.bonus_system.model.dto.TaskDto;
 
 import java.io.IOException;
 
