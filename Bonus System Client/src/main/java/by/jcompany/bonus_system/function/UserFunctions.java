@@ -16,7 +16,10 @@ public class UserFunctions extends Functions {
         connection.makeRequest(new Request("CREATE_USER",
             new UserDto(login, HashManager.getHash(password))));
         Response response = connection.getResponse();
-        return response.getResponseString();
+        if (!response.isError()) {
+            return response.getResponseString();
+        }
+        return null;
     }
     
     public static List<UserDto> readAllUsers() throws IOException, ClassNotFoundException {
@@ -24,12 +27,7 @@ public class UserFunctions extends Functions {
         Response response = connection.getResponse();
         if (!response.isError()) {
             Type type = new TypeToken<ArrayList<UserDto>>(){}.getType();
-            try {
-                List<UserDto> users = (List<UserDto>) response.getResponseObject(type);
-                return users;
-            } catch (Exception exceptio) {
-                return null;
-            }
+            return (List<UserDto>) response.getResponseObject(type);
         }
         return null;
     }

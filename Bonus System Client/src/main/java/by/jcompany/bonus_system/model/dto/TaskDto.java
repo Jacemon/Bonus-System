@@ -16,8 +16,9 @@ public class TaskDto {
     private String description;
     private Instant creationTime;
     private boolean isCompleted;
+    private boolean isPaid;
     
-    private BonusDto bonuses;
+    private BonusDto bonus;
     
     private EmployeeDto employee;
     

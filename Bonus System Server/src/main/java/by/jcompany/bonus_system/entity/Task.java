@@ -20,6 +20,16 @@ import java.time.Instant;
 @Table(name = "task")
 @DynamicInsert
 public class Task implements IdHandler {
+    @Getter
+    private static Float pointCost = null;
+    public static void setPointCost(Float pointCost) {
+        if (pointCost != null && pointCost >= 0.0f) {
+            Task.pointCost = pointCost;
+        } else {
+            Task.pointCost = null;
+        }
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -39,9 +49,11 @@ public class Task implements IdHandler {
     /**
      * Use Task.setComplete() in persisted Tasks, or there will be no effect
      */
-    @Generated(GenerationTime.INSERT)
     @Column(name = "is_completed", nullable = false)
     private boolean isCompleted;
+    
+    @Column(name = "is_paid", nullable = false)
+    private boolean isPaid;
     
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "bonus_id", nullable = false)
@@ -63,6 +75,19 @@ public class Task implements IdHandler {
     public Task(String description, Bonus bonus) {
         this.description = description;
         this.bonus = bonus;
+    }
+    
+    public Float getAmount() {
+        Float amount = null;
+        switch (bonus.getType()) {
+            case MONEY -> amount = bonus.getAmount();
+            case POINTS -> {
+                if (pointCost != null) {
+                    amount = bonus.getAmount() * pointCost;
+                }
+            }
+        }
+        return amount;
     }
     
     @Override

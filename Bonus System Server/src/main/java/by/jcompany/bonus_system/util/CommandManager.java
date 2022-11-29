@@ -6,7 +6,6 @@ import by.jcompany.bonus_system.boot.server.function.RoleFunctions;
 import by.jcompany.bonus_system.model.Response;
 import lombok.AllArgsConstructor;
 
-import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -22,7 +21,7 @@ public class CommandManager {
     }
     
     public static Response executeCommand(String command, String requestString, ClientHandler client)
-        throws NullPointerException, AccessDeniedException {
+        throws RuntimeException {
         
         // Checking command existence
         ServerCommand serverCommand = commands.get(command);

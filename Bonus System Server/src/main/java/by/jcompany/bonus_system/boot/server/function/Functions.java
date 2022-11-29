@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Functions {
-    static final Map<String, CommandManager.ServerCommand> functions = new HashMap<>();
-    
     static final UserService userService = new UserService();
     static final RoleService roleService = new RoleService();
     static final EmployeeService employeeService = new EmployeeService();

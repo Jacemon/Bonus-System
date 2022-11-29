@@ -17,8 +17,9 @@ public class TaskDto {
     private String description;
     private Instant creationTime;
     private boolean isCompleted;
+    private boolean isPaid;
     
-    private BonusDto bonuses;
+    private BonusDto bonus;
     
     private EmployeeDto employee;
     
@@ -27,8 +28,12 @@ public class TaskDto {
         this.description = task.getDescription();
         this.creationTime = task.getCreationTime();
         this.isCompleted = task.isCompleted();
-        this.bonuses = new BonusDto(task.getBonus());
-        this.employee = new EmployeeDto(task.getEmployee(), true);
+        this.isPaid = task.isPaid();
+        this.bonus = new BonusDto(task.getBonus());
+        this.employee = null;
+        if (task.getEmployee() != null) {
+            this.employee = new EmployeeDto(task.getEmployee(), true);
+        }
     }
     
     public TaskDto(Task task, boolean clean) {
@@ -36,6 +41,8 @@ public class TaskDto {
         this.description = task.getDescription();
         this.creationTime = task.getCreationTime();
         this.isCompleted = task.isCompleted();
-        this.bonuses = new BonusDto(task.getBonus());
+        this.isPaid = task.isPaid();
+        this.bonus = new BonusDto(task.getBonus());
+        this.employee = null;
     }
 }

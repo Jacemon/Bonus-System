@@ -15,10 +15,6 @@ import java.net.Socket;
 import java.nio.file.AccessDeniedException;
 
 public class ClientHandler implements Runnable {
-    @Getter
-    @Setter
-    private static double pointCost = 0.0f;
-    
     private final int clientNumber;
     private final Socket socket;
     private final ObjectInputStream objectInputStream;

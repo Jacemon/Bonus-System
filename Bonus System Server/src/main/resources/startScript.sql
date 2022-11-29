@@ -42,6 +42,7 @@ create table `task`
     description   text                                 not null,
     creation_time timestamp  default CURRENT_TIMESTAMP not null,
     is_completed  tinyint(1) default 0                 not null,
+    is_paid       tinyint(1) default 0                 not null,
     bonus_id      int                                  not null,
     employee_id   int                                  null,
     constraint task_bonus_id_fk

@@ -11,10 +11,6 @@ public class UserFunctions extends Functions {
     }
     
     public static List<User> readAllUsers() {
-        List<User> users = userService.readAll();
-        for (User user : users) {
-            user.setPasswordHash(null);
-        }
-        return users;
+        return userService.readAll();
     }
 }
