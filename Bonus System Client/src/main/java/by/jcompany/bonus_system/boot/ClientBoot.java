@@ -7,7 +7,7 @@ import by.jcompany.bonus_system.function.TaskFunctions;
 import java.io.IOException;
 
 public class ClientBoot {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) {
 /*        System.out.println(GeneralFunctions.login("login", "password"));
         System.out.println(GeneralFunctions.login("admin", "admin"));
         System.out.println(UserFunctions.createUser("login", "password"));

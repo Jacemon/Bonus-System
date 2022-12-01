@@ -139,8 +139,7 @@ public class InitCommands {
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> {
                 Float pointCost = gson.fromJson(clientRequestString.requestString, Float.class);
-                Task.setPointCost(pointCost);
-                if (Task.getPointCost() != null) {
+                if (TaskFunctions.setPointCost(pointCost)) {
                     return "Point was set";
                 }// TODO
                 return "Point was not set";

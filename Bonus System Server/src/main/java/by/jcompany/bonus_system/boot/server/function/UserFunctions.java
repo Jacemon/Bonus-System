@@ -13,4 +13,16 @@ public class UserFunctions extends Functions {
     public static List<User> readAllUsers() {
         return userService.readAll();
     }
+    
+    public static boolean deleteUser(Integer userId) {
+        return false;// todo
+    }
+    
+    public static boolean changeUserPassword(Integer userId, byte[] newPasswordHash) {
+        return false; // todo
+    }
+    
+    public static boolean changeUserLogin(Integer userId, String newLogin) {
+        return false; //todo
+    }
 }

@@ -7,6 +7,14 @@ public class RoleFunctions extends Functions {
         return roleService.create(role);
     }
     
+    public static boolean deleteRole(String roleName) {
+        return false; //todo
+    }
+    
+    public static boolean changeRoleAccessLevel(String roleName, Integer newAccessLevel) {
+        return false; //todo
+    }
+    
     public static Integer readRoleAccessLevel(Role role) {
         if (role == null) {
             return null;

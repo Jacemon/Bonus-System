@@ -1,0 +1,47 @@
+
+.top-box {
+    -fx-background-color: #7f3fff;
+    /*-fx-text-fill: #7f3fff;*/
+}
+.main-label {
+    -fx-font-size: 24pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.left-box {
+    -fx-background-color: #B888FF;
+}
+
+.left-button {
+    -fx-background-color: #B888FF;
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+}
+.left-button:hover {
+    -fx-background-color: #9164d5;
+}
+.left-button:pressed {
+    -fx-background-color: #7a4ebb;
+}
+
+.close-button {
+    -fx-background-color: red;
+}
+.close-button:hover {
+    -fx-background-color: #c50000;
+}
+
+.close-button:pressed {
+    -fx-background-color: #9a0000;
+}
+
+.main-logo {
+}
+
+@font-face {
+font-family: "Pompiere-Regular";
+src: url("by/jcompany/bonus_system/font/Pompiere-Regular.otf") format("opentype");
+/*    font-style: normal;
+    font-weight: normal;*/
+}

@@ -36,6 +36,7 @@ public class Server {
             });
             exitThread.start();
             
+            // todo переделать как показывал препод
             while (!exit) {
                 ClientHandler clientHandler = new ClientHandler(serverSocket.accept(), clientCount++);
                 Thread clientThread = new Thread(clientHandler);

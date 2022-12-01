@@ -4,8 +4,8 @@ module by.jcompany.bonus_system {
     requires com.google.gson;
     requires lombok;
 
-    exports by.jcompany.bonus_system.temp;
-    opens by.jcompany.bonus_system.temp to javafx.fxml;
+    exports by.jcompany.bonus_system.controller;
+    opens by.jcompany.bonus_system.controller to javafx.fxml;
     exports by.jcompany.bonus_system.model.dto;
     opens by.jcompany.bonus_system.model.dto to com.google.gson;
     exports by.jcompany.bonus_system.model;

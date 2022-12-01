@@ -14,6 +14,11 @@ public class EmployeeFunctions extends Functions {
         return employeeService.readAll();
     }
     
+    // todo сделать employee_id unique
+    public static boolean changeEmployeeName(String newFirstName, String newLastName) {
+        return false;//todo
+    }
+    
     public static Float getEmployeeBonus(Integer employeeId) {
         Employee employee = employeeService.read(employeeId);
         float finalAmount = 0.0f;
