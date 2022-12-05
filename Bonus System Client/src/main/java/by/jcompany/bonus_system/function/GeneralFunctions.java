@@ -12,7 +12,6 @@ public class GeneralFunctions extends Functions {
                 new UserDto(login, HashManager.getHash(password)))
             );
             Response response = connection.getResponse();
-            // System.out.println(response);
             if (!response.isError()) {
                 return (UserDto) response.getResponseObject(UserDto.class);
             }

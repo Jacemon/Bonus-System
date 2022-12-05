@@ -1,47 +1,84 @@
-
+.root {
+    -fx-font-size: 10pt;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-radius: 20px;
+}
 .top-box {
     -fx-background-color: #7f3fff;
-    /*-fx-text-fill: #7f3fff;*/
+}
+.label {
+    -fx-font-size: 10pt;
+    -fx-text-fill: #B888FF;
+
 }
 .main-label {
-    -fx-font-size: 24pt;
+    -fx-font-size: 18pt;
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
 
-.left-box {
-    -fx-background-color: #B888FF;
-}
-
-.left-button {
-    -fx-background-color: #B888FF;
+.header-label {
     -fx-font-size: 14pt;
+    -fx-font-weight: bold;
     -fx-text-fill: white;
 }
-.left-button:hover {
-    -fx-background-color: #9164d5;
+
+.inner-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 14pt;
+    -fx-text-fill: #B888FF;
 }
-.left-button:pressed {
-    -fx-background-color: #7a4ebb;
+
+.tab {
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-border-color: #a66cfa;
+}
+
+.left-tab {
+    -fx-text-base-color: white;
+    -fx-background-color: #B888FF;
+}
+.left-tab:hover {
+    -fx-background-color: #9a6be0;
+}
+.left-tab:selected {
+    -fx-background-color: #865bc7;
+}
+.table-view .column-header {
+    -fx-background-color: white;
+    -fx-border-color: #a66cfa;
+}
+
+.text-field {
+    -fx-font-size: 10pt;
+    -fx-text-base-color: #B888FF;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a66cfa;
+}
+.top-button {
+    -fx-font-size: 10pt;
+    -fx-text-base-color: #B888FF;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a66cfa;
+}
+.top-button:hover {
+    -fx-background-color: #e5e5e5;
+}
+.top-button:pressed {
+    -fx-background-color: #cbcbcb;
 }
 
 .close-button {
+    -fx-padding: 2px;
+    -fx-border-color: red;
     -fx-background-color: red;
 }
 .close-button:hover {
+    -fx-border-color: #c50000;
     -fx-background-color: #c50000;
 }
-
 .close-button:pressed {
+    -fx-border-color: #9a0000;
     -fx-background-color: #9a0000;
-}
-
-.main-logo {
-}
-
-@font-face {
-font-family: "Pompiere-Regular";
-src: url("by/jcompany/bonus_system/font/Pompiere-Regular.otf") format("opentype");
-/*    font-style: normal;
-    font-weight: normal;*/
 }

@@ -60,7 +60,8 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                by.jcompany.bonus_system_client/by.jcompany.bonus_system.Boot
+                                by.jcompany.bonus_system.Boot
+                               <!-- by.jcompany.bonus_system_client/by.jcompany.bonus_system.Boot-->
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

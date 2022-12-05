@@ -15,9 +15,9 @@ public class EmployeeFunctions extends Functions {
             connection.makeRequest(new Request("CREATE_EMPLOYEE", new EmployeeDto(firstName, lastName)));
             Response response = connection.getResponse();
             if (!response.isError()) {
-                return response.getResponseString();
+                return (String) response.getResponseObject(String.class);
             }
-            return null;
+            return (String) response.getResponseObject(String.class);
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

@@ -6,17 +6,18 @@ import by.jcompany.bonus_system.entity.Role;
 import by.jcompany.bonus_system.entity.Task;
 import by.jcompany.bonus_system.entity.User;
 import by.jcompany.bonus_system.model.dto.EmployeeDto;
+import by.jcompany.bonus_system.model.dto.RoleDto;
 import by.jcompany.bonus_system.model.dto.TaskDto;
 import by.jcompany.bonus_system.model.dto.UserDto;
 import by.jcompany.bonus_system.util.CommandManager;
 import by.jcompany.bonus_system.util.CommandManager.ClientRequestString;
+import by.jcompany.bonus_system.util.Validator;
 import by.jcompany.bonus_system.util.json.GsonManager;
 import com.google.gson.Gson;
 
 public class InitCommands {
     private static final Gson gson = GsonManager.getGson();
     
-    // todo доделать обработчик роли
     public static void create() {
         // General
         CommandManager.addCommand("LOGIN", new CommandManager.ServerCommand(
@@ -46,16 +47,48 @@ public class InitCommands {
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> {
                 User user = gson.fromJson(clientRequestString.requestString, User.class);
-                if (UserFunctions.createUser(user)) {
+                if (Validator.correctLogin(user.getLogin()) &&
+                    UserFunctions.createUser(user)) {
                     return "User created";
-                }// TODO
-                return "User not created";
+                }
+                throw new RuntimeException("User not created");
             }
         ));
         CommandManager.addCommand("READ_ALL_USERS", new CommandManager.ServerCommand(
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> UserFunctions.readAllUsers().stream()
                 .map(UserDto::new).toList()
+        ));
+        CommandManager.addCommand("UPDATE_USER", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                User user = gson.fromJson(clientRequestString.requestString, User.class);
+                if (Validator.correctLogin(user.getLogin()) &&
+                    UserFunctions.updateUser(user)) {
+                    return "User updated";
+                }
+                throw new RuntimeException("User not updated");
+            }
+        ));
+        CommandManager.addCommand("DELETE_USER", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                Integer userId = gson.fromJson(clientRequestString.requestString, Integer.class);
+                if (UserFunctions.deleteUser(userId)) {
+                    return "User deleted";
+                }
+                throw new RuntimeException("User not deleted");
+            }
+        ));
+        CommandManager.addCommand("SET_USER_EMPLOYEE", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                Integer[] userAndEmployeeId = gson.fromJson(clientRequestString.requestString, Integer[].class);
+                if (UserFunctions.changeUserEmployee(userAndEmployeeId[0], userAndEmployeeId[1])) {
+                    return "Employee was set to user";
+                }
+                throw new RuntimeException("Employee was not set to user");
+            }
         ));
         // Role
         CommandManager.addCommand("CREATE_ROLE", new CommandManager.ServerCommand(
@@ -64,9 +97,14 @@ public class InitCommands {
                 Role role = gson.fromJson(clientRequestString.requestString, Role.class);
                 if (RoleFunctions.createRole(role)) {
                     return "Role created";
-                }// TODO
-                return "Role not created";
+                }
+                throw new RuntimeException("Role not created");
             }
+        ));
+        CommandManager.addCommand("READ_ALL_ROLES", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> RoleFunctions.readAllRoles().stream()
+                .map(RoleDto::new).toList()
         ));
         // Employee
         CommandManager.addCommand("CREATE_EMPLOYEE", new CommandManager.ServerCommand(
@@ -75,8 +113,8 @@ public class InitCommands {
                 Employee employee = gson.fromJson(clientRequestString.requestString, Employee.class);
                 if (EmployeeFunctions.createEmployee(employee)) {
                     return "Employee created";
-                }// TODO
-                return "Employee not created";
+                }
+                throw new RuntimeException("Employee not created");
             }
         ));
         CommandManager.addCommand("READ_ALL_EMPLOYEES", new CommandManager.ServerCommand(
@@ -126,8 +164,7 @@ public class InitCommands {
                 if (TaskFunctions.createTask(task)) {
                     return "Task created";
                 }
-                // TODO переделать как ERROR
-                return "Task not created";
+                throw new RuntimeException("Task not created");
             }
         ));
         CommandManager.addCommand("READ_ALL_TASKS", new CommandManager.ServerCommand(
@@ -141,8 +178,8 @@ public class InitCommands {
                 Float pointCost = gson.fromJson(clientRequestString.requestString, Float.class);
                 if (TaskFunctions.setPointCost(pointCost)) {
                     return "Point was set";
-                }// TODO
-                return "Point was not set";
+                }
+                throw new RuntimeException("Point was not set");
             }
         ));
         CommandManager.addCommand("SET_TASK_COMPLETED", new CommandManager.ServerCommand(
@@ -151,8 +188,8 @@ public class InitCommands {
                 Integer taskId = gson.fromJson(clientRequestString.requestString, Integer.class);
                 if (TaskFunctions.setTaskCompleted(taskId)) {
                     return "Task was set to completed";
-                }// TODO
-                return "Task was not set to completed";
+                }
+                throw new RuntimeException("Task was not set to complete");
             }
         ));
         CommandManager.addCommand("SET_TASK_COMPLETED_BY_EMPLOYEE", new CommandManager.ServerCommand(
@@ -162,8 +199,8 @@ public class InitCommands {
                 if (TaskFunctions.setTaskCompletedByEmployee(taskId,
                     clientRequestString.client.getClientUser().getEmployee().getId())) {
                     return "Task was set to completed by employee";
-                }// TODO
-                return "Task was not set to completed by employee";
+                }
+                throw new RuntimeException("Task was not set to completed by employee");
             }
         ));
         CommandManager.addCommand("SET_TASK_TO_EMPLOYEE", new CommandManager.ServerCommand(
@@ -172,8 +209,8 @@ public class InitCommands {
                 Integer[] taskAndEmployeeId = gson.fromJson(clientRequestString.requestString, Integer[].class);
                 if (TaskFunctions.setTaskToEmployee(taskAndEmployeeId[0], taskAndEmployeeId[1])) {
                     return "Task was set to employee";
-                }// TODO
-                return "Task was not set to employee";
+                }
+                throw new RuntimeException("Task was not set to employee");
             }
         ));
         CommandManager.addCommand("SET_TASK_BY_EMPLOYEE", new CommandManager.ServerCommand(
@@ -182,8 +219,8 @@ public class InitCommands {
                 Integer taskId = gson.fromJson(clientRequestString.requestString, Integer.class);
                 if (TaskFunctions.setTaskByEmployee(taskId, clientRequestString.client.getClientUser().getId())) {
                     return "Task gotten to employee";
-                }// TODO
-                return "Task not gotten to employee";
+                }
+                throw new RuntimeException("Task not gotten to employee");
             }
         ));
     }

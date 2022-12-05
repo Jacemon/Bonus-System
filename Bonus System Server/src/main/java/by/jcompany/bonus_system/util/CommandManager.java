@@ -40,7 +40,7 @@ public class CommandManager {
             }
         }
         // Checking that command access level higher than user access level
-        if (client.getClientUser() == null &&
+        if (client.getClientUser() != null &&
             functionAccessLevel >= client.getClientUser().getRole().getAccessLevel()) {
             // Checking exceptions in command
             try {

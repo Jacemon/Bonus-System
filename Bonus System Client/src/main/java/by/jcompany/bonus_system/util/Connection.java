@@ -12,15 +12,19 @@ public class Connection implements AutoCloseable {
     private static final String IP_ADDRESS = "127.0.0.1";
     private static final int PORT = 4040;
     
-    private final Socket clientSocket;
-    private final ObjectOutputStream objectOutputStream;
-    private final ObjectInputStream objectInputStream;
+    private Socket clientSocket = null;
+    private ObjectOutputStream objectOutputStream = null;
+    private ObjectInputStream objectInputStream = null;
     
     // todo попробовать java.nio
-    public Connection() throws IOException {
-        clientSocket = new Socket(IP_ADDRESS, PORT);
-        objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-        objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
+    public Connection() {
+        try {
+            clientSocket = new Socket(IP_ADDRESS, PORT);
+            objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+            objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
     
     public void makeRequest(Request request) throws IOException {
