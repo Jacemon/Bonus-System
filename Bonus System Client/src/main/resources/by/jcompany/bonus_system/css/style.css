@@ -2,7 +2,6 @@
     -fx-font-size: 10pt;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    -fx-border-radius: 20px;
 }
 
 .label {
@@ -72,6 +71,18 @@
 }
 .button:pressed {
     -fx-background-color: #cbcbcb;
+}
+
+.general-button {
+    -fx-padding: 2px;
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+}
+.general-button:hover {
+    -fx-background-color: rgb(0, 0, 0, 0.2);
+}
+.general-button:pressed {
+    -fx-background-color: rgb(0, 0, 0, 0.4);
 }
 
 .close-button {

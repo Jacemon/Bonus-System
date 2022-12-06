@@ -2,6 +2,7 @@ package by.jcompany.bonus_system.boot.server;
 
 import by.jcompany.bonus_system.boot.server.init.InitCommands;
 import by.jcompany.bonus_system.boot.server.init.InitDatabaseRows;
+import by.jcompany.bonus_system.boot.server.init.InitSavedValues;
 
 import java.net.ServerSocket;
 import java.util.Scanner;
@@ -16,6 +17,7 @@ public class Server {
         InitDatabaseRows.tryInitAdmin();
         InitDatabaseRows.tryInitUndefinedRole();
         InitDatabaseRows.tryInitCommonRole();
+        InitSavedValues.tryInitTaskPointCost();
         
         ServerSocket serverSocket = null;
         int clientCount = 0;

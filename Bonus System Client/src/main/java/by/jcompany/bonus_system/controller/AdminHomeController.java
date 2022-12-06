@@ -27,34 +27,112 @@ public class AdminHomeController implements Initializable {
     private static UserDto selectedUser = null;
     
     @FXML
-    private Button buttonAddUser;
-    
-    @FXML
-    private Button buttonChangeUser;
-    
-    @FXML
-    private Button buttonDeleteUser;
-    
-    @FXML
-    private Button buttonReloadUsers;
-    
-    @FXML
     private Button buttonLogout;
     
     @FXML
     private Button closeButton;
     
     @FXML
+    private Button buttonAddEmployee;
+    
+    @FXML
+    private Button buttonAddRole;
+    
+    @FXML
+    private Button buttonAddTask;
+    
+    @FXML
+    private Button buttonAddUser;
+    
+    @FXML
+    private Button buttonChangeEmployee;
+    
+    @FXML
+    private Button buttonChangeRole;
+    
+    @FXML
+    private Button buttonChangeTask;
+    
+    @FXML
+    private Button buttonChangeUser;
+    
+    @FXML
+    private Button buttonDeleteEmployee;
+    
+    @FXML
+    private Button buttonDeleteRole;
+    
+    @FXML
+    private Button buttonDeleteTask;
+    
+    @FXML
+    private Button buttonDeleteUser;
+    
+    @FXML
+    private Button buttonEmployeeTask;
+    
+    @FXML
+    private Button buttonReloadUsers;
+    
+    @FXML
+    private Button buttonReloadEmployees;
+    
+    @FXML
+    private Button buttonReloadRoles;
+    
+    @FXML
+    private Button buttonReloadTasks;
+    
+    @FXML
     private TableColumn<UserDto, String> userLogin;
     
     @FXML
-    private TableColumn<UserDto, RoleDto> userRole;
+    private TableColumn<UserDto, String> userRole;
     
     @FXML
     private TableColumn<UserDto, EmployeeDto> userEmployee;
     
     @FXML
     private TableView<UserDto> userTable;
+    
+    @FXML
+    private TableColumn<EmployeeDto, String> employeeFirstName;
+    
+    @FXML
+    private TableColumn<EmployeeDto, String> employeeLastName;
+    
+    @FXML
+    private TableView<EmployeeDto> employeeTable;
+    
+    @FXML
+    private TableColumn<RoleDto, Integer> roleAccessLevel;
+    
+    @FXML
+    private TableColumn<RoleDto, String> roleName;
+    
+    @FXML
+    private TableView<RoleDto> roleTable;
+    
+    @FXML
+    private TableColumn<?, ?> taskBonus;
+    
+    @FXML
+    private TableColumn<?, ?> taskCompleted;
+    
+    @FXML
+    private TableColumn<?, ?> taskCreationTime;
+    
+    @FXML
+    private TableColumn<?, ?> taskDescription;
+    
+    @FXML
+    private TableColumn<?, ?> taskEmployee;
+    
+    @FXML
+    private TableColumn<?, ?> taskPaid;
+    
+    @FXML
+    private TableView<?> taskTable;
     
     @FXML
     void logoutAction() throws IOException {
@@ -68,7 +146,43 @@ public class AdminHomeController implements Initializable {
         ((Stage) closeButton.getScene().getWindow()).close();
         GeneralFunctions.quit();
     }
-
+    
+    @FXML
+    void addEmployeeAction() {
+    
+    }
+    
+    @FXML
+    void addRoleAction() {
+    
+    }
+    
+    @FXML
+    void changeEmployeeAction() {
+    
+    }
+    
+    @FXML
+    void changeRoleAction() {
+    
+    }
+    
+    
+    @FXML
+    void deleteEmployeeAction() {
+    
+    }
+    
+    @FXML
+    void deleteRoleAction() {
+    
+    }
+    
+    @FXML
+    void showEmployeeTaskAction() {
+    
+    }
+    
     @FXML
     void addUserAction() throws IOException {
         Stage stage = StageManager.reloadAndGetStage("addUser");
@@ -114,11 +228,7 @@ public class AdminHomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userLogin.setCellValueFactory(new PropertyValueFactory<>("login"));
-        userRole.setCellValueFactory(RoleDto -> {
-            SimpleObjectProperty property = new SimpleObjectProperty();
-            property.setValue(RoleDto.getValue().getRole().getName());
-            return property;
-        });
+        userRole.setCellValueFactory(roleDto -> new SimpleObjectProperty<>(roleDto.getValue().getRole().getName()));
         userEmployee.setCellValueFactory(EmployeeDto -> {
             SimpleObjectProperty property = new SimpleObjectProperty();
             if (EmployeeDto.getValue().getEmployee() != null) {

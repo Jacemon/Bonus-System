@@ -16,9 +16,9 @@
 
 <AnchorPane prefHeight="456.0" prefWidth="600.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.jcompany.bonus_system.controller.AdminHomeController">
    <children>
-      <BorderPane prefHeight="456.0" prefWidth="600.0">
+      <BorderPane prefHeight="456.0" prefWidth="600.0" style="-fx-border-color: black;">
          <top>
-            <HBox fillHeight="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="35.0" prefWidth="538.0" spacing="10.0" style="-fx-background-color: #7f3fff;" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+            <HBox fillHeight="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="35.0" prefWidth="538.0" style="-fx-background-color: #7f3fff;" BorderPane.alignment="CENTER">
                <children>
                   <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" styleClass="main-logo" HBox.hgrow="NEVER">
                      <image>
@@ -27,22 +27,28 @@
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin></ImageView>
-                  <Label alignment="TOP_LEFT" blendMode="SCREEN" prefHeight="35.0" prefWidth="519.0" styleClass="main-label" stylesheets="@../css/style.css" text="JCompany Bonus System" HBox.hgrow="ALWAYS">
+                  <Label alignment="TOP_LEFT" blendMode="SCREEN" prefHeight="35.0" prefWidth="519.0" styleClass="main-label" text="JCompany Bonus System" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="18.0" />
-                     </font></Label>
-                  <Button fx:id="buttonLogout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#logoutAction" prefHeight="34.0" prefWidth="35.0">
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></Label>
+                  <Button fx:id="buttonLogout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#logoutAction" prefHeight="35.0" prefWidth="35.0" styleClass="general-button">
                      <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                        <ImageView fitHeight="25.0" fitWidth="35.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
                            <image>
-                              <Image url="@../ico/reload.png" />
+                              <Image url="@../ico/logout.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <HBox.margin>
+                        <Insets left="8.0" />
+                     </HBox.margin>
                   </Button>
                   <Button fx:id="closeButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="34.0" prefWidth="35.0" styleClass="close-button" HBox.hgrow="ALWAYS">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../ico/close.png" />
                            </image>
@@ -53,13 +59,13 @@
             </HBox>
          </top>
          <left>
-            <TabPane blendMode="SCREEN" focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="441.0" prefWidth="600.0" scaleShape="false" side="LEFT" stylesheets="@../css/style.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane blendMode="SCREEN" focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="441.0" prefWidth="600.0" scaleShape="false" side="LEFT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                <tabs>
                   <Tab closable="false" text="Пользователи">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="508.0">
                            <children>
-                              <BorderPane layoutX="7.0" prefHeight="422.0" prefWidth="558.0">
+                              <BorderPane layoutX="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="559.0">
                                  <top>
                                     <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="556.0" spacing="4.0" BorderPane.alignment="CENTER">
                                        <children>
@@ -110,14 +116,14 @@
                                                 </ImageView>
                                              </graphic>
                                              <HBox.margin>
-                                                <Insets left="42.0" />
+                                                <Insets left="41.0" />
                                              </HBox.margin>
                                           </Button>
                                        </children>
                                     </HBox>
                                  </top>
                                  <center>
-                                    <TableView fx:id="userTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="558.0" BorderPane.alignment="CENTER">
+                                    <TableView fx:id="userTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="559.0" BorderPane.alignment="CENTER">
                                       <columns>
                                         <TableColumn fx:id="userLogin" prefWidth="75.0" text="Логин" />
                                         <TableColumn fx:id="userRole" prefWidth="75.0" text="Роль" />
@@ -142,7 +148,87 @@
                   </Tab>
                   <Tab closable="false" text="Работники">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane layoutX="7.0" prefHeight="422.0" prefWidth="559.0">
+                                 <top>
+                                    <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="556.0" spacing="4.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label styleClass="inner-label" text="Работники">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="4.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Button fx:id="buttonAddEmployee" mnemonicParsing="false" onAction="#addEmployeeAction" prefHeight="30.0" prefWidth="105.0" styleClass="top-button" text="Добавить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/add.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="buttonChangeEmployee" mnemonicParsing="false" onAction="#changeEmployeeAction" prefHeight="30.0" prefWidth="104.0" text="Изменить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/edit.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonDeleteEmployee" mnemonicParsing="false" onAction="#deleteEmployeeAction" prefHeight="30.0" prefWidth="93.0" text="Удалить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/delete.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonEmployeeTask" mnemonicParsing="false" onAction="#showEmployeeTaskAction" prefHeight="30.0" prefWidth="97.0" text="Задачи">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/e_task.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonReloadEmployees" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadUsersAction" prefHeight="30.0" prefWidth="30.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/reload.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </top>
+                                 <center>
+                                    <TableView fx:id="employeeTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="558.0" BorderPane.alignment="CENTER">
+                                       <columns>
+                                          <TableColumn fx:id="employeeLastName" prefWidth="75.0" text="Фамилия" />
+                                          <TableColumn fx:id="employeeFirstName" prefWidth="75.0" text="Имя" />
+                                       </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </center>
+                              </BorderPane>
+                           </children></AnchorPane>
                      </content>
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
@@ -154,7 +240,98 @@
                   </Tab>
                   <Tab closable="false" text="Задачи">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane layoutX="8.0" prefHeight="422.0" prefWidth="558.0">
+                                 <top>
+                                    <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="556.0" spacing="4.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label styleClass="inner-label" text="Задачи">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="4.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Button fx:id="buttonAddTask" mnemonicParsing="false" onAction="#addUserAction" prefHeight="30.0" prefWidth="110.0" styleClass="top-button" text="Добавить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/add.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="buttonChangeTask" mnemonicParsing="false" onAction="#changeUserAction" prefHeight="30.0" prefWidth="110.0" text="Изменить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/edit.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonDeleteTask" mnemonicParsing="false" onAction="#deleteUserAction" prefHeight="30.0" prefWidth="110.0" text="Удалить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/delete.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonReloadTasks" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadUsersAction" prefHeight="30.0" prefWidth="30.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/reload.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets left="106.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </top>
+                                 <center>
+                                    <TableView fx:id="taskTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="558.0" BorderPane.alignment="CENTER">
+                                       <columns>
+                                          <TableColumn fx:id="taskDescription" prefWidth="136.0" text="Описание задачи" />
+                                          <TableColumn fx:id="taskCreationTime" prefWidth="131.0" text="Время создания" />
+                                          <TableColumn fx:id="taskCompleted" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" resizable="false">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../ico/t_completed.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </TableColumn>
+                                          <TableColumn fx:id="taskPaid" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" resizable="false">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../ico/t_paid.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </TableColumn>
+                                          <TableColumn fx:id="taskEmployee" prefWidth="164.0" text="Работник" />
+                                          <TableColumn fx:id="taskBonus" prefWidth="164.0" text="Вознаграждение" />
+                                       </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </center>
+                              </BorderPane>
+                           </children></AnchorPane>
                      </content>
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
@@ -166,7 +343,78 @@
                   </Tab>
                   <Tab closable="false" text="Роли">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane layoutX="7.0" prefHeight="427.0" prefWidth="559.0">
+                                 <top>
+                                    <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="556.0" spacing="4.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label styleClass="inner-label" text="Роли">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="4.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Button fx:id="buttonAddRole" mnemonicParsing="false" onAction="#addRoleAction" prefHeight="30.0" prefWidth="110.0" styleClass="top-button" text="Добавить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/add.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="buttonChangeRole" mnemonicParsing="false" onAction="#changeRoleAction" prefHeight="30.0" prefWidth="110.0" text="Изменить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/edit.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonDeleteRole" mnemonicParsing="false" onAction="#deleteRoleAction" prefHeight="30.0" prefWidth="110.0" text="Удалить">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/delete.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonReloadRoles" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadUsersAction" prefHeight="30.0" prefWidth="30.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
+                                                   <image>
+                                                      <Image url="@../ico/reload.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets left="126.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </top>
+                                 <center>
+                                    <TableView fx:id="roleTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="558.0" BorderPane.alignment="CENTER">
+                                       <columns>
+                                          <TableColumn fx:id="roleName" prefWidth="75.0" text="Имя роли" />
+                                          <TableColumn fx:id="roleAccessLevel" prefWidth="75.0" text="Уровень доступа" />
+                                       </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </center>
+                              </BorderPane>
+                           </children></AnchorPane>
                      </content>
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">

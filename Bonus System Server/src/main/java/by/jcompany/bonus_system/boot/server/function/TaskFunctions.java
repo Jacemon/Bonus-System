@@ -1,5 +1,6 @@
 package by.jcompany.bonus_system.boot.server.function;
 
+import by.jcompany.bonus_system.boot.server.init.InitSavedValues;
 import by.jcompany.bonus_system.entity.Bonus;
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.entity.Task;
@@ -64,7 +65,11 @@ public class TaskFunctions extends Functions {
     
     public static boolean setPointCost(Float pointCost) {
         Task.setPointCost(pointCost);
-        return Task.getPointCost() != null;
+        boolean result = Task.getPointCost() != null;
+        if (result) {
+            InitSavedValues.trySaveTaskPointCost();
+        }
+        return result;
     }
     
     public static Float getPointCost() {

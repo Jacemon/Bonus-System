@@ -50,11 +50,20 @@ public class LoginController {
             labelStatus.setText("Неверный логин или пароль");
             return;
         }
+    
+        Stage stage = null;
+        switch (user.getRole().getName()) {
+            case "ADMIN" -> stage = StageManager.getStage("adminHome");
+            case "COMMON" -> stage = StageManager.getStage("commonHome");
+        }
         
-        Stage stage = StageManager.getStage("adminHome");
+        if (stage == null) {
+            labelStatus.setText("Нет подходящего окна");
+            return;
+        }
+        
         stage.show();
         Stage thisStage = StageManager.getStage("login");
         thisStage.hide();
     }
-    
 }

@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="361.0" prefWidth="305.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.jcompany.bonus_system.controller.AddNewUserController">
    <children>
-      <BorderPane prefHeight="361.0" prefWidth="305.0">
+      <BorderPane prefHeight="361.0" prefWidth="305.0" style="-fx-border-color: black;">
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
@@ -30,7 +30,7 @@
          <top>
             <HBox prefHeight="36.0" prefWidth="305.0" style="-fx-background-color: #7f3fff;" BorderPane.alignment="CENTER">
                <children>
-                  <Label blendMode="SCREEN" prefHeight="35.0" prefWidth="270.0" styleClass="header-label" stylesheets="@../css/style.css" text="Добавление пользователя">
+                  <Label blendMode="SCREEN" prefHeight="35.0" prefWidth="270.0" styleClass="header-label" text="Добавление пользователя">
                      <font>
                         <Font size="11.0" />
                      </font>
