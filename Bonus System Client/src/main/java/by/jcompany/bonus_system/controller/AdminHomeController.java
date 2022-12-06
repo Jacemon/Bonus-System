@@ -1,6 +1,6 @@
 package by.jcompany.bonus_system.controller;
 
-import by.jcompany.bonus_system.Boot;
+import by.jcompany.bonus_system.controller.stage.StageManager;
 import by.jcompany.bonus_system.function.GeneralFunctions;
 import by.jcompany.bonus_system.function.UserFunctions;
 import by.jcompany.bonus_system.model.dto.EmployeeDto;
@@ -9,23 +9,17 @@ import by.jcompany.bonus_system.model.dto.UserDto;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import lombok.Getter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AdminHomeController implements Initializable {
@@ -45,6 +39,9 @@ public class AdminHomeController implements Initializable {
     private Button buttonReloadUsers;
     
     @FXML
+    private Button buttonLogout;
+    
+    @FXML
     private Button closeButton;
     
     @FXML
@@ -58,38 +55,23 @@ public class AdminHomeController implements Initializable {
     
     @FXML
     private TableView<UserDto> userTable;
-    private Point2D userAddPoint;
+    
+    @FXML
+    void logoutAction() throws IOException {
+        Stage stage = StageManager.reloadAndGetStage("login");
+        stage.show();
+        ((Stage) closeButton.getScene().getWindow()).close();
+    }
     
     @FXML
     void closeButtonAction() {
         ((Stage) closeButton.getScene().getWindow()).close();
         GeneralFunctions.quit();
     }
-    
-    // todo перенести
-    void loginButtonAction() {
-        GeneralFunctions.login("admin", "newPass");
-    }
-    
-    void logoutButtonAction() {
-        GeneralFunctions.logout();
-    }
-    
+
     @FXML
     void addUserAction() throws IOException {
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(
-            Boot.class.getResource("fxml/addNewUser.fxml")));
-        Stage stage = new Stage();
-        Scene scene = new Scene(parent);
-        parent.setOnMousePressed(mouseEvent -> {
-            userAddPoint = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-        });
-        parent.setOnMouseDragged(mouseEvent -> {
-            stage.setX(mouseEvent.getScreenX() - userAddPoint.getX());
-            stage.setY(mouseEvent.getScreenY() - userAddPoint.getY());
-        });
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        Stage stage = StageManager.reloadAndGetStage("addUser");
         stage.showAndWait();
         reloadUsersAction();
     }
@@ -97,20 +79,11 @@ public class AdminHomeController implements Initializable {
     @FXML
     void changeUserAction() throws IOException {
         selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            return;
+        }
         
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(
-            Boot.class.getResource("fxml/changeUser.fxml")));
-        Stage stage = new Stage();
-        Scene scene = new Scene(parent);
-        parent.setOnMousePressed(mouseEvent -> {
-            userAddPoint = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-        });
-        parent.setOnMouseDragged(mouseEvent -> {
-            stage.setX(mouseEvent.getScreenX() - userAddPoint.getX());
-            stage.setY(mouseEvent.getScreenY() - userAddPoint.getY());
-        });
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        Stage stage = StageManager.reloadAndGetStage("changeUser");
         stage.showAndWait();
         
         reloadUsersAction();
@@ -130,6 +103,7 @@ public class AdminHomeController implements Initializable {
     @FXML
     void reloadUsersAction() {
         List<UserDto> users = UserFunctions.readAllUsers();
+        System.out.println(users);
         if (users != null) {
             userTable.setItems(FXCollections.observableArrayList(users));
         } else {
@@ -139,7 +113,6 @@ public class AdminHomeController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loginButtonAction();
         userLogin.setCellValueFactory(new PropertyValueFactory<>("login"));
         userRole.setCellValueFactory(RoleDto -> {
             SimpleObjectProperty property = new SimpleObjectProperty();

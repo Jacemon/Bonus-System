@@ -5,7 +5,7 @@ import by.jcompany.bonus_system.function.GeneralFunctions;
 import by.jcompany.bonus_system.function.RoleFunctions;
 import by.jcompany.bonus_system.function.TaskFunctions;
 
-public class ClientBoot {
+public class Boot {
     public static void main(String[] args) {
 /*        System.out.println(GeneralFunctions.login("login", "password"));
         System.out.println(GeneralFunctions.login("admin", "admin"));

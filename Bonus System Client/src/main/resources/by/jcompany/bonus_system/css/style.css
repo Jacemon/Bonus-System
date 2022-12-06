@@ -4,9 +4,7 @@
     -fx-faint-focus-color: transparent;
     -fx-border-radius: 20px;
 }
-.top-box {
-    -fx-background-color: #7f3fff;
-}
+
 .label {
     -fx-font-size: 10pt;
     -fx-text-fill: #B888FF;
@@ -17,13 +15,11 @@
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
-
 .header-label {
     -fx-font-size: 14pt;
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
-
 .inner-label {
     -fx-font-weight: bold;
     -fx-font-size: 14pt;
@@ -33,16 +29,13 @@
 .tab {
     -fx-background-insets: 0, 0 0 1 0;
     -fx-border-color: #a66cfa;
-}
-
-.left-tab {
     -fx-text-base-color: white;
     -fx-background-color: #B888FF;
 }
-.left-tab:hover {
+.tab:hover {
     -fx-background-color: #9a6be0;
 }
-.left-tab:selected {
+.tab:selected {
     -fx-background-color: #865bc7;
 }
 .table-view .column-header {
@@ -56,16 +49,28 @@
     -fx-background-color: #ffffff;
     -fx-border-color: #a66cfa;
 }
-.top-button {
+.combo-box-base {
     -fx-font-size: 10pt;
     -fx-text-base-color: #B888FF;
     -fx-background-color: #ffffff;
     -fx-border-color: #a66cfa;
 }
-.top-button:hover {
+.list-view {
+    -fx-font-size: 10pt;
+    -fx-text-base-color: #B888FF;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a66cfa;
+}
+.button {
+    -fx-font-size: 10pt;
+    -fx-text-base-color: #B888FF;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a66cfa;
+}
+.button:hover {
     -fx-background-color: #e5e5e5;
 }
-.top-button:pressed {
+.button:pressed {
     -fx-background-color: #cbcbcb;
 }
 

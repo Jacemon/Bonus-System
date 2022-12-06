@@ -18,4 +18,6 @@ module by.jcompany.bonus_system {
     opens by.jcompany.bonus_system.function to javafx.fxml;
     exports by.jcompany.bonus_system;
     opens by.jcompany.bonus_system to javafx.fxml;
+    exports by.jcompany.bonus_system.controller.stage;
+    opens by.jcompany.bonus_system.controller.stage to javafx.fxml;
 }

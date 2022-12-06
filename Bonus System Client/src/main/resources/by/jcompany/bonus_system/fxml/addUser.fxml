@@ -12,25 +12,25 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="361.0" prefWidth="305.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.jcompany.bonus_system.controller.ChangeUserController">
+<AnchorPane prefHeight="361.0" prefWidth="305.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.jcompany.bonus_system.controller.AddNewUserController">
    <children>
       <BorderPane prefHeight="361.0" prefWidth="305.0">
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField fx:id="userNewLogin" layoutX="78.0" layoutY="54.0" prefHeight="30.0" prefWidth="149.0" promptText="Новый логин" />
-                  <TextField fx:id="userNewPassword" layoutX="78.0" layoutY="101.0" prefHeight="30.0" prefWidth="149.0" promptText="Новый пароль" />
-                  <ComboBox fx:id="comboBoxNewRole" layoutX="78.0" layoutY="148.0" prefWidth="150.0" promptText="Другая роль" />
-                  <ComboBox fx:id="comboBoxNewEmployee" layoutX="78.0" layoutY="195.0" prefWidth="150.0" promptText="Другой рабоник" />
-                  <Button fx:id="buttonAdd" layoutX="98.0" layoutY="244.0" mnemonicParsing="false" onAction="#changeUserAction" prefHeight="25.0" prefWidth="110.0" text="Сохранить" />
-                  <Label fx:id="labelStatus" alignment="CENTER" layoutY="291.0" prefHeight="20.0" prefWidth="305.0" />
+                  <TextField fx:id="userLogin" layoutX="78.0" layoutY="54.0" prefHeight="30.0" prefWidth="149.0" promptText="Логин*" />
+                  <TextField fx:id="userPassword" layoutX="78.0" layoutY="101.0" prefHeight="30.0" prefWidth="149.0" promptText="Пароль*" />
+                  <ComboBox fx:id="comboBoxRole" layoutX="78.0" layoutY="148.0" prefWidth="150.0" promptText="Роль*" />
+                  <ComboBox fx:id="comboBoxEmployee" layoutX="78.0" layoutY="195.0" prefWidth="150.0" promptText="Рабоник" />
+                  <Button fx:id="buttonAdd" layoutX="98.0" layoutY="244.0" mnemonicParsing="false" onAction="#addUserAction" prefHeight="25.0" prefWidth="110.0" text="Добавить" />
+                  <Label fx:id="labelStatus" alignment="CENTER" layoutX="1.0" layoutY="291.0" prefHeight="20.0" prefWidth="305.0" />
                </children>
             </AnchorPane>
          </center>
          <top>
             <HBox prefHeight="36.0" prefWidth="305.0" style="-fx-background-color: #7f3fff;" BorderPane.alignment="CENTER">
                <children>
-                  <Label blendMode="SCREEN" prefHeight="35.0" prefWidth="270.0" styleClass="header-label" stylesheets="@../css/style.css" text="Изменение пользователя">
+                  <Label blendMode="SCREEN" prefHeight="35.0" prefWidth="270.0" styleClass="header-label" stylesheets="@../css/style.css" text="Добавление пользователя">
                      <font>
                         <Font size="11.0" />
                      </font>
