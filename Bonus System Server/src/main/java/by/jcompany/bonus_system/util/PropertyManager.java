@@ -12,16 +12,16 @@ public class PropertyManager {
             File.separator + "src" +
             File.separator + "main" +
             File.separator + "resources";
-    static String propFile = "server.properties";
+    private static final String propertyFile = "server.properties";
     
     public static String getPropertyValue(String propertyName) {
         Properties property = new Properties();
-        String path = pathToResources + File.separator + propertyName;
+        String path = pathToResources + File.separator + propertyFile;
         
         try (FileInputStream fileInputStream = new FileInputStream(path)) {
             property.load(fileInputStream);
             
-            return property.getProperty("task.pointCost");
+            return property.getProperty(propertyName);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -29,10 +29,10 @@ public class PropertyManager {
     }
     public static void saveTaskPointCost(String propertyName, String value) {
         Properties property = new Properties();
-        String path = pathToResources + File.separator + propertyName;
+        String path = pathToResources + File.separator + propertyFile;
         
         try (FileOutputStream fileOutputStream = new FileOutputStream(path)) {
-            property.setProperty("task.pointCost", value);
+            property.setProperty(propertyName, value);
             property.store(fileOutputStream, "Store server properties");
         } catch (IOException exception) {
             exception.printStackTrace();

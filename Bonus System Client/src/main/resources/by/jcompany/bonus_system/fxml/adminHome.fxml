@@ -201,7 +201,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonReloadEmployees" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadUsersAction" prefHeight="30.0" prefWidth="30.0">
+                                          <Button fx:id="buttonReloadEmployees" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadEmployeesAction" prefHeight="30.0" prefWidth="30.0">
                                              <graphic>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
                                                    <image>
@@ -254,7 +254,7 @@
                                                 <Insets left="4.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <Button fx:id="buttonAddTask" mnemonicParsing="false" onAction="#addUserAction" prefHeight="30.0" prefWidth="110.0" styleClass="top-button" text="Добавить">
+                                          <Button fx:id="buttonAddTask" mnemonicParsing="false" onAction="#addTaskAction" prefHeight="30.0" prefWidth="110.0" styleClass="top-button" text="Добавить">
                                              <graphic>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
                                                    <image>
@@ -266,7 +266,7 @@
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="buttonChangeTask" mnemonicParsing="false" onAction="#changeUserAction" prefHeight="30.0" prefWidth="110.0" text="Изменить">
+                                          <Button fx:id="buttonChangeTask" mnemonicParsing="false" onAction="#changeTaskAction" prefHeight="30.0" prefWidth="110.0" text="Изменить">
                                              <graphic>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
                                                    <image>
@@ -275,7 +275,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonDeleteTask" mnemonicParsing="false" onAction="#deleteUserAction" prefHeight="30.0" prefWidth="110.0" text="Удалить">
+                                          <Button fx:id="buttonDeleteTask" mnemonicParsing="false" onAction="#deleteTaskAction" prefHeight="30.0" prefWidth="110.0" text="Удалить">
                                              <graphic>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
                                                    <image>
@@ -284,7 +284,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonReloadTasks" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadUsersAction" prefHeight="30.0" prefWidth="30.0">
+                                          <Button fx:id="buttonReloadTasks" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadTasksAction" prefHeight="30.0" prefWidth="30.0">
                                              <graphic>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
                                                    <image>
@@ -387,7 +387,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonReloadRoles" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadUsersAction" prefHeight="30.0" prefWidth="30.0">
+                                          <Button fx:id="buttonReloadRoles" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reloadRolesAction" prefHeight="30.0" prefWidth="30.0">
                                              <graphic>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
                                                    <image>
