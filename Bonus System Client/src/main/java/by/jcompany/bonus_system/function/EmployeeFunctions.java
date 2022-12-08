@@ -42,6 +42,22 @@ public class EmployeeFunctions extends Functions {
         }
     }
     
+    public static String updateEmployee(Integer employeeId, String firstName, String lastName) {
+        try {
+            EmployeeDto employee = new EmployeeDto(firstName, lastName);
+            employee.setId(employeeId);
+            connection.makeRequest(new Request("UPDATE_EMPLOYEE", employee));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (String) response.getResponseObject(String.class);
+            }
+            return (String) response.getResponseObject(String.class);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
     public static String deleteEmployee(Integer employeeId) {
         try {
             connection.makeRequest(new Request("DELETE_EMPLOYEE", employeeId));

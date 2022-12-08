@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoleFunctions extends Functions {
-    public static String createRole(String roleName, int permissionLevel) {
+    public static String createRole(String roleName, int roleAccessLevel) {
         try {
-            connection.makeRequest(new Request("CREATE_ROLE", new RoleDto(roleName, permissionLevel)));
+            connection.makeRequest(new Request("CREATE_ROLE", new RoleDto(roleName, roleAccessLevel)));
             Response response = connection.getResponse();
             if (!response.isError()) {
                 return (String) response.getResponseObject(String.class);
@@ -36,6 +36,20 @@ public class RoleFunctions extends Functions {
                 return roles;
             }
             return null;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static String updateRole(String roleName, Integer roleAccessLevel) {
+        try {
+            connection.makeRequest(new Request("UPDATE_ROLE", new RoleDto(roleName, roleAccessLevel)));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (String) response.getResponseObject(String.class);
+            }
+            return (String) response.getResponseObject(String.class);
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

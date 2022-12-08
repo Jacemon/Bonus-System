@@ -1,6 +1,5 @@
 package by.jcompany.bonus_system.entity;
 
-import by.jcompany.bonus_system.util.json.Exclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,7 @@ public class Task implements IdHandler {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-   
+    
     @Lob
     @Column(name = "description", nullable = false)
     private String description;

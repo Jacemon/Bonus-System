@@ -5,17 +5,14 @@ import by.jcompany.bonus_system.model.dto.EmployeeDto;
 import by.jcompany.bonus_system.model.dto.RoleDto;
 import by.jcompany.bonus_system.model.dto.TaskDto;
 import by.jcompany.bonus_system.model.dto.UserDto;
-import by.jcompany.bonus_system.service.*;
+import by.jcompany.bonus_system.service.EmployeeService;
+import by.jcompany.bonus_system.service.RoleService;
+import by.jcompany.bonus_system.service.TaskService;
+import by.jcompany.bonus_system.service.UserService;
 import by.jcompany.bonus_system.util.HashManager;
-import by.jcompany.bonus_system.util.json.AnnotationExclusionStrategy;
 import by.jcompany.bonus_system.util.json.GsonManager;
-import com.google.gson.*;
+import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
-
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -26,7 +23,7 @@ public class JsonParserTest {
     EmployeeService employeeService = new EmployeeService();
     RoleService roleService = new RoleService();
     TaskService taskService = new TaskService();
-
+    
     @Test
     void UserToJson() {
         try {
@@ -65,14 +62,14 @@ public class JsonParserTest {
             Employee employee = new Employee("First Name", "Second Name");
             user.setEmployee(employee);
             userService.create(user);
-        
+            
             Task task1 = new Task("Try this to json!", new Bonus(Bonus.BonusType.MONEY, 100.0f));
             Task task2 = new Task("And the other one!", new Bonus(Bonus.BonusType.POINTS, 15.0f));
             task1.setEmployee(employee);
             task2.setEmployee(employee);
             taskService.create(task1);
             taskService.create(task2);
-        
+            
             task1 = taskService.read(task1.getId());
             
             taskService.delete(task1);

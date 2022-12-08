@@ -284,8 +284,16 @@ public class AdminHomeController implements Initializable {
     }
     
     @FXML
-    void showEmployeeTaskAction() {
-        // todo
+    void showEmployeeTaskAction() throws IOException {
+        selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            return;
+        }
+    
+        Stage stage = StageManager.reloadAndGetStage("showEmployeeInfo");
+        stage.showAndWait();
+        
+        selectedUser = null;
     }
     
     @FXML

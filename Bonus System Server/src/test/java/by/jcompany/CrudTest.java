@@ -14,19 +14,19 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 // TODO узнать как это делать с тестовой бд
 public class CrudTest {
+    static {
+        HibernateSessionFactory.getSessionFactory();
+    }
+
     UserService userService = new UserService();
     RoleService roleService = new RoleService();
     Service<Employee, Integer> employeeService = new EmployeeService();
     Service<Task, Integer> taskService = new TaskService();
     
-    static {
-        HibernateSessionFactory.getSessionFactory();
-    }
-    
     String getRandomNumberString() {
         Random random = new Random();
         StringBuilder randomString = new StringBuilder();
-    
+        
         for (int i = 0; i < 6; i++) {
             randomString.append(random.nextInt(9));
         }
@@ -46,10 +46,10 @@ public class CrudTest {
                 throw new Exception("Cannot create user " + login + " !");
             }
             System.out.println(user);
-        
+            
             user = userService.read(login);
             System.out.println(user);
-    
+            
             if (!userService.delete(user)) {
                 throw new Exception("Cannot delete user " + login + " !");
             }
@@ -72,15 +72,15 @@ public class CrudTest {
             
             user = userService.read(user.getId());
             System.out.println(user);
-    
+            
             String newLogin = "testUser" + getRandomNumberString();
             user.setLogin(newLogin);
             user.setPasswordHash(HashManager.getHash(newLogin));
-    
+            
             if (!userService.update(user)) {
                 throw new Exception("Cannot update user!");
             }
-    
+            
             System.out.println(user);
             
             if (!userService.delete(user)) {
@@ -102,17 +102,17 @@ public class CrudTest {
                 throw new Exception("Cannot create user " + login + " !");
             }
             System.out.println(user);
-        
+            
             user.setRole(new Role("ADMIN", 2));
             System.out.println(user);
-        
+            
             if (!userService.update(user)) {
                 throw new Exception("Cannot update user!");
             }
-        
+            
             user = userService.read(user.getLogin());
             System.out.println(user);
-        
+            
             if (!userService.delete(user)) {
                 throw new Exception("Cannot delete user!");
             }
@@ -161,11 +161,11 @@ public class CrudTest {
             System.out.println("------------CreateAndDeleteTask------------");
             String desc = "testTask" + getRandomNumberString();
             Task task = new Task(desc, new Bonus(Bonus.BonusType.MONEY, 1.0f));
-
+            
             if (!taskService.create(task)) {
                 throw new Exception("Cannot create task " + desc + " !");
             }
-
+            
             System.out.println(task);
             
             String newDesc = "testTask" + getRandomNumberString();
@@ -177,14 +177,14 @@ public class CrudTest {
                 throw new Exception("Cannot update task to true!");
             }
             System.out.println(task);
-    
+            
             if (!task.isCompleted()) {
                 throw new Exception("Incorrect completed false!");
             }
             if (!task.getCreationTime().equals(new Date(0).toInstant())) {
                 throw new Exception("Incorrect completed false!");
             }
-    
+            
             task.setCompleted(false);
             if (!taskService.update(task)) {
                 throw new Exception("Cannot update task to false!");
@@ -277,7 +277,6 @@ public class CrudTest {
     // Composite CRUD
     
     
-    
     @Test
     void CrudEmployeeWithUser() {
         try {
@@ -313,13 +312,14 @@ public class CrudTest {
             fail("Failed to make new User with new Employee.");
         }
     }
+    
     /**
      * Проверяет создание Пользователя и добавление ему Работника.
      * 4 типа:
-     *  - совместное создание юзера и работника через userService
-     *  - раздельное создание и установка юзеру работника
-     *  - создание юзера с уже созданным работником
-     *  - создание работника через обновление созданного юзера
+     * - совместное создание юзера и работника через userService
+     * - раздельное создание и установка юзеру работника
+     * - создание юзера с уже созданным работником
+     * - создание работника через обновление созданного юзера
      */
     @Test
     void CrudUserWithEmployee() {
@@ -367,7 +367,7 @@ public class CrudTest {
             if (user2.getEmployee() == null) {
                 throw new Exception("Cannot create user " + login + " with old Employee!");
             }
-    
+            
             user2.setEmployee(employee4);
             if (!userService.update(user2)) {
                 throw new Exception("Cannot update user " + login + " !");
@@ -377,7 +377,7 @@ public class CrudTest {
             if (user2.getEmployee() == null) {
                 throw new Exception("Cannot update user " + login + " with old Employee!");
             }
-    
+            
             if (userService.read(user.getId()).getEmployee() == null) {
                 throw new Exception("Incorrect user without employee!");
             }
@@ -415,18 +415,18 @@ public class CrudTest {
             System.out.println("------------DeleteEmployeeWithUser------------");
             String desc = "testTask" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
-        
+            
             Employee employee = new Employee(name, name);
             Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
             Task task2 = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
-        
+            
             if (!employeeService.create(employee)) {
                 throw new Exception("Cannot create employee " + name + " !");
             }
-        
+            
             task.setEmployee(employee);
             task2.setEmployee(employee);
-        
+            
             if (!taskService.create(task)) {
                 throw new Exception("Cannot create task " + desc + " !");
             }

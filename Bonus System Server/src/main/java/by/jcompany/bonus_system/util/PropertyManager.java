@@ -27,6 +27,7 @@ public class PropertyManager {
         }
         return null;
     }
+    
     public static void saveTaskPointCost(String propertyName, String value) {
         Properties property = new Properties();
         String path = pathToResources + File.separator + propertyFile;
