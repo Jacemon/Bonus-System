@@ -172,6 +172,16 @@ public class InitCommands {
             (ClientRequestString clientRequestString) -> TaskFunctions.readAllTasks().stream()
                 .map(TaskDto::new).toList()
         ));
+        CommandManager.addCommand("UPDATE_TASK", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                Task task = gson.fromJson(clientRequestString.requestString, Task.class);
+                if (TaskFunctions.updateTask(task)) {
+                    return "Task updated";
+                }
+                throw new RuntimeException("Task not updated");
+            }
+        ));
         CommandManager.addCommand("SET_POINT_COST", new CommandManager.ServerCommand(
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> {

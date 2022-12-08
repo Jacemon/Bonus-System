@@ -40,6 +40,9 @@ public class RoleDao implements Dao<Role, String> {
             if (role.getName() == null) {
                 throw new HibernateException("Entity has null id");
             }
+            if (read(role.getName()) == null) {
+                throw new HibernateException("Entity not exist");
+            }
             session.merge(role);
             transaction.commit();
         } catch (RuntimeException exception) {

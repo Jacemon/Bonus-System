@@ -16,14 +16,22 @@ public class TaskFunctions extends Functions {
         return taskService.readAll();
     }
     
+    public static boolean updateTask(Task task) {
+/*        if (setTaskToEmployee(task.getId(), task.getEmployee().getId())) {
+            return taskService.update(task);
+        }
+        return false;*/
+        return taskService.update(task);
+    }
+    
     public static boolean deleteTask(Integer taskId) {
         return false; //todo
     }
     
+    // todo delete
     public static boolean changeTaskDescription(String newDescription) {
         return false;
     }
-    
     public static boolean changeTaskBonus(Integer taskId, Bonus newBonus) {
         return false;
     }

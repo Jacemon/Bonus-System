@@ -560,8 +560,8 @@ public class CrudTest {
     }
     
     @Test
-    void CreateUserWithNotExistedRole() {
-        System.out.println("------------CreateUserWithNotExistedRole------------");
+    void CreateUserWithNotExistingRole() {
+        System.out.println("------------CreateUserWithNotExistingRole------------");
         try {
             String login = "testUser" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login), new Role("SUPER_ROLE", 0));
@@ -569,8 +569,29 @@ public class CrudTest {
             if (!userService.create(user)) {
                 throw new CorrectException("Cannot create user with not existed role!");
             }
-            throw new Exception("User with id was created!");
+            throw new Exception("User with not existing was created!");
         } catch (CorrectException ignored) {
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail(exception.getMessage());
+        }
+    }
+    
+    @Test
+    void UpdateNotExistingTask() {
+        System.out.println("------------UpdateNotExistingTask------------");
+        String desk = "testTask" + getRandomNumberString();
+        Task task = new Task(desk, new Bonus(Bonus.BonusType.MONEY, 12.0f));
+        try {
+            taskService.create(task);
+            task.setId(task.getId() + 1);
+            if (!taskService.update(task)) {
+                throw new CorrectException("Cannot update not existing task!");
+            }
+            throw new Exception("Not existing task was update!");
+        } catch (CorrectException ignored) {
+            task.setId(task.getId() - 1);
+            taskService.delete(task);
         } catch (Exception exception) {
             exception.printStackTrace();
             fail(exception.getMessage());

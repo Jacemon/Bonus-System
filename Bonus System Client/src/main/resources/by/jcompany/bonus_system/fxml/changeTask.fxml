@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,25 +13,25 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="361.0" prefWidth="305.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.jcompany.bonus_system.controller.ChangeUserController">
+<AnchorPane prefHeight="361.0" prefWidth="305.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.jcompany.bonus_system.controller.ChangeTaskController">
    <children>
       <BorderPane prefHeight="361.0" prefWidth="305.0" style="-fx-border-color: black;">
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField fx:id="userNewLogin" layoutX="78.0" layoutY="54.0" prefHeight="30.0" prefWidth="149.0" promptText="Новый логин" />
-                  <TextField fx:id="userNewPassword" layoutX="78.0" layoutY="101.0" prefHeight="30.0" prefWidth="149.0" promptText="Новый пароль" />
-                  <ComboBox fx:id="comboBoxNewRole" layoutX="78.0" layoutY="148.0" prefWidth="150.0" promptText="Другая роль" />
-                  <ComboBox fx:id="comboBoxNewEmployee" layoutX="78.0" layoutY="195.0" prefWidth="150.0" promptText="Другой рабоник" />
-                  <Button fx:id="buttonChange" layoutX="98.0" layoutY="244.0" mnemonicParsing="false" onAction="#changeUserAction" prefHeight="25.0" prefWidth="110.0" text="Сохранить" />
-                  <Label fx:id="labelStatus" alignment="CENTER" layoutY="291.0" prefHeight="20.0" prefWidth="305.0" />
+                  <ComboBox fx:id="comboBoxNewBonusType" layoutX="79.0" layoutY="117.0" prefWidth="150.0" promptText="Вид вознагражения" />
+                  <Button fx:id="buttonChange" layoutX="98.0" layoutY="244.0" mnemonicParsing="false" onAction="#changeTaskAction" prefHeight="25.0" prefWidth="110.0" text="Сохранить" />
+                  <Label fx:id="labelStatus" alignment="CENTER" layoutX="1.0" layoutY="291.0" prefHeight="20.0" prefWidth="305.0" />
+                  <TextField fx:id="bonusNewAmount" layoutX="79.0" layoutY="162.0" prefHeight="30.0" prefWidth="150.0" promptText="Количество" />
+                  <TextArea fx:id="taskNewDescription" layoutX="54.0" layoutY="33.0" prefHeight="76.0" prefWidth="200.0" promptText="Описание задания" wrapText="true" />
+                  <ComboBox fx:id="comboBoxNewEmployee" layoutX="79.0" layoutY="208.0" prefWidth="150.0" promptText="Другой рабоник" />
                </children>
             </AnchorPane>
          </center>
          <top>
             <HBox prefHeight="36.0" prefWidth="305.0" style="-fx-background-color: #7f3fff;" BorderPane.alignment="CENTER">
                <children>
-                  <Label blendMode="SCREEN" prefHeight="35.0" prefWidth="270.0" styleClass="header-label" text="Изменение пользователя">
+                  <Label blendMode="SCREEN" prefHeight="35.0" prefWidth="270.0" styleClass="header-label" text="Изменение задания">
                      <font>
                         <Font size="11.0" />
                      </font>

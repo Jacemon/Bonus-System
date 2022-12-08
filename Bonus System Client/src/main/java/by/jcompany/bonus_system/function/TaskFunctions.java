@@ -2,8 +2,8 @@ package by.jcompany.bonus_system.function;
 
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
-import by.jcompany.bonus_system.model.dto.BonusDto;
-import by.jcompany.bonus_system.model.dto.TaskDto;
+import by.jcompany.bonus_system.model.dto.*;
+import by.jcompany.bonus_system.util.HashManager;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -34,9 +34,45 @@ public class TaskFunctions extends Functions {
             if (!response.isError()) {
                 Type type = new TypeToken<ArrayList<TaskDto>>() {
                 }.getType();
-                return (List<TaskDto>) response.getResponseObject(type);
+                @SuppressWarnings("unchecked")
+                List<TaskDto> tasks = (List<TaskDto>) response.getResponseObject(type);
+                return tasks;
             }
             return null;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static String updateTask(Integer taskId, String taskDescription, Float amount,
+                                    BonusDto.BonusType bonusType) {
+        try {
+            TaskDto task = new TaskDto();
+            task.setId(taskId);
+            task.setDescription(taskDescription);
+            task.setBonus(new BonusDto(bonusType, amount));
+            
+            connection.makeRequest(new Request("UPDATE_TASK", task));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (String) response.getResponseObject(String.class);
+            }
+            return (String) response.getResponseObject(String.class);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static String deleteTask(Integer taskId) {
+        try {
+            connection.makeRequest(new Request("DELETE_TASK", taskId));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (String) response.getResponseObject(String.class);
+            }
+            return (String) response.getResponseObject(String.class);
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

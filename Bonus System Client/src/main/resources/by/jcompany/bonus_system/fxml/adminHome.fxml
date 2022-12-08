@@ -219,7 +219,8 @@
                                  <center>
                                     <TableView fx:id="employeeTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="558.0" BorderPane.alignment="CENTER">
                                        <columns>
-                                          <TableColumn fx:id="employeeLastName" prefWidth="75.0" text="Фамилия" />
+                                          <TableColumn fx:id="employeeId" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="ID" />
+                                          <TableColumn fx:id="employeeLastName" prefWidth="247.0" text="Фамилия" />
                                           <TableColumn fx:id="employeeFirstName" prefWidth="75.0" text="Имя" />
                                        </columns>
                                        <columnResizePolicy>

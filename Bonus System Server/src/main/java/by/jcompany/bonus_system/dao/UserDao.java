@@ -50,6 +50,9 @@ public class UserDao implements Dao<User, Integer> {
             if (user.getEmployee() != null && user.getEmployee().getId() == null) {
                 session.persist(user.getEmployee());
             }
+            if (read(user.getId()) == null) {
+                throw new HibernateException("Entity not exist");
+            }
             session.merge(user);
             transaction.commit();
         } catch (RuntimeException exception) {

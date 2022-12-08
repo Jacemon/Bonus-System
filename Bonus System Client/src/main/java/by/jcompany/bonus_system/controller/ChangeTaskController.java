@@ -1,46 +1,41 @@
 package by.jcompany.bonus_system.controller;
 
 import by.jcompany.bonus_system.function.EmployeeFunctions;
-import by.jcompany.bonus_system.function.RoleFunctions;
-import by.jcompany.bonus_system.function.UserFunctions;
+import by.jcompany.bonus_system.function.TaskFunctions;
+import by.jcompany.bonus_system.model.dto.BonusDto;
 import by.jcompany.bonus_system.model.dto.EmployeeDto;
-import by.jcompany.bonus_system.model.dto.RoleDto;
-import by.jcompany.bonus_system.model.dto.UserDto;
+import by.jcompany.bonus_system.model.dto.TaskDto;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ChangeUserController implements Initializable {
-    public UserDto editUser = null;
+public class ChangeTaskController implements Initializable {
+    public TaskDto editTask = null;
     
     @FXML
     private Button closeButton;
     
     @FXML
-    private Button buttonChange;
+    private ComboBox<BonusDto.BonusType> comboBoxNewBonusType;
+    
+    @FXML
+    private TextArea taskNewDescription;
+    
+    @FXML
+    private TextField bonusNewAmount;
     
     @FXML
     private ComboBox<EmployeeDto> comboBoxNewEmployee;
     
     @FXML
-    private ComboBox<String> comboBoxNewRole;
-    
-    @FXML
-    private TextField userNewLogin;
-    
-    @FXML
-    private TextField userNewPassword;
+    private Button buttonChange;
     
     @FXML
     private Label labelStatus;
@@ -51,26 +46,16 @@ public class ChangeUserController implements Initializable {
     }
     
     @FXML
-    void changeUserAction() {
-        String status = UserFunctions.updateUser(editUser.getId(), userNewLogin.getText(), userNewPassword.getText(),
-            comboBoxNewRole.getValue(), comboBoxNewEmployee.getValue());
+    void changeTaskAction() {
+        String status = TaskFunctions.updateTask(editTask.getId(), taskNewDescription.getText(),
+            Float.parseFloat(bonusNewAmount.getText()), comboBoxNewBonusType.getValue());
+        status += " " + TaskFunctions.setTaskToEmployee(editTask.getId(), comboBoxNewEmployee.getValue().getId());
         labelStatus.setText(status);
         System.out.println(status);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<RoleDto> rolesDto = RoleFunctions.readAllRoles();
-        if (rolesDto != null) {
-            List<String> roles = new ArrayList<>();
-            for (RoleDto roleDto : rolesDto) {
-                roles.add(roleDto.getName());
-            }
-            comboBoxNewRole.setItems(FXCollections.observableArrayList(roles));
-        } else {
-            comboBoxNewRole.setItems(FXCollections.observableArrayList());
-        }
-        
         List<EmployeeDto> employeesDto = EmployeeFunctions.readAllEmployees();
         if (employeesDto != null) {
             for (EmployeeDto employeeDto : employeesDto) {
@@ -95,10 +80,12 @@ public class ChangeUserController implements Initializable {
             }
         });
         
-        editUser = AdminHomeController.getSelectedUser();
+        editTask = AdminHomeController.getSelectedTask();
+        taskNewDescription.setText(editTask.getDescription());
+        bonusNewAmount.setText(editTask.getBonus().getAmount().toString());
+        comboBoxNewBonusType.setValue(editTask.getBonus().getType());
+        comboBoxNewEmployee.setValue(editTask.getEmployee());
         
-        userNewLogin.setText(editUser.getLogin());
-        comboBoxNewRole.setValue(editUser.getRole().getName());
-        comboBoxNewEmployee.setValue(editUser.getEmployee());
+        comboBoxNewBonusType.setItems(FXCollections.observableArrayList(BonusDto.BonusType.values()));
     }
 }

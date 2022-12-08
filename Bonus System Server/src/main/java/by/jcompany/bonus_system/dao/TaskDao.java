@@ -46,6 +46,9 @@ public class TaskDao implements Dao<Task, Integer> {
             if (task.getBonus().getId() == null) {
                 session.persist(task.getBonus());
             }
+            if (read(task.getId()) == null) {
+                throw new HibernateException("Entity not exist");
+            }
             session.merge(task);
             transaction.commit();
         } catch (RuntimeException exception) {

@@ -5,14 +5,16 @@ import by.jcompany.bonus_system.function.RoleFunctions;
 import by.jcompany.bonus_system.function.UserFunctions;
 import by.jcompany.bonus_system.model.dto.EmployeeDto;
 import by.jcompany.bonus_system.model.dto.RoleDto;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,16 +24,22 @@ import java.util.ResourceBundle;
 public class AddNewUserController implements Initializable {
     @FXML
     private Button closeButton;
+    
     @FXML
     private TextField userLogin;
+    
     @FXML
     private TextField userPassword;
+    
     @FXML
     private ComboBox<String> comboBoxRole;
+    
     @FXML
     private ComboBox<EmployeeDto> comboBoxEmployee;
+    
     @FXML
     private Button buttonAdd;
+    
     @FXML
     private Label labelStatus;
     
@@ -62,7 +70,6 @@ public class AddNewUserController implements Initializable {
         }
         
         List<EmployeeDto> employeesDto = EmployeeFunctions.readAllEmployees();
-        
         if (employeesDto != null) {
             for (EmployeeDto employeeDto : employeesDto) {
                 employeeDto.setTasks(null);
@@ -72,5 +79,16 @@ public class AddNewUserController implements Initializable {
         } else {
             comboBoxEmployee.setItems(FXCollections.observableArrayList());
         }
+        comboBoxEmployee.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(EmployeeDto employeeDto) {
+                return "[" + employeeDto.getId() + "] " + employeeDto.getFirstName() + " " + employeeDto.getLastName();
+            }
+        
+            @Override
+            public EmployeeDto fromString(String string) {
+                return null;
+            }
+        });
     }
 }

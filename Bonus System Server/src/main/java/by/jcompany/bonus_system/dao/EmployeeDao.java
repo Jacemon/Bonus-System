@@ -41,6 +41,9 @@ public class EmployeeDao implements Dao<Employee, Integer> {
             if (employee.getId() == null) {
                 throw new HibernateException("Entity has null id");
             }
+            if (read(employee.getId()) == null) {
+                throw new HibernateException("Entity not exist");
+            }
             session.merge(employee);
             transaction.commit();
         } catch (RuntimeException exception) {

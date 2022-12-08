@@ -22,10 +22,12 @@ import java.time.Instant;
 public class Task implements IdHandler {
     @Getter
     private static Float pointCost = null;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
+   
     @Lob
     @Column(name = "description", nullable = false)
     private String description;
@@ -40,12 +42,14 @@ public class Task implements IdHandler {
      */
     @Column(name = "is_completed", nullable = false)
     private boolean isCompleted;
+    
     @Column(name = "is_paid", nullable = false)
     private boolean isPaid;
+    
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "bonus_id", nullable = false)
     private Bonus bonus;
-    @Exclude
+    
     @ToString.Exclude // todo 1
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")

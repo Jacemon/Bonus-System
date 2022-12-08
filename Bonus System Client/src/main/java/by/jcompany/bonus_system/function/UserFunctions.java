@@ -53,7 +53,9 @@ public class UserFunctions extends Functions {
             if (!response.isError()) {
                 Type type = new TypeToken<ArrayList<UserDto>>() {
                 }.getType();
-                return (List<UserDto>) response.getResponseObject(type);
+                @SuppressWarnings("unchecked")
+                List<UserDto> users = (List<UserDto>) response.getResponseObject(type);
+                return users;
             }
             return null;
         } catch (Exception exception) {
@@ -62,11 +64,10 @@ public class UserFunctions extends Functions {
         }
     }
     
-    
     public static String updateUser(Integer userId, String login, String password, String role, EmployeeDto employee) {
         try {
             UserDto user;
-            if (password != null) {
+            if (!password.equals("")) {
                 user = new UserDto(login, HashManager.getHash(password));
             } else {
                 user = new UserDto(login, null);

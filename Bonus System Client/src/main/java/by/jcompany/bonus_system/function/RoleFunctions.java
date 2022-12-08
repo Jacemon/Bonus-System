@@ -17,7 +17,7 @@ public class RoleFunctions extends Functions {
             if (!response.isError()) {
                 return (String) response.getResponseObject(String.class);
             }
-            return null;
+            return (String) response.getResponseObject(String.class);
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
@@ -31,9 +31,25 @@ public class RoleFunctions extends Functions {
             if (!response.isError()) {
                 Type type = new TypeToken<ArrayList<RoleDto>>() {
                 }.getType();
-                return (List<RoleDto>) response.getResponseObject(type);
+                @SuppressWarnings("unchecked")
+                List<RoleDto> roles = (List<RoleDto>) response.getResponseObject(type);
+                return roles;
             }
             return null;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static String deleteRole(String roleName) {
+        try {
+            connection.makeRequest(new Request("DELETE_ROLE", roleName));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (String) response.getResponseObject(String.class);
+            }
+            return (String) response.getResponseObject(String.class);
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

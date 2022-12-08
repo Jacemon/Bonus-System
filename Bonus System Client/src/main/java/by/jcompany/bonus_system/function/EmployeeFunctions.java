@@ -31,9 +31,25 @@ public class EmployeeFunctions extends Functions {
             if (!response.isError()) {
                 Type type = new TypeToken<ArrayList<EmployeeDto>>() {
                 }.getType();
-                return (List<EmployeeDto>) response.getResponseObject(type);
+                @SuppressWarnings("unchecked")
+                List<EmployeeDto> employees = (List<EmployeeDto>) response.getResponseObject(type);
+                return employees;
             }
             return null;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static String deleteEmployee(Integer employeeId) {
+        try {
+            connection.makeRequest(new Request("DELETE_EMPLOYEE", employeeId));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (String) response.getResponseObject(String.class);
+            }
+            return (String) response.getResponseObject(String.class);
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

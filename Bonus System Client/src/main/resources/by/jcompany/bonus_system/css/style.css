@@ -48,6 +48,12 @@
     -fx-background-color: #ffffff;
     -fx-border-color: #a66cfa;
 }
+.text-area {
+    -fx-font-size: 10pt;
+    -fx-text-base-color: #B888FF;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a66cfa;
+}
 .combo-box-base {
     -fx-font-size: 10pt;
     -fx-text-base-color: #B888FF;
