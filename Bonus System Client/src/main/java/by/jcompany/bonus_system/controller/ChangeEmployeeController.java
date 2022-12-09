@@ -25,6 +25,9 @@ public class ChangeEmployeeController implements Initializable {
     private TextField employeeNewLastName;
     
     @FXML
+    private TextField employeeNewSalary;
+    
+    @FXML
     private Button buttonChange;
     
     @FXML
@@ -38,7 +41,7 @@ public class ChangeEmployeeController implements Initializable {
     @FXML
     void changeEmployeeAction() {
         String status = EmployeeFunctions.updateEmployee(editEmployee.getId(), employeeNewFirstName.getText(),
-            employeeNewLastName.getText());
+            employeeNewLastName.getText(), Float.parseFloat(employeeNewSalary.getText()));
         labelStatus.setText(status);
         System.out.println(status);
     }
@@ -49,5 +52,6 @@ public class ChangeEmployeeController implements Initializable {
         
         employeeNewFirstName.setText(editEmployee.getFirstName());
         employeeNewLastName.setText(editEmployee.getLastName());
+        employeeNewSalary.setText(editEmployee.getSalary().toString());
     }
 }

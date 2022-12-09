@@ -6,7 +6,7 @@ public abstract class Functions {
     protected static Connection connection = new Connection();
     
     public static boolean isConnected() {
-        return connection != null;
+        return connection.isOpened();
     }
     
     public static void reconnect() {

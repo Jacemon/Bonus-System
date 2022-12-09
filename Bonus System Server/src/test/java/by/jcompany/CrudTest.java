@@ -127,7 +127,7 @@ public class CrudTest {
         try {
             System.out.println("------------CrudEmployee------------");
             String name = "testEmpl" + getRandomNumberString();
-            Employee employee = new Employee(name, name);
+            Employee employee = new Employee(name, name, 1000.0f);
             if (!employeeService.create(employee)) {
                 throw new Exception("Cannot create employee " + name + " !");
             }
@@ -283,7 +283,7 @@ public class CrudTest {
             System.out.println("------------CrudEmployeeWithUser------------");
             String login = "testUser" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
-            Employee employee = new Employee(name, name);
+            Employee employee = new Employee(name, name, 1000.0f);
             User user = new User(login, HashManager.getHash(login));
             employee.setUser(user);
             
@@ -332,8 +332,8 @@ public class CrudTest {
             
             User user = new User(login, HashManager.getHash(login));
             User user2 = new User(login2, HashManager.getHash(login2));
-            Employee employee = new Employee(name, name);
-            Employee employee2 = new Employee(name2, name2);
+            Employee employee = new Employee(name, name, 1000.0f);
+            Employee employee2 = new Employee(name2, name2, 1000.0f);
             user.setEmployee(employee);
             
             if (!userService.create(user)) {
@@ -349,8 +349,8 @@ public class CrudTest {
             System.out.println(user);
             System.out.println(user.getEmployee());
             
-            Employee employee3 = new Employee(name, name);
-            Employee employee4 = new Employee(name2, name2);
+            Employee employee3 = new Employee(name, name, 1000.0f);
+            Employee employee4 = new Employee(name2, name2, 1000.0f);
             if (!employeeService.create(employee3)) {
                 throw new Exception("Cannot create employee!");
             }
@@ -416,7 +416,7 @@ public class CrudTest {
             String desc = "testTask" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
             
-            Employee employee = new Employee(name, name);
+            Employee employee = new Employee(name, name, 1000.0f);
             Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
             Task task2 = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
             
@@ -461,7 +461,7 @@ public class CrudTest {
             String desc = "testTask" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
             
-            Employee employee = new Employee(name, name);
+            Employee employee = new Employee(name, name, 1000.0f);
             Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
             
             if (!employeeService.create(employee)) {
@@ -592,6 +592,26 @@ public class CrudTest {
         } catch (CorrectException ignored) {
             task.setId(task.getId() - 1);
             taskService.delete(task);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail(exception.getMessage());
+        }
+    }
+    
+    @Test
+    void SetNegativeTaskPointCost() {
+        System.out.println("------------SetNegativeTaskPointCost------------");
+        try {
+            System.out.println(Task.getPointCost());
+            Task.setPointCost(-100.0f);
+            System.out.println(Task.getPointCost());
+            if (Task.getPointCost() != null) {
+                throw new Exception("Set negative point cost!");
+            }
+            Task.setPointCost(100.0f);
+            System.out.println(Task.getPointCost());
+            Task.setPointCost(null);
+            System.out.println(Task.getPointCost());
         } catch (Exception exception) {
             exception.printStackTrace();
             fail(exception.getMessage());

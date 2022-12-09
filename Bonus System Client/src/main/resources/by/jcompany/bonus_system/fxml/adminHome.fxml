@@ -192,11 +192,11 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonEmployeeTask" mnemonicParsing="false" onAction="#showEmployeeTaskAction" prefHeight="30.0" prefWidth="97.0" text="Задачи">
+                                          <Button fx:id="buttonEmployeeInfo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showEmployeeInfoAction" prefHeight="30.0" prefWidth="30.0">
                                              <graphic>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="tab-image">
                                                    <image>
-                                                      <Image url="@../ico/e_task.png" />
+                                                      <Image url="@../ico/info.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -210,7 +210,7 @@
                                                 </ImageView>
                                              </graphic>
                                              <HBox.margin>
-                                                <Insets />
+                                                <Insets left="67.0" />
                                              </HBox.margin>
                                           </Button>
                                        </children>
@@ -221,7 +221,8 @@
                                        <columns>
                                           <TableColumn fx:id="employeeId" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="ID" />
                                           <TableColumn fx:id="employeeLastName" prefWidth="247.0" text="Фамилия" />
-                                          <TableColumn fx:id="employeeFirstName" prefWidth="75.0" text="Имя" />
+                                          <TableColumn fx:id="employeeFirstName" prefWidth="200.0" text="Имя" />
+                                          <TableColumn fx:id="employeeSalary" maxWidth="100.0" minWidth="100.0" prefWidth="131.0" text="Зарплата" />
                                        </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

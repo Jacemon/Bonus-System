@@ -21,6 +21,7 @@ public class BonusDto {
     
     public enum BonusType {
         POINTS,
-        MONEY
+        MONEY,
+        PERCENT
     }
 }

@@ -14,7 +14,7 @@ public class EmployeeFunctions extends Functions {
         return employeeService.readAll();
     }
     
-    // todo сделать employee_id unique
+    // todo сделать employee_id unique в юзере, чтобы нельзя было назначить нескольким юзерам одного работника
     public static boolean changeEmployeeName(String newFirstName, String newLastName) {
         return false;//todo
     }
@@ -24,7 +24,7 @@ public class EmployeeFunctions extends Functions {
         float finalAmount = 0.0f;
         for (Task task : employee.getTasks()) {
             if (task.isCompleted() && !task.isPaid()) {
-                Float amount = task.getAmount();
+                Float amount = task.getAmount(employee);
                 if (amount == null) {
                     continue;
                 }
@@ -43,7 +43,7 @@ public class EmployeeFunctions extends Functions {
         float finalAmount = 0.0f;
         for (Task task : employee.getTasks()) {
             if (task.isCompleted() && !task.isPaid()) {
-                Float amount = task.getAmount();
+                Float amount = task.getAmount(employee);
                 if (amount == null) {
                     continue;
                 }

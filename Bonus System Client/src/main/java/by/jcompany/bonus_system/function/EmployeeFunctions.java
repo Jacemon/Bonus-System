@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeFunctions extends Functions {
-    public static String createEmployee(String firstName, String lastName) {
+    public static String createEmployee(String firstName, String lastName, Float salary) {
         try {
-            connection.makeRequest(new Request("CREATE_EMPLOYEE", new EmployeeDto(firstName, lastName)));
+            connection.makeRequest(new Request("CREATE_EMPLOYEE",
+                new EmployeeDto(firstName, lastName, salary)));
             Response response = connection.getResponse();
             if (!response.isError()) {
                 return (String) response.getResponseObject(String.class);
@@ -42,9 +43,9 @@ public class EmployeeFunctions extends Functions {
         }
     }
     
-    public static String updateEmployee(Integer employeeId, String firstName, String lastName) {
+    public static String updateEmployee(Integer employeeId, String firstName, String lastName, Float salary) {
         try {
-            EmployeeDto employee = new EmployeeDto(firstName, lastName);
+            EmployeeDto employee = new EmployeeDto(firstName, lastName, salary);
             employee.setId(employeeId);
             connection.makeRequest(new Request("UPDATE_EMPLOYEE", employee));
             Response response = connection.getResponse();

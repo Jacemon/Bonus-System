@@ -1,6 +1,7 @@
 package by.jcompany.bonus_system.model.dto;
 
 import by.jcompany.bonus_system.entity.Bonus;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class BonusDto {
     
     public enum BonusType {
         POINTS,
-        MONEY
+        MONEY,
+        PERCENT
     }
 }

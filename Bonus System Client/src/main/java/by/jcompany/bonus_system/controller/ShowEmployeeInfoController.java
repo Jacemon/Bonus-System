@@ -5,6 +5,7 @@ import by.jcompany.bonus_system.function.RoleFunctions;
 import by.jcompany.bonus_system.function.UserFunctions;
 import by.jcompany.bonus_system.model.dto.EmployeeDto;
 import by.jcompany.bonus_system.model.dto.RoleDto;
+import by.jcompany.bonus_system.model.dto.UserDto;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,38 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AddNewEmployeeController implements Initializable {
+public class ShowEmployeeInfoController implements Initializable {
+    public EmployeeDto employee = null;
+    
     @FXML
     private Button closeButton;
-    
-    @FXML
-    private TextField employeeFirstName;
-    
-    @FXML
-    private TextField employeeLastName;
-    
-    @FXML
-    private TextField employeeSalary;
-    
-    @FXML
-    private Button buttonAdd;
-    
-    @FXML
-    private Label labelStatus;
     
     @FXML
     public void closeButtonAction() {
         ((Stage) closeButton.getScene().getWindow()).close();
     }
     
-    @FXML
-    void addEmployeeAction() {
-        String status = EmployeeFunctions.createEmployee(employeeFirstName.getText(),
-            employeeLastName.getText(), Float.parseFloat(employeeSalary.getText()));
-        labelStatus.setText(status);
-        System.out.println(status);
-    }
-    
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) { }
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        
+        employee = AdminHomeController.getSelectedEmployee();
+    }
 }

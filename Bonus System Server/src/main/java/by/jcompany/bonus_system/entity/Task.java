@@ -1,6 +1,8 @@
 package by.jcompany.bonus_system.entity;
 
+import by.jcompany.bonus_system.model.dto.EmployeeDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +22,8 @@ import java.time.Instant;
 @DynamicInsert
 public class Task implements IdHandler {
     @Getter
+    //@Setter
+    //@DecimalMin(value = "0.0")
     private static Float pointCost = null;
     
     @Id
@@ -74,7 +78,7 @@ public class Task implements IdHandler {
         }
     }
     
-    public Float getAmount() {
+    public Float getAmount(Employee employee) {
         Float amount = null;
         switch (bonus.getType()) {
             case MONEY -> amount = bonus.getAmount();
@@ -83,6 +87,7 @@ public class Task implements IdHandler {
                     amount = bonus.getAmount() * pointCost;
                 }
             }
+            case PERCENT -> amount = employee.getSalary() * bonus.getAmount();
         }
         return amount;
     }

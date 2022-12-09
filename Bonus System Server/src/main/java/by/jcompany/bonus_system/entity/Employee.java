@@ -1,6 +1,8 @@
 package by.jcompany.bonus_system.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +29,10 @@ public class Employee implements IdHandler {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
     
+    @DecimalMin(value = "0.0")
+    @Column(name = "salary", nullable = false)
+    private Float salary;
+    
     /**
      * User could not be created or updated. Instead, set user's employee with User.setEmployee()
      */
@@ -49,9 +55,10 @@ public class Employee implements IdHandler {
         tasks.remove(task);
     }*/
     
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, @DecimalMin(value = "0.0") Float salary) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.salary = salary;
     }
     
     @Override
