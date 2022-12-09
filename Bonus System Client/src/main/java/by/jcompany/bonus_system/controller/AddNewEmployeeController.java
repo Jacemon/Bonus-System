@@ -31,6 +31,9 @@ public class AddNewEmployeeController implements Initializable {
     private TextField employeeLastName;
     
     @FXML
+    private TextField employeeSalary;
+    
+    @FXML
     private Button buttonAdd;
     
     @FXML
@@ -43,7 +46,8 @@ public class AddNewEmployeeController implements Initializable {
     
     @FXML
     void addEmployeeAction() {
-        String status = EmployeeFunctions.createEmployee(employeeFirstName.getText(), employeeLastName.getText());
+        String status = EmployeeFunctions.createEmployee(employeeFirstName.getText(),
+            employeeLastName.getText(), Float.parseFloat(employeeSalary.getText()));
         labelStatus.setText(status);
         System.out.println(status);
     }

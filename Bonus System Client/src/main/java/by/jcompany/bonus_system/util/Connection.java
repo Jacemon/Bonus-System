@@ -1,5 +1,6 @@
 package by.jcompany.bonus_system.util;
 
+import by.jcompany.bonus_system.function.Functions;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
 
@@ -28,11 +29,33 @@ public class Connection implements AutoCloseable {
     }
     
     public void makeRequest(Request request) throws IOException {
-        objectOutputStream.writeObject(request);
+        try {
+            objectOutputStream.writeObject(request);
+        } catch (NullPointerException exception) {
+            if (!Functions.isConnected()) {
+                Functions.reconnect();
+                throw exception;
+            } else {
+                throw exception;
+            }
+        }
     }
     
     public Response getResponse() throws IOException, ClassNotFoundException {
-        return (Response) objectInputStream.readObject();
+        try {
+            return (Response) objectInputStream.readObject();
+        } catch (NullPointerException exception) {
+            if (!Functions.isConnected()) {
+                Functions.reconnect();
+                throw exception;
+            } else {
+                throw exception;
+            }
+        }
+    }
+    
+    public boolean isOpened() {
+        return objectOutputStream != null && objectInputStream != null && clientSocket != null;
     }
     
     @Override

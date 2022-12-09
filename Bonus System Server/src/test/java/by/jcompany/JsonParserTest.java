@@ -29,7 +29,7 @@ public class JsonParserTest {
         try {
             User user = new User("login", HashManager.getHash("password"),
                 new Role("ADMIN"));
-            Employee employee = new Employee("First Name", "Second Name");
+            Employee employee = new Employee("First Name", "Second Name", 1000.0f);
             user.setEmployee(employee);
             userService.create(user);
             
@@ -59,7 +59,7 @@ public class JsonParserTest {
         try {
             User user = new User("login", HashManager.getHash("password"),
                 new Role("ADMIN"));
-            Employee employee = new Employee("First Name", "Second Name");
+            Employee employee = new Employee("First Name", "Second Name", 1000.0f);
             user.setEmployee(employee);
             userService.create(user);
             
@@ -89,7 +89,7 @@ public class JsonParserTest {
         try {
             User user = new User("login", HashManager.getHash("password"),
                 new Role("ADMIN"));
-            Employee employee = new Employee("First Name", "Second Name");
+            Employee employee = new Employee("First Name", "Second Name", 1000.0f);
             user.setEmployee(employee);
             userService.create(user);
             
@@ -119,7 +119,7 @@ public class JsonParserTest {
         try {
             User user = new User("login", HashManager.getHash("password"),
                 new Role("ADMIn"));
-            Employee employee = new Employee("First Name", "Second Name");
+            Employee employee = new Employee("First Name", "Second Name", 1000.0f);
             user.setEmployee(employee);
             userService.create(user);
             

@@ -78,7 +78,7 @@ public class AdminHomeController implements Initializable {
     private Button buttonDeleteUser;
     
     @FXML
-    private Button buttonEmployeeTask;
+    private Button buttonEmployeeInfo;
     
     @FXML
     private Button buttonReloadUsers;
@@ -112,6 +112,9 @@ public class AdminHomeController implements Initializable {
     
     @FXML
     private TableColumn<EmployeeDto, String> employeeLastName;
+    
+    @FXML
+    private TableColumn<EmployeeDto, String> employeeSalary;
     
     @FXML
     private TableView<EmployeeDto> employeeTable;
@@ -284,16 +287,16 @@ public class AdminHomeController implements Initializable {
     }
     
     @FXML
-    void showEmployeeTaskAction() throws IOException {
-        selectedUser = userTable.getSelectionModel().getSelectedItem();
-        if (selectedUser == null) {
+    void showEmployeeInfoAction() throws IOException {
+        selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee == null) {
             return;
         }
     
         Stage stage = StageManager.reloadAndGetStage("showEmployeeInfo");
         stage.showAndWait();
         
-        selectedUser = null;
+        selectedEmployee = null;
     }
     
     @FXML
@@ -367,6 +370,7 @@ public class AdminHomeController implements Initializable {
         employeeId.setCellValueFactory(new PropertyValueFactory<>("id"));
         employeeFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         employeeLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        employeeSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
     }
     
     private void initRoleTable() {
@@ -411,6 +415,7 @@ public class AdminHomeController implements Initializable {
         switch (bonus.getType()) {
             case MONEY -> sign = "$";
             case POINTS -> sign = "p";
+            case PERCENT -> sign = "%";
         }
         return sign;
     }

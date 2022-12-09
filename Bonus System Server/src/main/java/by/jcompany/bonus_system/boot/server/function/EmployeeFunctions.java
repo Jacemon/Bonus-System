@@ -24,7 +24,7 @@ public class EmployeeFunctions extends Functions {
         float finalAmount = 0.0f;
         for (Task task : employee.getTasks()) {
             if (task.isCompleted() && !task.isPaid()) {
-                Float amount = task.getAmount();
+                Float amount = task.getAmount(employee);
                 if (amount == null) {
                     continue;
                 }
@@ -43,7 +43,7 @@ public class EmployeeFunctions extends Functions {
         float finalAmount = 0.0f;
         for (Task task : employee.getTasks()) {
             if (task.isCompleted() && !task.isPaid()) {
-                Float amount = task.getAmount();
+                Float amount = task.getAmount(employee);
                 if (amount == null) {
                     continue;
                 }
