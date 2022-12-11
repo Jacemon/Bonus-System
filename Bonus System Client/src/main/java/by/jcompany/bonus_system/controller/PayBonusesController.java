@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.List;
@@ -58,6 +59,7 @@ public class PayBonusesController implements Initializable {
         }
         if (amount != null) {
             bonuses.setText(amount + "$");
+            labelStatus.setText("Bonuses were paid");
         } else {
             labelStatus.setText("error");
             bonuses.setText("");
@@ -66,6 +68,19 @@ public class PayBonusesController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        comboBoxEmployee.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(EmployeeDto employeeDto) {
+                return "[" + employeeDto.getId() + "] " + employeeDto.getFirstName() + " " +
+                    employeeDto.getLastName();
+            }
+        
+            @Override
+            public EmployeeDto fromString(String string) {
+                return null;
+            }
+        });
+        
         List<EmployeeDto> employeesDto = EmployeeFunctions.readAllEmployees();
         if (employeesDto != null) {
             for (EmployeeDto employeeDto : employeesDto) {
