@@ -3,7 +3,6 @@ package by.jcompany.bonus_system.function;
 import by.jcompany.bonus_system.model.Request;
 import by.jcompany.bonus_system.model.Response;
 import by.jcompany.bonus_system.model.dto.*;
-import by.jcompany.bonus_system.util.HashManager;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -45,12 +44,15 @@ public class TaskFunctions extends Functions {
         }
     }
     
-    public static String updateTask(Integer taskId, String taskDescription, Float amount,
-                                    BonusDto.BonusType bonusType) {
+    public static String updateTask(Integer taskId, String taskDescription, Float amount, boolean isCompleted,
+                                    boolean isPaid, EmployeeDto employee, BonusDto.BonusType bonusType) {
         try {
             TaskDto task = new TaskDto();
             task.setId(taskId);
             task.setDescription(taskDescription);
+            task.setCompleted(isCompleted);
+            task.setPaid(isPaid);
+            task.setEmployee(employee);
             task.setBonus(new BonusDto(bonusType, amount));
             
             connection.makeRequest(new Request("UPDATE_TASK", task));
@@ -84,20 +86,6 @@ public class TaskFunctions extends Functions {
             connection.makeRequest(new Request("SET_TASK_COMPLETED", taskId));
             Response response = connection.getResponse();
             if (!response.isError()) {
-                return (String) response.getResponseObject(String.class);
-            }
-            return null;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return null;
-        }
-    }
-    
-    public static String setTaskCompletedByEmployee(Integer taskId) {
-        try {
-            connection.makeRequest(new Request("SET_TASK_COMPLETED_BY_EMPLOYEE", taskId));
-            Response response = connection.getResponse();
-            if (!response.isError()) {
                 return response.getResponseString();
             }
             return null;
@@ -107,9 +95,23 @@ public class TaskFunctions extends Functions {
         }
     }
     
-    public static String setTaskToEmployee(Integer taskId, Integer employeeId) {
+    public static String setTaskToEmployee(Integer taskId) {
         try {
-            connection.makeRequest(new Request("SET_TASK_TO_EMPLOYEE", new Integer[] { taskId, employeeId }));
+            connection.makeRequest(new Request("SET_TASK_TO_EMPLOYEE", taskId));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (String) response.getResponseObject(String.class);
+            }
+            return null;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static String unsetTaskFromEmployee(Integer taskId) {
+        try {
+            connection.makeRequest(new Request("UNSET_TASK_FROM_EMPLOYEE", taskId));
             Response response = connection.getResponse();
             if (!response.isError()) {
                 return (String) response.getResponseObject(String.class);
@@ -127,6 +129,20 @@ public class TaskFunctions extends Functions {
             Response response = connection.getResponse();
             if (!response.isError()) {
                 return (String) response.getResponseObject(String.class);
+            }
+            return null;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static Float getPointCost() {
+        try {
+            connection.makeRequest(new Request("GET_POINT_COST", null));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (Float) response.getResponseObject(Float.class);
             }
             return null;
         } catch (Exception exception) {

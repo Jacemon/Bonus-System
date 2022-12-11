@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>by.jcompany.bonus_system.util</OriginalElement>
+  <nodes>
+    <node x="849.1704558312698" y="379.2992709236685">by.jcompany.bonus_system.util.json.Exclude</node>
+    <node x="491.90440078539837" y="342.7992709236685">by.jcompany.bonus_system.util.PropertyManager</node>
+    <node x="439.30929673551077" y="485.21191718265203">by.jcompany.bonus_system.util.HibernateSessionFactory</node>
+    <node x="811.1704558312698" y="223.38662466468492">by.jcompany.bonus_system.util.json.GsonManager</node>
+    <node x="763.1704558312698" y="509.21191718265203">by.jcompany.bonus_system.util.HashManager</node>
+    <node x="401.7059927145818" y="231.1950972598948">by.jcompany.bonus_system.util.json.AnnotationExclusionStrategy</node>
+    <node x="38.44813763975179" y="231.1950972598948">by.jcompany.bonus_system.util.CommandManager.ClientRequestString</node>
+    <node x="38.44813763975185" y="485.71191718265203">by.jcompany.bonus_system.util.CommandManager.ServerCommand</node>
+    <node x="38.44813763975185" y="341.17009762417695">by.jcompany.bonus_system.util.CommandManager</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="by.jcompany.bonus_system.util.CommandManager.ClientRequestString" target="by.jcompany.bonus_system.util.CommandManager" relationship="INNER_CLASS">
+      <point x="111.49979814006474" y="-3.991652985178007E-4" />
+      <point x="313.6762692125751" y="270.1946980945963" />
+      <point x="313.6762692125751" y="392.170503702513" />
+      <point x="-211.49987775295904" y="4.06078336027349E-4" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.util.CommandManager" target="by.jcompany.bonus_system.util.CommandManager.ClientRequestString" relationship="CREATE">
+      <point x="-100.00000000000006" y="-51.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.util.CommandManager" target="by.jcompany.bonus_system.util.CommandManager.ServerCommand" relationship="TO_MANY">
+      <point x="-46.5" y="51.0" />
+      <point x="-15.0" y="-39.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.util.json.GsonManager" target="by.jcompany.bonus_system.util.json.AnnotationExclusionStrategy" relationship="CREATE">
+      <point x="0.0" y="-39.5" />
+      <point x="886.6704558312698" y="273.90344458744215" />
+      <point x="564.2059927145817" y="273.90344458744215" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.util.CommandManager.ServerCommand" target="by.jcompany.bonus_system.util.CommandManager" relationship="INNER_CLASS">
+      <point x="3.3004513621235674" y="9.488978716588008" />
+      <point x="221.74858900187542" y="534.0" />
+      <point x="218.44813763975185" y="534.0" />
+      <point x="218.44813763975185" y="392.170503702513" />
+      <point x="-211.49987775295904" y="4.06078336027349E-4" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0175403178008346" showDependencies="true" x="381.760057417408" y="373.4335259017252" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

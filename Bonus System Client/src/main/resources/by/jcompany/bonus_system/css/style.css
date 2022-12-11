@@ -48,31 +48,76 @@
 .text-field {
     -fx-font-size: 10pt;
     -fx-text-base-color: #B888FF;
-    -fx-background-color: #ffffff;
+    -fx-background-color: white;
     -fx-border-color: #a66cfa;
 }
 .text-area {
     -fx-font-size: 10pt;
     -fx-text-base-color: #B888FF;
-    -fx-background-color: #ffffff;
+    -fx-background-color: white;
     -fx-border-color: #a66cfa;
 }
+.content {
+    -fx-background-color: white;
+}
+
 .combo-box-base {
     -fx-font-size: 10pt;
     -fx-text-base-color: #B888FF;
-    -fx-background-color: #ffffff;
+    -fx-background-color: white;
     -fx-border-color: #a66cfa;
 }
 .list-view {
     -fx-font-size: 10pt;
     -fx-text-base-color: #B888FF;
-    -fx-background-color: #ffffff;
+    -fx-background-color: white;
     -fx-border-color: #a66cfa;
 }
+
+.scroll-bar {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.thumb {
+    -fx-background-color: #B888FF;
+    -fx-background-radius: 2em;
+}
+.track {
+
+    -fx-border-color: transparent;
+}
+.increment-arrow {
+    -fx-background-color: transparent;
+}
+.decrement-arrow {
+    -fx-background-color: transparent;
+}
+
+.check-box {
+    -fx-border-radius: 0;
+}
+.check-box > .box {
+    -fx-font-size: 20px;
+    -fx-background-color: pink;
+    -fx-border-color: #a66cfa;
+}
+.check-box > .box > .mark {
+    -fx-background-color: red;
+    -fx-shape: "M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z";
+}
+.check-box:selected > .box {
+    -fx-background-color: lightgreen;
+    -fx-border-radius: 0;
+}
+.check-box:selected > .box > .mark {
+    -fx-shape: "M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z";
+    -fx-background-color: #00bb00;
+}
+
 .button {
     -fx-font-size: 10pt;
     -fx-text-base-color: #B888FF;
-    -fx-background-color: #ffffff;
+    -fx-background-color: white;
     -fx-border-color: #a66cfa;
 }
 .button:hover {

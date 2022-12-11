@@ -53,10 +53,10 @@ public class Task implements IdHandler {
     @JoinColumn(name = "bonus_id", nullable = false)
     private Bonus bonus;
     
-    @ToString.Exclude // todo 1
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")
-    private Employee employee; // 1
+    private Employee employee;
     
     /**
      * Use Task.setBonus() for adding bonus
@@ -70,14 +70,7 @@ public class Task implements IdHandler {
         this.bonus = bonus;
     }
     
-    public static void setPointCost(Float pointCost) {
-        if (pointCost != null && pointCost >= 0.0f) {
-            Task.pointCost = pointCost;
-        } else {
-            Task.pointCost = null;
-        }
-    }
-    
+    // todo перенести в бонус
     public Float getAmount(Employee employee) {
         Float amount = null;
         switch (bonus.getType()) {
@@ -87,7 +80,7 @@ public class Task implements IdHandler {
                     amount = bonus.getAmount() * pointCost;
                 }
             }
-            case PERCENT -> amount = employee.getSalary() * bonus.getAmount();
+            case PERCENT -> amount = employee.getSalary() * bonus.getAmount() / 100.0f;
         }
         return amount;
     }
@@ -95,5 +88,13 @@ public class Task implements IdHandler {
     @Override
     public Object getIdField() {
         return getId();
+    }
+    
+    public static void setPointCost(Float pointCost) {
+        if (pointCost != null && pointCost >= 0.0f) {
+            Task.pointCost = pointCost;
+        } else {
+            Task.pointCost = null;
+        }
     }
 }

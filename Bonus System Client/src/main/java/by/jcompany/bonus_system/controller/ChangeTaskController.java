@@ -35,6 +35,9 @@ public class ChangeTaskController implements Initializable {
     private ComboBox<EmployeeDto> comboBoxNewEmployee;
     
     @FXML
+    private CheckBox taskIsCompleted;
+    
+    @FXML
     private Button buttonChange;
     
     @FXML
@@ -48,8 +51,8 @@ public class ChangeTaskController implements Initializable {
     @FXML
     void changeTaskAction() {
         String status = TaskFunctions.updateTask(editTask.getId(), taskNewDescription.getText(),
-            Float.parseFloat(bonusNewAmount.getText()), comboBoxNewBonusType.getValue());
-        status += " " + TaskFunctions.setTaskToEmployee(editTask.getId(), comboBoxNewEmployee.getValue().getId());
+            Float.parseFloat(bonusNewAmount.getText()), taskIsCompleted.isSelected(), editTask.isPaid(),
+            comboBoxNewEmployee.getValue(), comboBoxNewBonusType.getValue());
         labelStatus.setText(status);
         System.out.println(status);
     }
@@ -85,6 +88,7 @@ public class ChangeTaskController implements Initializable {
         bonusNewAmount.setText(editTask.getBonus().getAmount().toString());
         comboBoxNewBonusType.setValue(editTask.getBonus().getType());
         comboBoxNewEmployee.setValue(editTask.getEmployee());
+        taskIsCompleted.setSelected(editTask.isCompleted());
         
         comboBoxNewBonusType.setItems(FXCollections.observableArrayList(BonusDto.BonusType.values()));
     }

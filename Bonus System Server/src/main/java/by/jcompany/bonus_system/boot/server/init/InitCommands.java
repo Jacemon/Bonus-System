@@ -11,7 +11,6 @@ import by.jcompany.bonus_system.model.dto.TaskDto;
 import by.jcompany.bonus_system.model.dto.UserDto;
 import by.jcompany.bonus_system.util.CommandManager;
 import by.jcompany.bonus_system.util.CommandManager.ClientRequestString;
-import by.jcompany.bonus_system.util.Validator;
 import by.jcompany.bonus_system.util.json.GsonManager;
 import com.google.gson.Gson;
 
@@ -47,8 +46,7 @@ public class InitCommands {
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> {
                 User user = gson.fromJson(clientRequestString.requestString, User.class);
-                if (Validator.correctLogin(user.getLogin()) &&
-                    UserFunctions.createUser(user)) {
+                if (UserFunctions.createUser(user)) {
                     return "User created";
                 }
                 throw new RuntimeException("User not created");
@@ -63,8 +61,7 @@ public class InitCommands {
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> {
                 User user = gson.fromJson(clientRequestString.requestString, User.class);
-                if (Validator.correctLogin(user.getLogin()) &&
-                    UserFunctions.updateUser(user)) {
+                if (UserFunctions.updateUser(user)) {
                     return "User updated";
                 }
                 throw new RuntimeException("User not updated");
@@ -122,39 +119,42 @@ public class InitCommands {
             (ClientRequestString clientRequestString) -> EmployeeFunctions.readAllEmployees().stream()
                 .map(EmployeeDto::new).toList()
         ));
+        CommandManager.addCommand("UPDATE_EMPLOYEE", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                Employee employee = gson.fromJson(clientRequestString.requestString, Employee.class);
+                if (EmployeeFunctions.updateEmployee(employee)) {
+                    return "Employee updated";
+                }
+                throw new RuntimeException("Employee not updated");
+            }
+        ));
         CommandManager.addCommand("CALCULATE_BONUSES", new CommandManager.ServerCommand(
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> {
                 Integer employeeId = gson.fromJson(clientRequestString.requestString, Integer.class);
-                return EmployeeFunctions.calculateEmployeeBonus(employeeId);
+                if (employeeId != null) {
+                    return EmployeeFunctions.calculateEmployeeBonuses(employeeId, true);
+                } else {
+                    return EmployeeFunctions.calculateEmployeeBonusesForAll(true);
+                }
             }
         ));
-        CommandManager.addCommand("GET_BONUSES", new CommandManager.ServerCommand(
+        CommandManager.addCommand("PAY_BONUSES", new CommandManager.ServerCommand(
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> {
                 Integer employeeId = gson.fromJson(clientRequestString.requestString, Integer.class);
-                Float amount = EmployeeFunctions.getEmployeeBonus(employeeId);
-                if (amount != null) {
-                    return amount;
+                if (employeeId != null) {
+                    return EmployeeFunctions.payEmployeeBonuses(employeeId, true);
+                } else {
+                    return EmployeeFunctions.payEmployeeBonusesForAll(true);
                 }
-                throw new RuntimeException("Something went wrong, if you lost your bonus contact the administrator");
             }
         ));
         CommandManager.addCommand("CALCULATE_BONUSES_BY_EMPLOYEE", new CommandManager.ServerCommand(
             new Role("COMMON"),
-            (ClientRequestString clientRequestString) -> EmployeeFunctions.calculateEmployeeBonus(
-                clientRequestString.client.getClientUser().getEmployee().getId())
-        ));
-        CommandManager.addCommand("GET_BONUSES_BY_EMPLOYEE", new CommandManager.ServerCommand(
-            new Role("COMMON"),
-            (ClientRequestString clientRequestString) -> {
-                Float amount = EmployeeFunctions.getEmployeeBonus(
-                    clientRequestString.client.getClientUser().getEmployee().getId());
-                if (amount != null) {
-                    return amount;
-                }
-                throw new RuntimeException("Something went wrong, if you lost your bonus contact the administrator");
-            }
+            (ClientRequestString clientRequestString) -> EmployeeFunctions.calculateEmployeeBonuses(
+                clientRequestString.client.getClientUser().getEmployee().getId(), true)
         ));
         // Task
         CommandManager.addCommand("CREATE_TASK", new CommandManager.ServerCommand(
@@ -192,45 +192,42 @@ public class InitCommands {
                 throw new RuntimeException("Point was not set");
             }
         ));
-        CommandManager.addCommand("SET_TASK_COMPLETED", new CommandManager.ServerCommand(
-            new Role("ADMIN"),
-            (ClientRequestString clientRequestString) -> {
-                Integer taskId = gson.fromJson(clientRequestString.requestString, Integer.class);
-                if (TaskFunctions.setTaskCompleted(taskId)) {
-                    return "Task was set to completed";
-                }
-                throw new RuntimeException("Task was not set to complete");
-            }
+        CommandManager.addCommand("GET_POINT_COST", new CommandManager.ServerCommand(
+            new Role("COMMON"),
+            (ClientRequestString clientRequestString) -> TaskFunctions.getPointCost()
         ));
-        CommandManager.addCommand("SET_TASK_COMPLETED_BY_EMPLOYEE", new CommandManager.ServerCommand(
+        CommandManager.addCommand("SET_TASK_COMPLETED", new CommandManager.ServerCommand(
             new Role("COMMON"),
             (ClientRequestString clientRequestString) -> {
                 Integer taskId = gson.fromJson(clientRequestString.requestString, Integer.class);
-                if (TaskFunctions.setTaskCompletedByEmployee(taskId,
+                if (clientRequestString.client.getClientUser().getEmployee() != null &&
+                    TaskFunctions.setTaskCompleted(taskId,
                     clientRequestString.client.getClientUser().getEmployee().getId())) {
-                    return "Task was set to completed by employee";
+                    return "Task was set to completed";
                 }
-                throw new RuntimeException("Task was not set to completed by employee");
+                throw new RuntimeException("Task was not set to completed");
             }
         ));
         CommandManager.addCommand("SET_TASK_TO_EMPLOYEE", new CommandManager.ServerCommand(
-            new Role("ADMIN"),
+            new Role("COMMON"),
             (ClientRequestString clientRequestString) -> {
-                Integer[] taskAndEmployeeId = gson.fromJson(clientRequestString.requestString, Integer[].class);
-                if (TaskFunctions.setTaskToEmployee(taskAndEmployeeId[0], taskAndEmployeeId[1])) {
+                Integer taskId = gson.fromJson(clientRequestString.requestString, Integer.class);
+                if (TaskFunctions.setTaskToEmployee(taskId,
+                    clientRequestString.client.getClientUser().getEmployee().getId())) {
                     return "Task was set to employee";
                 }
                 throw new RuntimeException("Task was not set to employee");
             }
         ));
-        CommandManager.addCommand("SET_TASK_BY_EMPLOYEE", new CommandManager.ServerCommand(
+        CommandManager.addCommand("UNSET_TASK_FROM_EMPLOYEE", new CommandManager.ServerCommand(
             new Role("COMMON"),
             (ClientRequestString clientRequestString) -> {
                 Integer taskId = gson.fromJson(clientRequestString.requestString, Integer.class);
-                if (TaskFunctions.setTaskByEmployee(taskId, clientRequestString.client.getClientUser().getId())) {
-                    return "Task gotten to employee";
+                if (TaskFunctions.unsetTaskFromEmployee(taskId,
+                    clientRequestString.client.getClientUser().getEmployee().getId())) {
+                    return "Task was unset to employee";
                 }
-                throw new RuntimeException("Task not gotten to employee");
+                throw new RuntimeException("Task was not unset to employee");
             }
         ));
     }

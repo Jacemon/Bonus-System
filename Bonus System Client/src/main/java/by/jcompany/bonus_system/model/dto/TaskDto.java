@@ -30,4 +30,18 @@ public class TaskDto {
     public TaskDto(String description) {
         this.description = description;
     }
+    
+    public Float getAmount(EmployeeDto employee, Float pointCost) {
+        Float amount = null;
+        switch (bonus.getType()) {
+            case MONEY -> amount = bonus.getAmount();
+            case POINTS -> {
+                if (pointCost != null) {
+                    amount = bonus.getAmount() * pointCost;
+                }
+            }
+            case PERCENT -> amount = employee.getSalary() * bonus.getAmount() / 100.0f;
+        }
+        return amount;
+    }
 }

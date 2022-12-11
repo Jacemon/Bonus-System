@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -16,18 +17,14 @@ public class SaveTest {
         String propFile = "server.properties";
         Properties property = new Properties();
         
-        String path = System.getProperty("user.dir") +
-            File.separator + "src" +
-            File.separator + "main" +
-            File.separator + "resources" +
-            File.separator + propFile;
         
-        try (FileInputStream fis = new FileInputStream(path)) {
+        try (FileInputStream fis = new FileInputStream(new File(Objects.requireNonNull(
+            getClass().getResource("/" + propFile)).toURI()))) {
             property.load(fis);
             
             Float pointCost = Float.valueOf(property.getProperty("task.pointCost"));
             System.out.println(pointCost);
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             fail();
         }

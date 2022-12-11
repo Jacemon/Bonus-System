@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>by.jcompany.bonus_system.entity</OriginalElement>
+  <nodes>
+    <node x="-115.5" y="-35.893594989561535">by.jcompany.bonus_system.entity.Bonus</node>
+    <node x="95.5" y="29.0">by.jcompany.bonus_system.entity.Role</node>
+    <node x="516.5" y="-147.0">by.jcompany.bonus_system.entity.Task</node>
+    <node x="-115.5" y="289.56576200417544">by.jcompany.bonus_system.entity.Bonus.BonusType</node>
+    <node x="741.5" y="-37.0">by.jcompany.bonus_system.entity.User</node>
+    <node x="330.5" y="-179.35848016701465">by.jcompany.bonus_system.entity.IdHandler</node>
+    <node x="311.5" y="-70.0">by.jcompany.bonus_system.entity.Employee</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="by.jcompany.bonus_system.entity.Role" target="by.jcompany.bonus_system.entity.User" relationship="TO_MANY">
+      <point x="15.0" y="-137.5" />
+      <point x="208.5" y="-191.81330271398755" />
+      <point x="860.0" y="-191.81330271398755" />
+      <point x="15.0" y="-203.5" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.User" target="by.jcompany.bonus_system.entity.Role" relationship="TO_ONE">
+      <point x="30.0" y="203.5" />
+      <point x="875.0" y="532.0" />
+      <point x="178.5" y="532.0" />
+      <point x="-15.0" y="137.5" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Employee" target="by.jcompany.bonus_system.entity.Task" relationship="TO_MANY">
+      <point x="92.5" y="-0.0" />
+      <point x="-102.5" y="-0.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Task" target="by.jcompany.bonus_system.entity.IdHandler" relationship="REALIZATION">
+      <point x="0.0" y="-313.5" />
+      <point x="619.0" y="-172.0" />
+      <point x="404.0" y="-172.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Employee" target="by.jcompany.bonus_system.entity.IdHandler" relationship="REALIZATION">
+      <point x="0.0" y="-236.5" />
+      <point x="404.0" y="-133.5" />
+      <point x="404.0" y="-133.5" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Bonus" target="by.jcompany.bonus_system.entity.Bonus.BonusType" relationship="TO_ONE">
+      <point x="15.0" y="137.5" />
+      <point x="15.0" y="-71.5" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.User" target="by.jcompany.bonus_system.entity.IdHandler" relationship="REALIZATION">
+      <point x="0.0" y="-203.5" />
+      <point x="845.0" y="-172.0" />
+      <point x="404.0" y="-172.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Bonus" target="by.jcompany.bonus_system.entity.IdHandler" relationship="REALIZATION">
+      <point x="0.0" y="-137.5" />
+      <point x="-20.0" y="-172.0" />
+      <point x="404.0" y="-172.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Task" target="by.jcompany.bonus_system.entity.Bonus" relationship="TO_ONE">
+      <point x="-102.5" y="-254.0" />
+      <point x="-5.0" y="-87.5" />
+      <point x="15.0" y="-137.5" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Bonus.BonusType" target="by.jcompany.bonus_system.entity.Bonus" relationship="INNER_CLASS">
+      <point x="0.0" y="-71.5" />
+      <point x="-20.0" y="417.0" />
+      <point x="0.0" y="137.5" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Task" target="by.jcompany.bonus_system.entity.Employee" relationship="TO_ONE">
+      <point x="-0.0" y="313.5" />
+      <point x="619.0" y="502.0" />
+      <point x="404.0" y="502.0" />
+      <point x="-0.0" y="236.5" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Role" target="by.jcompany.bonus_system.entity.IdHandler" relationship="REALIZATION">
+      <point x="0.0" y="-137.5" />
+      <point x="193.5" y="-172.0" />
+      <point x="404.0" y="-172.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.User" target="by.jcompany.bonus_system.entity.Employee" relationship="TO_ONE">
+      <point x="-0.0" y="203.5" />
+      <point x="845.0" y="502.0" />
+      <point x="404.0" y="502.0" />
+      <point x="-0.0" y="236.5" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.Employee" target="by.jcompany.bonus_system.entity.User" relationship="TO_ONE">
+      <point x="-92.5" y="-155.0" />
+      <point x="208.5" y="11.5" />
+      <point x="208.5" y="-191.81330271398755" />
+      <point x="860.0" y="-191.81330271398755" />
+      <point x="15.0" y="-203.5" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.entity.User" target="by.jcompany.bonus_system.entity.Role" relationship="CREATE">
+      <point x="15.0" y="203.5" />
+      <point x="860.0" y="517.0" />
+      <point x="193.5" y="517.0" />
+      <point x="-0.0" y="137.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.2388067730402554" showDependencies="true" x="570.42801977453" y="271.801045511482" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

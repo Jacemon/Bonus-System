@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>by.jcompany.bonus_system.boot.server.function</OriginalElement>
+  <nodes>
+    <node x="69.0" y="-126.0">by.jcompany.bonus_system.boot.server.function.GeneralFunctions</node>
+    <node x="69.0" y="121.0">by.jcompany.bonus_system.boot.server.function.RoleFunctions</node>
+    <node x="391.0" y="77.0">by.jcompany.bonus_system.boot.server.function.UserFunctions</node>
+    <node x="738.9999999999999" y="-126.0">by.jcompany.bonus_system.boot.server.function.EmployeeFunctions</node>
+    <node x="426.0" y="-126.0">by.jcompany.bonus_system.boot.server.function.Functions</node>
+    <node x="708.0" y="55.0">by.jcompany.bonus_system.boot.server.function.TaskFunctions</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="by.jcompany.bonus_system.boot.server.function.GeneralFunctions" target="by.jcompany.bonus_system.boot.server.function.Functions" relationship="GENERALIZATION">
+      <point x="0.0" y="-49.0" />
+      <point x="177.5" y="41.0" />
+      <point x="539.5" y="41.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.boot.server.function.TaskFunctions" target="by.jcompany.bonus_system.boot.server.function.Functions" relationship="GENERALIZATION">
+      <point x="0.0" y="-104.0" />
+      <point x="875.5" y="41.0" />
+      <point x="539.5" y="41.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.boot.server.function.EmployeeFunctions" target="by.jcompany.bonus_system.boot.server.function.Functions" relationship="GENERALIZATION">
+      <point x="0.0" y="-71.0" />
+      <point x="890.9999999999999" y="41.0" />
+      <point x="539.5" y="41.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.boot.server.function.RoleFunctions" target="by.jcompany.bonus_system.boot.server.function.Functions" relationship="GENERALIZATION">
+      <point x="0.0" y="-71.0" />
+      <point x="220.0" y="41.0" />
+      <point x="539.5" y="41.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="by.jcompany.bonus_system.boot.server.function.UserFunctions" target="by.jcompany.bonus_system.boot.server.function.Functions" relationship="GENERALIZATION">
+      <point x="0.0" y="-93.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.6508038585209003" showDependencies="false" x="599.5" y="85.0" />
+  <SelectedNodes>
+    <node>by.jcompany.bonus_system.boot.server.function.EmployeeFunctions</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

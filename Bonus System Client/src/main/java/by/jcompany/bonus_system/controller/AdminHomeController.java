@@ -19,10 +19,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AdminHomeController implements Initializable {
@@ -34,6 +36,23 @@ public class AdminHomeController implements Initializable {
     private static TaskDto selectedTask = null;
     @Getter
     private static RoleDto selectedRole = null;
+    
+    @Getter
+    private static final String path = System.getProperty("user.dir") +
+        File.separator + "src" +
+        File.separator + "main" +
+        File.separator + "resources" +
+        File.separator + "by" +
+        File.separator + "jcompany" +
+        File.separator + "bonus_system" +
+        File.separator + "ico" +
+        File.separator;
+    
+    @FXML
+    private Button buttonPayBonuses;
+    
+    @FXML
+    private Button buttonShowInfo;
     
     @FXML
     private Button buttonLogout;
@@ -79,6 +98,9 @@ public class AdminHomeController implements Initializable {
     
     @FXML
     private Button buttonEmployeeInfo;
+    
+    @FXML
+    private Button buttonChangeTaskPointCost;
     
     @FXML
     private Button buttonReloadUsers;
@@ -150,7 +172,21 @@ public class AdminHomeController implements Initializable {
     private TableView<TaskDto> taskTable;
     
     @FXML
-    void logoutAction() throws IOException {
+    void payBonusesAction() throws IOException, URISyntaxException {
+        Stage stage = StageManager.reloadAndGetStage("payBonuses");
+        stage.showAndWait();
+        reloadTasksAction();
+        reloadEmployeesAction();
+    }
+    
+    @FXML
+    void showInfoAction() throws IOException, URISyntaxException {
+        Stage stage = StageManager.reloadAndGetStage("showInfo");
+        stage.showAndWait();
+    }
+    
+    @FXML
+    void logoutAction() throws IOException, URISyntaxException {
         Stage stage = StageManager.reloadAndGetStage("login");
         stage.show();
         ((Stage) closeButton.getScene().getWindow()).close();
@@ -163,35 +199,35 @@ public class AdminHomeController implements Initializable {
     }
     
     @FXML
-    void addEmployeeAction() throws IOException {
+    void addEmployeeAction() throws IOException, URISyntaxException {
         Stage stage = StageManager.reloadAndGetStage("addEmployee");
         stage.showAndWait();
         reloadEmployeesAction();
     }
     
     @FXML
-    void addRoleAction() throws IOException {
+    void addRoleAction() throws IOException, URISyntaxException {
         Stage stage = StageManager.reloadAndGetStage("addRole");
         stage.showAndWait();
         reloadRolesAction();
     }
     
     @FXML
-    void addTaskAction() throws IOException {
+    void addTaskAction() throws IOException, URISyntaxException {
         Stage stage = StageManager.reloadAndGetStage("addTask");
         stage.showAndWait();
         reloadTasksAction();
     }
     
     @FXML
-    void addUserAction() throws IOException {
+    void addUserAction() throws IOException, URISyntaxException {
         Stage stage = StageManager.reloadAndGetStage("addUser");
         stage.showAndWait();
         reloadUsersAction();
     }
     
     @FXML
-    void changeEmployeeAction() throws IOException {
+    void changeEmployeeAction() throws IOException, URISyntaxException {
         selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee == null) {
             return;
@@ -200,12 +236,12 @@ public class AdminHomeController implements Initializable {
         Stage stage = StageManager.reloadAndGetStage("changeEmployee");
         stage.showAndWait();
     
-        reloadTasksAction();
+        reloadEmployeesAction();
         selectedEmployee = null;
     }
     
     @FXML
-    void changeRoleAction() throws IOException {
+    void changeRoleAction() throws IOException, URISyntaxException {
         selectedRole = roleTable.getSelectionModel().getSelectedItem();
         if (selectedRole == null) {
             return;
@@ -219,7 +255,7 @@ public class AdminHomeController implements Initializable {
     }
     
     @FXML
-    void changeTaskAction() throws IOException {
+    void changeTaskAction() throws IOException, URISyntaxException {
         selectedTask = taskTable.getSelectionModel().getSelectedItem();
         if (selectedTask == null) {
             return;
@@ -230,10 +266,11 @@ public class AdminHomeController implements Initializable {
     
         reloadTasksAction();
         selectedTask = null;
+        reloadEmployeesAction();
     }
     
     @FXML
-    void changeUserAction() throws IOException {
+    void changeUserAction() throws IOException, URISyntaxException {
         selectedUser = userTable.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
             return;
@@ -287,8 +324,9 @@ public class AdminHomeController implements Initializable {
     }
     
     @FXML
-    void showEmployeeInfoAction() throws IOException {
+    void showEmployeeInfoAction() throws IOException, URISyntaxException {
         selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        reloadEmployeesAction();
         if (selectedEmployee == null) {
             return;
         }
@@ -297,6 +335,12 @@ public class AdminHomeController implements Initializable {
         stage.showAndWait();
         
         selectedEmployee = null;
+    }
+    
+    @FXML
+    void changeTaskPointCostAction() throws IOException, URISyntaxException {
+        Stage stage = StageManager.reloadAndGetStage("changePointCost");
+        stage.showAndWait();
     }
     
     @FXML
@@ -402,45 +446,27 @@ public class AdminHomeController implements Initializable {
                     taskDto.getValue().getEmployee().getLastName()
                 : "Не назначен"
         ));
-        setBooleanCell(taskCompleted);
-        setBooleanCell(taskPaid);
-        taskBonus.setCellValueFactory(taskDto -> new SimpleObjectProperty<>(
-            taskDto.getValue().getBonus().getAmount().toString() +
-                getBonusSign(taskDto.getValue().getBonus())
-        ));
-    }
-    
-    private String getBonusSign(BonusDto bonus) {
-        String sign = "";
-        switch (bonus.getType()) {
-            case MONEY -> sign = "$";
-            case POINTS -> sign = "p";
-            case PERCENT -> sign = "%";
-        }
-        return sign;
-    }
-    
-    private void setBooleanCell(TableColumn<TaskDto, ImageView> taskPaid) {
-        /*Image completedImage = new Image(Objects.requireNonNull(
-            getClass().getResource("../ico/t_completed.png"))
-            .toExternalForm());
-        Image notCompletedImage = new Image(Objects.requireNonNull(
-                getClass().getResource("../ico/no.png"))
-            .toExternalForm());*/
-        
-        String path = System.getProperty("user.dir") +
-            File.separator + "src" +
-            File.separator + "main" +
-            File.separator + "resources" +
-            File.separator + "by" +
-            File.separator + "jcompany" +
-            File.separator + "bonus_system" +
-            File.separator + "ico" +
-            File.separator;
-        taskPaid.setCellValueFactory(taskDto -> {
+        taskCompleted.setCellValueFactory(taskDto -> {
                 try {
                     return new SimpleObjectProperty<>(
                         taskDto.getValue().isCompleted() ? new ImageView(new Image(
+                            Objects.requireNonNull(getClass()
+                                .getResource("/by/jcompany/bonus_system/ico/yes.png")).toURI().toString(),
+                            20, 20, false, false))
+                            : new ImageView(new Image(
+                            Objects.requireNonNull(getClass()
+                                .getResource("/by/jcompany/bonus_system/ico/no.png")).toURI().toString(),
+                            20, 20, false, false))
+                        );
+                } catch (URISyntaxException exception) {
+                    throw new RuntimeException(exception);
+                }
+            }
+        );
+        taskPaid.setCellValueFactory(taskDto -> {
+                try {
+                    return new SimpleObjectProperty<>(
+                        taskDto.getValue().isPaid() ? new ImageView(new Image(
                             new FileInputStream(path + "yes.png"),
                             20, 20, false, false))
                             : new ImageView(new Image(
@@ -453,5 +479,19 @@ public class AdminHomeController implements Initializable {
                 return null;
             }
         );
+        taskBonus.setCellValueFactory(taskDto -> new SimpleObjectProperty<>(
+            taskDto.getValue().getBonus().getAmount().toString() +
+                getBonusSign(taskDto.getValue().getBonus())
+        ));
+    }
+    
+    static String getBonusSign(BonusDto bonus) {
+        String sign = "";
+        switch (bonus.getType()) {
+            case MONEY -> sign = "$";
+            case POINTS -> sign = "p";
+            case PERCENT -> sign = "%";
+        }
+        return sign;
     }
 }

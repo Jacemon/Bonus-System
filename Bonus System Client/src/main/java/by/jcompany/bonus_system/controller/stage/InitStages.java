@@ -12,7 +12,10 @@ public class InitStages {
         addStageWithSameName("changeEmployee");
         addStageWithSameName("changeTask");
         addStageWithSameName("changeRole");
+        addStageWithSameName("changePointCost");
         addStageWithSameName("showEmployeeInfo");
+        addStageWithSameName("showInfo");
+        addStageWithSameName("payBonuses");
         addStageWithSameName("commonHome");
     }
     

@@ -12,7 +12,6 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-// TODO узнать как это делать с тестовой бд
 public class CrudTest {
     static {
         HibernateSessionFactory.getSessionFactory();

@@ -100,19 +100,4 @@ public class UserFunctions extends Functions {
             return null;
         }
     }
-    
-    // todo to delete
-    public static String setUserEmployee(Integer userId, Integer employeeId) {
-        try {
-            connection.makeRequest(new Request("SET_USER_EMPLOYEE", new Integer[] { userId, employeeId }));
-            Response response = connection.getResponse();
-            if (!response.isError()) {
-                return (String) response.getResponseObject(String.class);
-            }
-            return null;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return null;
-        }
-    }
 }

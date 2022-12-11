@@ -2,6 +2,7 @@ package by.jcompany.bonus_system.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +24,7 @@ public class Bonus implements IdHandler {
     @Enumerated(EnumType.STRING)
     private BonusType type;
     
-    @DecimalMin(value = "0.0")
+    @PositiveOrZero
     @Column(name = "amount", nullable = false)
     private Float amount;
     

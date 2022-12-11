@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -45,14 +47,14 @@ public class StageManager {
         stageMap.remove(stageName);
     }
     
-    public static Stage getStage(String stageName) throws IOException {
+    public static Stage getStage(String stageName) throws IOException, URISyntaxException {
         if (stageMap.get(stageName).getStage() == null) {
             return reloadAndGetStage(stageName);
         }
         return stageMap.get(stageName).getStage();
     }
     
-    public static Stage reloadAndGetStage(String stageName) throws IOException {
+    public static Stage reloadAndGetStage(String stageName) throws IOException, URISyntaxException {
         String url = stageMap.get(stageName).getUrl();
         
         Stage stage = new Stage();
@@ -63,7 +65,10 @@ public class StageManager {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
-        
+        stage.getIcons().add(new Image(Objects.requireNonNull(
+            StageManager.class.getResource("/by/jcompany/bonus_system/ico/main-logo.png")).toURI().toString()));
+    
+    
         Parent parent = scene.getRoot();
         parent.setOnMousePressed(mouseEvent -> {
             point = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());

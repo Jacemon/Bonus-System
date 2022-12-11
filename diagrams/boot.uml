@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>by.jcompany.bonus_system.boot</OriginalElement>
+  <nodes>
+    <node x="94.0" y="301.0">by.jcompany.bonus_system.boot.server.init.InitSavedValues</node>
+    <node x="384.5" y="135.5">by.jcompany.bonus_system.boot.ServerBoot</node>
+    <node x="166.0" y="135.5">by.jcompany.bonus_system.boot.server.Server</node>
+    <node x="384.99999999999994" y="207.0">by.jcompany.bonus_system.boot.server.init.InitCommands</node>
+    <node x="-205.0" y="135.5">by.jcompany.bonus_system.boot.server.ClientHandler</node>
+    <node x="341.49999999999994" y="301.5">by.jcompany.bonus_system.boot.server.init.InitDatabaseRows</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="by.jcompany.bonus_system.boot.server.Server" target="by.jcompany.bonus_system.boot.server.ClientHandler" relationship="CREATE">
+      <point x="-93.5" y="9.0" />
+      <point x="192.0" y="216.0" />
+      <point x="192.0" y="207.0" />
+      <point x="181.75" y="207.0" />
+      <point x="181.75" y="203.78125000000017" />
+      <point x="115.53125000000017" y="-74.71874999999983" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8000000000000002" showDependencies="true" x="289.2812500000001" y="322.5312500000001" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

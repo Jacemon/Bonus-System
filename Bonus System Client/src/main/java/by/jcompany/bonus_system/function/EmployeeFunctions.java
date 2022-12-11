@@ -73,6 +73,20 @@ public class EmployeeFunctions extends Functions {
         }
     }
     
+    public static Float payBonuses(Integer employeeId) {
+        try {
+            connection.makeRequest(new Request("PAY_BONUSES", employeeId));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (Float) response.getResponseObject(Float.class);
+            }
+            return null;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
     public static Float calculateBonuses(Integer employeeId) {
         try {
             connection.makeRequest(new Request("CALCULATE_BONUSES", employeeId));

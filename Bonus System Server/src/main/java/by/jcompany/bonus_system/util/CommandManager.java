@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 // todo Как идея: можно сделать этот класс не статическим, и делать его экземпляр в КлиентХендлер,
 //  после чего заполнять его заново для каждого клиента функциями. Тогда перенести поле уровня доступа
-//  из КлиентХендлер можно в этот класс
+//  из юзера КлиентХендлера можно в этот класс
 public class CommandManager {
     private static final Map<String, ServerCommand> commands = new HashMap<>();
     

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class Connection implements AutoCloseable {
     private static final String IP_ADDRESS = "127.0.0.1";
@@ -31,26 +32,20 @@ public class Connection implements AutoCloseable {
     public void makeRequest(Request request) throws IOException {
         try {
             objectOutputStream.writeObject(request);
-        } catch (NullPointerException exception) {
-            if (!Functions.isConnected()) {
-                Functions.reconnect();
-                throw exception;
-            } else {
-                throw exception;
-            }
+        } catch (SocketException | NullPointerException exception) {
+            Functions.reconnect();
+            System.out.println("reconnecting...");
+            throw exception;
         }
     }
     
     public Response getResponse() throws IOException, ClassNotFoundException {
         try {
             return (Response) objectInputStream.readObject();
-        } catch (NullPointerException exception) {
-            if (!Functions.isConnected()) {
-                Functions.reconnect();
-                throw exception;
-            } else {
-                throw exception;
-            }
+        } catch (SocketException | NullPointerException exception) {
+            Functions.reconnect();
+            System.out.println("reconnecting...");
+            throw exception;
         }
     }
     

@@ -3,6 +3,8 @@ package by.jcompany.bonus_system.boot.server.function;
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.entity.Task;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class EmployeeFunctions extends Functions {
@@ -14,16 +16,26 @@ public class EmployeeFunctions extends Functions {
         return employeeService.readAll();
     }
     
-    // todo сделать employee_id unique в юзере, чтобы нельзя было назначить нескольким юзерам одного работника
-    public static boolean changeEmployeeName(String newFirstName, String newLastName) {
-        return false;//todo
+    public static boolean updateEmployee(Employee employee) {
+        return employeeService.update(employee);
     }
     
-    public static Float getEmployeeBonus(Integer employeeId) {
+    public static Float payEmployeeBonuses(Integer employeeId, boolean forThisYear) {
         Employee employee = employeeService.read(employeeId);
         float finalAmount = 0.0f;
         for (Task task : employee.getTasks()) {
             if (task.isCompleted() && !task.isPaid()) {
+                if (forThisYear) {
+                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+    
+                    Calendar taskDate = Calendar.getInstance();
+                    taskDate.setTime(Date.from(task.getCreationTime()));
+                    int taskYear = taskDate.get(Calendar.YEAR);
+    
+                    if (currentYear != taskYear) {
+                        continue;
+                    }
+                }
                 Float amount = task.getAmount(employee);
                 if (amount == null) {
                     continue;
@@ -38,17 +50,54 @@ public class EmployeeFunctions extends Functions {
         return finalAmount;
     }
     
-    public static Float calculateEmployeeBonus(Integer employeeId) {
+    public static Float payEmployeeBonusesForAll(boolean forThisYear) {
+        List<Employee> employees = employeeService.readAll();
+        float finalAmount = 0.0f;
+        for (Employee employee : employees) {
+            Float amount = payEmployeeBonuses(employee.getId(), forThisYear);
+            if (amount == null) {
+                continue;
+            }
+            finalAmount += amount;
+        }
+        return finalAmount;
+    }
+    
+    public static Float calculateEmployeeBonuses(Integer employeeId, boolean forThisYear) {
         Employee employee = employeeService.read(employeeId);
         float finalAmount = 0.0f;
         for (Task task : employee.getTasks()) {
             if (task.isCompleted() && !task.isPaid()) {
+                if (forThisYear) {
+                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                    
+                    Calendar taskDate = Calendar.getInstance();
+                    taskDate.setTime(Date.from(task.getCreationTime()));
+                    int taskYear = taskDate.get(Calendar.YEAR);
+                    
+                    if (currentYear != taskYear) {
+                        continue;
+                    }
+                }
                 Float amount = task.getAmount(employee);
                 if (amount == null) {
                     continue;
                 }
                 finalAmount += amount;
             }
+        }
+        return finalAmount;
+    }
+    
+    public static Float calculateEmployeeBonusesForAll(boolean forThisYear) {
+        List<Employee> employees = employeeService.readAll();
+        float finalAmount = 0.0f;
+        for (Employee employee : employees) {
+            Float amount = calculateEmployeeBonuses(employee.getId(), forThisYear);
+            if (amount == null) {
+                continue;
+            }
+            finalAmount += amount;
         }
         return finalAmount;
     }

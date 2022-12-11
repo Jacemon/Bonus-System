@@ -1,11 +1,12 @@
 package by.jcompany.bonus_system.boot.server.function;
 
 import by.jcompany.bonus_system.boot.server.init.InitSavedValues;
-import by.jcompany.bonus_system.entity.Bonus;
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.entity.Task;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public class TaskFunctions extends Functions {
     public static boolean createTask(Task task) {
@@ -17,10 +18,6 @@ public class TaskFunctions extends Functions {
     }
     
     public static boolean updateTask(Task task) {
-/*        if (setTaskToEmployee(task.getId(), task.getEmployee().getId())) {
-            return taskService.update(task);
-        }
-        return false;*/
         return taskService.update(task);
     }
     
@@ -28,21 +25,7 @@ public class TaskFunctions extends Functions {
         return false; //todo
     }
     
-    // todo delete
-    public static boolean changeTaskDescription(String newDescription) {
-        return false;
-    }
-    public static boolean changeTaskBonus(Integer taskId, Bonus newBonus) {
-        return false;
-    }
-    
-    public static boolean setTaskCompleted(Integer taskId) {
-        Task task = taskService.read(taskId);
-        task.setCompleted(true);
-        return taskService.update(task);
-    }
-    // todo сделать эту функцию единой с функцией выше
-    public static boolean setTaskCompletedByEmployee(Integer taskId, Integer employeeId) {
+    public static boolean setTaskCompleted(Integer taskId, Integer employeeId) {
         Task task = taskService.read(taskId);
         if (task.getEmployee().getId().equals(employeeId)) {
             task.setCompleted(true);
@@ -54,21 +37,23 @@ public class TaskFunctions extends Functions {
     public static boolean setTaskToEmployee(Integer taskId, Integer employeeId) {
         Task task = taskService.read(taskId);
         Employee employee = employeeService.read(employeeId);
-        if (task == null || employee == null) {
+        if (task.getEmployee() != null || employee == null) {
             return false;
+        } else {
+            task.setEmployee(employee);
+            return taskService.update(task);
         }
-        task.setEmployee(employee);
-        return taskService.update(task);
     }
-    // todo тоже можно объединить эти две функции
-    public static boolean setTaskByEmployee(Integer taskId, Integer employeeId) {
+    
+    public static boolean unsetTaskFromEmployee(Integer taskId, Integer employeeId) {
         Task task = taskService.read(taskId);
         Employee employee = employeeService.read(employeeId);
-        if (task == null || employee == null || task.getEmployee() != null) {
+        if (task.getEmployee().getId().equals(employee.getId())) {
             return false;
+        } else {
+            task.setEmployee(null);
+            return taskService.update(task);
         }
-        task.setEmployee(employee);
-        return taskService.update(task);
     }
     
     public static boolean setPointCost(Float pointCost) {
@@ -81,6 +66,6 @@ public class TaskFunctions extends Functions {
     }
     
     public static Float getPointCost() {
-        return null;// TODO;
+        return Task.getPointCost();
     }
 }

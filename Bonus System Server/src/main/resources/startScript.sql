@@ -13,8 +13,8 @@ create table `bonus`
 (
     id     int auto_increment
         primary key,
-    type   enum ('POINTS', 'MONEY') not null,
-    amount float                    not null
+    type   enum ('POINTS', 'MONEY', 'PERCENT') not null,
+    amount float                               not null
 );
 
 create table `employee`
@@ -22,7 +22,8 @@ create table `employee`
     id         int auto_increment
         primary key,
     first_name varchar(20) not null,
-    last_name  varchar(20) not null
+    last_name  varchar(20) not null,
+    salary     float       not null
 );
 
 create table `role`
@@ -61,7 +62,9 @@ create table `user`
     password_hash blob        not null,
     role_name     varchar(20) not null,
     employee_id   int         null,
-    constraint user_pk
+    constraint user_employee_pk
+        unique (employee_id),
+    constraint user_login_pk
         unique (login),
     constraint user_employee_id_fk
         foreign key (employee_id) references employee (id)

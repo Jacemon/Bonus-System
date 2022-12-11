@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 
@@ -43,7 +44,7 @@ public class LoginController {
     private PasswordField userPassword;
     
     @FXML
-    void loginAction() throws IOException {
+    void loginAction() throws IOException, URISyntaxException {
         UserDto user = GeneralFunctions.login(userLogin.getText(), userPassword.getText());
         System.out.println(user);
         if (user == null) {
@@ -54,7 +55,11 @@ public class LoginController {
         Stage stage = null;
         switch (user.getRole().getName()) {
             case "ADMIN" -> stage = StageManager.getStage("adminHome");
-            case "COMMON" -> stage = StageManager.getStage("commonHome");
+            case "COMMON" -> {
+                CommonHomeController.setUser(user);
+                CommonHomeController.setPassword(userPassword.getText());
+                stage = StageManager.getStage("commonHome");
+            }
         }
         
         if (stage == null) {

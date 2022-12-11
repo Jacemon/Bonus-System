@@ -3,6 +3,7 @@ package by.jcompany.bonus_system.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +30,7 @@ public class Employee implements IdHandler {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
     
-    @DecimalMin(value = "0.0")
+    @PositiveOrZero
     @Column(name = "salary", nullable = false)
     private Float salary;
     
