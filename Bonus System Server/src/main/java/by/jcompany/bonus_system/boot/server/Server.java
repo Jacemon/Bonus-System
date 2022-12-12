@@ -14,9 +14,9 @@ import java.util.Scanner;
 
 public class Server {
     public static final int SERVER_PORT = 4040;
+    private static final List<Socket> clientSockets = new ArrayList<>();
     public static boolean exit = false;
     private static ServerSocket serverSocket = null;
-    private static final List<Socket> clientSockets = new ArrayList<>();
     
     public static void start() {
         Thread serverThread = new Thread(() -> {
@@ -27,10 +27,10 @@ public class Server {
             InitSavedValues.tryInitTaskPointCost();
             
             int clientCount = 0;
-    
+            
             try {
                 serverSocket = new ServerSocket(SERVER_PORT);
-        
+                
                 while (true) {
                     clientSockets.removeIf(Socket::isClosed);
                     
@@ -44,7 +44,7 @@ public class Server {
             } catch (SocketException ignored) {
             } catch (Exception exception) {
                 exception.printStackTrace();
-            }  finally {
+            } finally {
                 try {
                     assert serverSocket != null;
                     serverSocket.close();

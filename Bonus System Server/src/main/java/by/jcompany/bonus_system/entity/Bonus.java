@@ -1,14 +1,11 @@
 package by.jcompany.bonus_system.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import static by.jcompany.bonus_system.model.dto.BonusDto.BonusType.MONEY;
 
 @NoArgsConstructor
 @Getter

@@ -1,8 +1,6 @@
 package by.jcompany.bonus_system.entity;
 
-import by.jcompany.bonus_system.model.dto.EmployeeDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -70,16 +68,16 @@ public class Task implements IdHandler {
         this.bonus = bonus;
     }
     
-    @Override
-    public Object getIdField() {
-        return getId();
-    }
-    
     public static void setPointCost(Float pointCost) {
         if (pointCost != null && pointCost >= 0.0f) {
             Task.pointCost = pointCost;
         } else {
             Task.pointCost = null;
         }
+    }
+    
+    @Override
+    public Object getIdField() {
+        return getId();
     }
 }

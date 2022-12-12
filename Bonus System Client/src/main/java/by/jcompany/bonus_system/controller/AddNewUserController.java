@@ -5,15 +5,14 @@ import by.jcompany.bonus_system.function.RoleFunctions;
 import by.jcompany.bonus_system.function.UserFunctions;
 import by.jcompany.bonus_system.model.dto.EmployeeDto;
 import by.jcompany.bonus_system.model.dto.RoleDto;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxListCell;
-import javafx.scene.paint.Color;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.net.URL;
@@ -84,7 +83,7 @@ public class AddNewUserController implements Initializable {
             public String toString(EmployeeDto employeeDto) {
                 return "[" + employeeDto.getId() + "] " + employeeDto.getFirstName() + " " + employeeDto.getLastName();
             }
-        
+            
             @Override
             public EmployeeDto fromString(String string) {
                 return null;

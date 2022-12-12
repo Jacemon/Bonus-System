@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.time.Year;
 import java.util.*;
 
 import static by.jcompany.bonus_system.controller.AdminHomeController.getBonusSign;
@@ -76,7 +75,7 @@ public class ShowEmployeeInfoController implements Initializable {
         if (bonusesForCompleted != null) {
             bonusesForCompletedTasks.setText(bonusesForCompleted.toString());
         }
-
+        
         Float pointCost = TaskFunctions.getPointCost();
         Float bonusesForNotCompleted = 0.0f;
         
@@ -99,7 +98,7 @@ public class ShowEmployeeInfoController implements Initializable {
             cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
             text.wrappingWidthProperty().bind(taskDescription.widthProperty());
             text.textProperty().bind(cell.itemProperty());
-            return cell ;
+            return cell;
         });
         taskCompleted.setCellValueFactory(taskDto -> {
                 try {

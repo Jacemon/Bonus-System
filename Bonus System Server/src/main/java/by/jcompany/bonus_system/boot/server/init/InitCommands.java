@@ -13,9 +13,6 @@ import by.jcompany.bonus_system.util.CommandManager;
 import by.jcompany.bonus_system.util.CommandManager.ClientRequestString;
 import by.jcompany.bonus_system.util.json.GsonManager;
 import com.google.gson.Gson;
-import com.mysql.cj.conf.ConnectionUrlParser.Pair;
-
-import java.lang.reflect.Type;
 
 public class InitCommands {
     private static final Gson gson = GsonManager.getGson();
@@ -257,7 +254,7 @@ public class InitCommands {
                 Integer taskId = gson.fromJson(clientRequestString.requestString, Integer.class);
                 if (clientRequestString.client.getClientUser().getEmployee() != null &&
                     TaskFunctions.setTaskCompleted(taskId,
-                    clientRequestString.client.getClientUser().getEmployee().getId())) {
+                        clientRequestString.client.getClientUser().getEmployee().getId())) {
                     return "Task was set to completed";
                 }
                 throw new RuntimeException("Task was not set to completed");

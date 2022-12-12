@@ -76,6 +76,16 @@ public class CommonHomeController implements Initializable {
     @FXML
     private TableView<TaskDto> taskTable;
     
+    static String getBonusSign(BonusDto bonus) {
+        String sign = "";
+        switch (bonus.getType()) {
+            case MONEY -> sign = "$";
+            case POINTS -> sign = "p";
+            case PERCENT -> sign = "%";
+        }
+        return sign;
+    }
+    
     @FXML
     void takeTaskAction() {
         System.out.println(TaskFunctions.setTaskToEmployee(taskTable.getSelectionModel().getSelectedItem().getId()));
@@ -117,7 +127,7 @@ public class CommonHomeController implements Initializable {
             for (TaskDto task : tasksDto) {
                 taskDate.setTime(Date.from(task.getCreationTime()));
                 int taskYear = taskDate.get(Calendar.YEAR);
-
+                
                 if (taskYear == currentYear && !task.isPaid()) {
                     EmployeeDto taskEmployee = task.getEmployee();
                     if (taskEmployee == null) {
@@ -176,7 +186,7 @@ public class CommonHomeController implements Initializable {
             text.textProperty().bind(cell.itemProperty());
             return cell;
         });
-    
+        
         String PATTERN_FORMAT = "dd.MM.yyyy - hh:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN_FORMAT)
             .withZone(ZoneId.systemDefault());
@@ -221,15 +231,5 @@ public class CommonHomeController implements Initializable {
             taskDto.getValue().getBonus().getAmount().toString() +
                 getBonusSign(taskDto.getValue().getBonus())
         ));
-    }
-    
-    static String getBonusSign(BonusDto bonus) {
-        String sign = "";
-        switch (bonus.getType()) {
-            case MONEY -> sign = "$";
-            case POINTS -> sign = "p";
-            case PERCENT -> sign = "%";
-        }
-        return sign;
     }
 }

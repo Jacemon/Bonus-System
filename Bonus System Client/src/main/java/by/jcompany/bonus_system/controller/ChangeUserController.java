@@ -81,14 +81,14 @@ public class ChangeUserController implements Initializable {
         } else {
             comboBoxNewEmployee.setItems(FXCollections.observableArrayList());
         }
-    
+        
         comboBoxNewEmployee.setConverter(new StringConverter<>() {
             @Override
             public String toString(EmployeeDto employeeDto) {
                 return "[" + employeeDto.getId() + "] " + employeeDto.getFirstName() + " " +
                     employeeDto.getLastName();
             }
-        
+            
             @Override
             public EmployeeDto fromString(String string) {
                 return null;

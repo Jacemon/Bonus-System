@@ -3,7 +3,6 @@ package by.jcompany.bonus_system.boot.server.function;
 import by.jcompany.bonus_system.boot.server.ClientHandler;
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.entity.User;
-import com.mysql.cj.conf.ConnectionUrlParser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +31,7 @@ public class UserFunctions extends Functions {
         if (user.getLogin() == null) {
             user.setLogin(userService.read(user.getId()).getLogin());
         }
-
+        
         if (user.getPasswordHash() == null) {
             user.setPasswordHash(userService.read(user.getId()).getPasswordHash());
         } else if (!Arrays.equals(userService.read(user.getId()).getPasswordHash(), oldPasswordHash)) {

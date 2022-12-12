@@ -83,23 +83,23 @@ public class PayBonusesController implements Initializable {
     void makeTxtAction() {
         String path = System.getProperty("user.home") +
             File.separator + "Documents";
-    
+        
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Сохранение отчёта");
         fileChooser.setInitialFileName("Отчёт по выплате премий за "
             + Calendar.getInstance().get(Calendar.YEAR) + " год");
         fileChooser.setInitialDirectory(new File(path));
-    
+        
         FileChooser.ExtensionFilter extensionFilter =
             new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extensionFilter);
-    
+        
         try {
             File file = fileChooser.showSaveDialog(StageManager.getStage("payBonuses"));
             
             if (file != null) {
                 System.out.println(file);
-    
+                
                 List<EmployeeDto> employees = EmployeeFunctions.readAllEmployees();
                 assert employees != null;
                 
@@ -108,7 +108,7 @@ public class PayBonusesController implements Initializable {
                         + Calendar.getInstance().get(Calendar.YEAR) + " год");
                     writer.write('\n');
                     writer.write('\n');
-    
+                    
                     for (EmployeeDto employee : employees) {
                         writer.write(employee.getLastName() + " " + employee.getFirstName() + '\t' +
                             EmployeeFunctions.calculateBonuses(employee.getId(), true) + "$");
@@ -130,13 +130,13 @@ public class PayBonusesController implements Initializable {
     void makePdfAction() {
         String path = System.getProperty("user.home") +
             File.separator + "Documents";
-    
+        
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Сохранение отчёта");
         fileChooser.setInitialFileName("Отчёт по выплате премий за "
             + Calendar.getInstance().get(Calendar.YEAR) + " год");
         fileChooser.setInitialDirectory(new File(path));
-    
+        
         FileChooser.ExtensionFilter extensionFilter =
             new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
         fileChooser.getExtensionFilters().add(extensionFilter);
@@ -147,17 +147,17 @@ public class PayBonusesController implements Initializable {
                 System.out.println(file);
                 Document document = new Document();
                 PdfWriter.getInstance(document, new FileOutputStream(file));
-        
+                
                 List<EmployeeDto> employees = EmployeeFunctions.readAllEmployees();
                 assert employees != null;
-    
+                
                 document.open();
-    
+                
                 BaseFont baseFont = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1251", BaseFont.EMBEDDED);
                 
                 Font font = new Font(baseFont, 16, Font.NORMAL);
                 Font headerFont = new Font(baseFont, 20, Font.BOLD);
-    
+                
                 document.add(new Paragraph("Отчёт по выплате премий за "
                     + Calendar.getInstance().get(Calendar.YEAR) + " год", headerFont));
                 document.add(new Paragraph("\n", headerFont));
@@ -218,7 +218,7 @@ public class PayBonusesController implements Initializable {
                 return "[" + employeeDto.getId() + "] " + employeeDto.getFirstName() + " " +
                     employeeDto.getLastName();
             }
-        
+            
             @Override
             public EmployeeDto fromString(String string) {
                 return null;

@@ -40,20 +40,20 @@ public class ClientHandler implements Runnable {
         try {
             Response serverResponse;
             Request clientRequest;
-    
+            
             do {
                 clientRequest = (Request) objectInputStream.readObject();
                 try {
                     System.out.println("client #" + clientNumber + " -> server: ");
                     System.out.println(clientRequest);
-    
+                    
                     serverResponse = CommandManager.executeCommand(clientRequest.getRequestType(),
                         clientRequest.getRequestString(), this);
                 } catch (Exception exception) {
                     serverResponse = new Response(Response.ResponseType.ERROR, "Not defined error!");
                     exception.printStackTrace();
                 }
-        
+                
                 if (!quit) {
                     System.out.println("server -> client #" + clientNumber + ": ");
                     System.out.println(serverResponse);

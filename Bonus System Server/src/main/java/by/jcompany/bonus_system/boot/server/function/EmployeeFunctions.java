@@ -40,7 +40,7 @@ public class EmployeeFunctions extends Functions {
                 if (forThisYear) {
                     taskDate.setTime(Date.from(task.getCreationTime()));
                     int taskYear = taskDate.get(Calendar.YEAR);
-    
+                    
                     if (currentYear != taskYear) {
                         continue;
                     }

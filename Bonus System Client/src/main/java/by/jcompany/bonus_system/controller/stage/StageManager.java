@@ -20,20 +20,11 @@ import java.util.Objects;
 
 public class StageManager {
     private static final Map<String, StageWithUrl> stageMap = new HashMap<>();
-    
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class StageWithUrl {
-        private Stage stage;
-        private String url;
-    }
+    private static Point2D point;
     
     static {
         InitStages.create();
     }
-    
-    private static Point2D point;
     
     public static void addStage(String stageName, String url) {
         stageMap.put(stageName, new StageWithUrl(null, url));
@@ -65,7 +56,7 @@ public class StageManager {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.getIcons().add(new Image(Objects.requireNonNull(
-            StageManager.class.getResource("/by/jcompany/bonus_system/ico/desktop-logo.png"))
+                StageManager.class.getResource("/by/jcompany/bonus_system/ico/desktop-logo.png"))
             .toURI().toString()));
         
         Parent parent = scene.getRoot();
@@ -80,5 +71,13 @@ public class StageManager {
         stageMap.get(stageName).setStage(stage);
         
         return stageMap.get(stageName).getStage();
+    }
+    
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class StageWithUrl {
+        private Stage stage;
+        private String url;
     }
 }

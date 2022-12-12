@@ -3,7 +3,9 @@ package by.jcompany.bonus_system.controller;
 import by.jcompany.bonus_system.function.TaskFunctions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;

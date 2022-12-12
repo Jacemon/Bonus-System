@@ -7,7 +7,6 @@ import by.jcompany.bonus_system.model.dto.RoleDto;
 import by.jcompany.bonus_system.model.dto.UserDto;
 import by.jcompany.bonus_system.util.HashManager;
 import com.google.gson.reflect.TypeToken;
-import javafx.util.Pair;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

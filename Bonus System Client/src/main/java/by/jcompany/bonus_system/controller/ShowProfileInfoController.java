@@ -23,34 +23,34 @@ import java.util.ResourceBundle;
 public class ShowProfileInfoController implements Initializable {
     @FXML
     private Label bonusesForCompletedTasks;
-
+    
     @FXML
     private Label bonusesForNotCompletedTasks;
-
+    
     @FXML
     private Button buttonChangeLoginOrPassword;
-
+    
     @FXML
     private Button closeButton;
-
+    
     @FXML
     private Label firstName;
-
+    
     @FXML
     private Label lastName;
-
+    
     @FXML
     private TextField newLogin;
-
+    
     @FXML
     private PasswordField newPassword;
-
+    
     @FXML
     private PasswordField oldPassword;
-
+    
     @FXML
     private PasswordField repeatNewPassword;
-
+    
     @FXML
     private Label salary;
     
@@ -75,7 +75,7 @@ public class ShowProfileInfoController implements Initializable {
             labelStatus.setText("Пароли не совпадают");
             return;
         }
-    
+        
         UserDto user = UserFunctions.updateUserByEmployee(CommonHomeController.getUser().getId(),
             login, currentPassword, password);
         
@@ -94,7 +94,7 @@ public class ShowProfileInfoController implements Initializable {
         labelStatus.setText(status);
         System.out.println(status);
     }
-
+    
     @FXML
     void closeButtonAction() {
         ((Stage) closeButton.getScene().getWindow()).close();
@@ -112,22 +112,22 @@ public class ShowProfileInfoController implements Initializable {
             firstName.setText(employee.getFirstName());
             lastName.setText(employee.getLastName());
             salary.setText(employee.getSalary().toString() + "$");
-    
-            bonusesForCompletedTasks.setText("error");
-            bonusesForNotCompletedTasks.setText("error");
-    
+            
+            bonusesForCompletedTasks.setText("");
+            bonusesForNotCompletedTasks.setText("");
+            
             Float bonusesForCompleted = EmployeeFunctions.calculateBonuses(null, false);
-    
+            
             if (bonusesForCompleted != null) {
                 bonusesForCompletedTasks.setText(bonusesForCompleted.toString());
             }
-    
+            
             Float pointCost = TaskFunctions.getPointCost();
             Float bonusesForNotCompleted = 0.0f;
-    
+            
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
             Calendar taskDate = Calendar.getInstance();
-    
+            
             for (TaskDto task : employee.getTasks()) {
                 taskDate.setTime(Date.from(task.getCreationTime()));
                 int taskYear = taskDate.get(Calendar.YEAR);

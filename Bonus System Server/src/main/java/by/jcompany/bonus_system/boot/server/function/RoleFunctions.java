@@ -1,7 +1,6 @@
 package by.jcompany.bonus_system.boot.server.function;
 
 import by.jcompany.bonus_system.entity.Role;
-import by.jcompany.bonus_system.entity.User;
 
 import java.util.List;
 

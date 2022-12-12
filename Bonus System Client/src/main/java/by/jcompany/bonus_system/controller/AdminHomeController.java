@@ -3,8 +3,6 @@ package by.jcompany.bonus_system.controller;
 import by.jcompany.bonus_system.controller.stage.StageManager;
 import by.jcompany.bonus_system.function.*;
 import by.jcompany.bonus_system.model.dto.*;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfWriter;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,30 +12,22 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AdminHomeController implements Initializable {
-    @Getter
-    private static UserDto selectedUser = null;
-    @Getter
-    private static EmployeeDto selectedEmployee = null;
-    @Getter
-    private static TaskDto selectedTask = null;
-    @Getter
-    private static RoleDto selectedRole = null;
-    
     @Getter
     private static final String path = System.getProperty("user.dir") +
         File.separator + "src" +
@@ -48,7 +38,14 @@ public class AdminHomeController implements Initializable {
         File.separator + "bonus_system" +
         File.separator + "ico" +
         File.separator;
-    
+    @Getter
+    private static UserDto selectedUser = null;
+    @Getter
+    private static EmployeeDto selectedEmployee = null;
+    @Getter
+    private static TaskDto selectedTask = null;
+    @Getter
+    private static RoleDto selectedRole = null;
     @FXML
     private Button buttonPayBonuses;
     
@@ -172,6 +169,16 @@ public class AdminHomeController implements Initializable {
     @FXML
     private TableView<TaskDto> taskTable;
     
+    static String getBonusSign(BonusDto bonus) {
+        String sign = "";
+        switch (bonus.getType()) {
+            case MONEY -> sign = "$";
+            case POINTS -> sign = "p";
+            case PERCENT -> sign = "%";
+        }
+        return sign;
+    }
+    
     @FXML
     void payBonusesAction() throws IOException, URISyntaxException {
         Stage stage = StageManager.reloadAndGetStage("payBonuses");
@@ -234,10 +241,10 @@ public class AdminHomeController implements Initializable {
         if (selectedEmployee == null) {
             return;
         }
-    
+        
         Stage stage = StageManager.reloadAndGetStage("changeEmployee");
         stage.showAndWait();
-    
+        
         reloadEmployeesAction();
         reloadUsersAction();
         selectedEmployee = null;
@@ -249,10 +256,10 @@ public class AdminHomeController implements Initializable {
         if (selectedRole == null) {
             return;
         }
-    
+        
         Stage stage = StageManager.reloadAndGetStage("changeRole");
         stage.showAndWait();
-    
+        
         reloadRolesAction();
         selectedRole = null;
     }
@@ -263,10 +270,10 @@ public class AdminHomeController implements Initializable {
         if (selectedTask == null) {
             return;
         }
-    
+        
         Stage stage = StageManager.reloadAndGetStage("changeTask");
         stage.showAndWait();
-    
+        
         reloadTasksAction();
         selectedTask = null;
         reloadEmployeesAction();
@@ -334,7 +341,7 @@ public class AdminHomeController implements Initializable {
         if (selectedEmployee == null) {
             return;
         }
-    
+        
         Stage stage = StageManager.reloadAndGetStage("showEmployeeInfo");
         stage.showAndWait();
         
@@ -435,7 +442,7 @@ public class AdminHomeController implements Initializable {
             cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
             text.wrappingWidthProperty().bind(taskDescription.widthProperty());
             text.textProperty().bind(cell.itemProperty());
-            return cell ;
+            return cell;
         });
         
         String PATTERN_FORMAT = "dd.MM.yyyy - hh:mm";
@@ -461,7 +468,7 @@ public class AdminHomeController implements Initializable {
                             Objects.requireNonNull(getClass()
                                 .getResource("/by/jcompany/bonus_system/ico/no.png")).toURI().toString(),
                             20, 20, false, false))
-                        );
+                    );
                 } catch (URISyntaxException exception) {
                     throw new RuntimeException(exception);
                 }
@@ -487,15 +494,5 @@ public class AdminHomeController implements Initializable {
             taskDto.getValue().getBonus().getAmount().toString() +
                 getBonusSign(taskDto.getValue().getBonus())
         ));
-    }
-    
-    static String getBonusSign(BonusDto bonus) {
-        String sign = "";
-        switch (bonus.getType()) {
-            case MONEY -> sign = "$";
-            case POINTS -> sign = "p";
-            case PERCENT -> sign = "%";
-        }
-        return sign;
     }
 }

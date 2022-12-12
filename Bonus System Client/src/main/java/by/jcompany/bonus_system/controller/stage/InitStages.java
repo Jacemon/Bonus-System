@@ -22,6 +22,6 @@ public class InitStages {
     
     private static void addStageWithSameName(String stageName) {
         StageManager.addStage(stageName, "fxml/" + stageName + ".fxml");
-    
+        
     }
 }

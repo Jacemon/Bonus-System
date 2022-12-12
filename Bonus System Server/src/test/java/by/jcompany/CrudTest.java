@@ -16,7 +16,7 @@ public class CrudTest {
     static {
         HibernateSessionFactory.getSessionFactory();
     }
-
+    
     UserService userService = new UserService();
     RoleService roleService = new RoleService();
     Service<Employee, Integer> employeeService = new EmployeeService();

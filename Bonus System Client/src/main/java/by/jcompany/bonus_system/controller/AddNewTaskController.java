@@ -1,22 +1,14 @@
 package by.jcompany.bonus_system.controller;
 
-import by.jcompany.bonus_system.function.EmployeeFunctions;
-import by.jcompany.bonus_system.function.RoleFunctions;
 import by.jcompany.bonus_system.function.TaskFunctions;
-import by.jcompany.bonus_system.function.UserFunctions;
 import by.jcompany.bonus_system.model.dto.BonusDto;
-import by.jcompany.bonus_system.model.dto.EmployeeDto;
-import by.jcompany.bonus_system.model.dto.RoleDto;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddNewTaskController implements Initializable {

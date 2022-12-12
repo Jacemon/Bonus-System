@@ -2,7 +2,6 @@ package by.jcompany.bonus_system.model.dto;
 
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.entity.Task;
-import jakarta.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

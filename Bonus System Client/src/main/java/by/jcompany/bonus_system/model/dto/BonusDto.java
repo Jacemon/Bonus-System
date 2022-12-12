@@ -19,12 +19,6 @@ public class BonusDto {
         this.amount = amount;
     }
     
-    public enum BonusType {
-        POINTS,
-        MONEY,
-        PERCENT
-    }
-    
     public Float getAmount(EmployeeDto employee, Float pointCost) {
         Float amount = null;
         switch (this.getType()) {
@@ -37,5 +31,11 @@ public class BonusDto {
             case PERCENT -> amount = employee.getSalary() * this.getAmount() / 100.0f;
         }
         return amount;
+    }
+    
+    public enum BonusType {
+        POINTS,
+        MONEY,
+        PERCENT
     }
 }

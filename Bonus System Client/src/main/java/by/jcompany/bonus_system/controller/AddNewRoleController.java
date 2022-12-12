@@ -1,6 +1,5 @@
 package by.jcompany.bonus_system.controller;
 
-import by.jcompany.bonus_system.function.EmployeeFunctions;
 import by.jcompany.bonus_system.function.RoleFunctions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,5 +40,6 @@ public class AddNewRoleController implements Initializable {
     }
     
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) { }
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 }

@@ -5,7 +5,7 @@ module by.jcompany.bonus_system {
     requires lombok;
     requires org.apache.pdfbox;
     requires itextpdf;
-
+    
     exports by.jcompany.bonus_system.controller;
     opens by.jcompany.bonus_system.controller to javafx.fxml;
     exports by.jcompany.bonus_system.model.dto;

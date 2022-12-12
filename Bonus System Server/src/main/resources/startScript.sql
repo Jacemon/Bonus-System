@@ -28,13 +28,16 @@ create table `employee`
 
 create table `role`
 (
-    name             varchar(20)    not null
+    name         varchar(20)    not null
         primary key,
     access_level int default -1 not null
 );
-insert into `role` (name) values ('UNDEFINED');
-insert into `role` (name, access_level) values ('ADMIN', 0);
-insert into `role` (name, access_level) values ('COMMON', 4);
+insert into `role` (name)
+values ('UNDEFINED');
+insert into `role` (name, access_level)
+values ('ADMIN', 0);
+insert into `role` (name, access_level)
+values ('COMMON', 4);
 
 create table `task`
 (
