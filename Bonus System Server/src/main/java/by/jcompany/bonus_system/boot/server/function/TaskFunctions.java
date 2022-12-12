@@ -22,7 +22,11 @@ public class TaskFunctions extends Functions {
     }
     
     public static boolean deleteTask(Integer taskId) {
-        return false; //todo
+        Task task = taskService.read(taskId);
+        if (task == null) {
+            return false;
+        }
+        return taskService.delete(task);
     }
     
     public static boolean setTaskCompleted(Integer taskId, Integer employeeId) {

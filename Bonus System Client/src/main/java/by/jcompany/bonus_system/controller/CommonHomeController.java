@@ -99,6 +99,9 @@ public class CommonHomeController implements Initializable {
         Stage stage = StageManager.reloadAndGetStage("login");
         stage.show();
         ((Stage) closeButton.getScene().getWindow()).close();
+        GeneralFunctions.logout();
+        user = null;
+        password = null;
     }
     
     @FXML
@@ -117,15 +120,17 @@ public class CommonHomeController implements Initializable {
 
                 if (taskYear == currentYear && !task.isPaid()) {
                     EmployeeDto taskEmployee = task.getEmployee();
-                    EmployeeDto userEmployee = user.getEmployee();
                     if (taskEmployee == null) {
                         if (!task.isCompleted()) {
                             tasks.add(task);
                         }
                     } else {
-                        if (userEmployee != null &&
-                            taskEmployee.getId().equals(userEmployee.getId())) {
-                            tasks.add(task);
+                        if (user != null) {
+                            EmployeeDto userEmployee = user.getEmployee();
+                            if (userEmployee != null &&
+                                taskEmployee.getId().equals(userEmployee.getId())) {
+                                tasks.add(task);
+                            }
                         }
                     }
                 }

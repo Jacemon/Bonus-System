@@ -13,6 +13,9 @@ import by.jcompany.bonus_system.util.CommandManager;
 import by.jcompany.bonus_system.util.CommandManager.ClientRequestString;
 import by.jcompany.bonus_system.util.json.GsonManager;
 import com.google.gson.Gson;
+import com.mysql.cj.conf.ConnectionUrlParser.Pair;
+
+import java.lang.reflect.Type;
 
 public class InitCommands {
     private static final Gson gson = GsonManager.getGson();
@@ -67,6 +70,18 @@ public class InitCommands {
                 throw new RuntimeException("User not updated");
             }
         ));
+        CommandManager.addCommand("UPDATE_USER_BY_EMPLOYEE", new CommandManager.ServerCommand(
+            new Role("COMMON"),
+            (ClientRequestString clientRequestString) -> {
+                UserDto.UserPair userPair = gson.fromJson(clientRequestString.requestString, UserDto.UserPair.class);
+                User user = UserFunctions.updateUserLoginInfo(userPair.getUser(), userPair.getPasswordHash(),
+                    clientRequestString.client);
+                if (user != null) {
+                    return new UserDto(user);
+                }
+                throw new IllegalArgumentException("Profile not updated");
+            }
+        ));
         CommandManager.addCommand("DELETE_USER", new CommandManager.ServerCommand(
             new Role("ADMIN"),
             (ClientRequestString clientRequestString) -> {
@@ -103,6 +118,26 @@ public class InitCommands {
             (ClientRequestString clientRequestString) -> RoleFunctions.readAllRoles().stream()
                 .map(RoleDto::new).toList()
         ));
+        CommandManager.addCommand("UPDATE_ROLE", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                Role role = gson.fromJson(clientRequestString.requestString, Role.class);
+                if (RoleFunctions.updateRole(role)) {
+                    return "Role updated";
+                }
+                throw new RuntimeException("Role not updated");
+            }
+        ));
+        CommandManager.addCommand("DELETE_ROLE", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                String roleName = gson.fromJson(clientRequestString.requestString, String.class);
+                if (RoleFunctions.deleteRole(roleName)) {
+                    return "Role deleted";
+                }
+                throw new RuntimeException("Role not deleted");
+            }
+        ));
         // Employee
         CommandManager.addCommand("CREATE_EMPLOYEE", new CommandManager.ServerCommand(
             new Role("ADMIN"),
@@ -127,6 +162,16 @@ public class InitCommands {
                     return "Employee updated";
                 }
                 throw new RuntimeException("Employee not updated");
+            }
+        ));
+        CommandManager.addCommand("DELETE_EMPLOYEE", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                Integer employeeId = gson.fromJson(clientRequestString.requestString, Integer.class);
+                if (EmployeeFunctions.deleteEmployee(employeeId)) {
+                    return "Employee deleted";
+                }
+                throw new RuntimeException("Employee not deleted");
             }
         ));
         CommandManager.addCommand("CALCULATE_BONUSES", new CommandManager.ServerCommand(
@@ -180,6 +225,16 @@ public class InitCommands {
                     return "Task updated";
                 }
                 throw new RuntimeException("Task not updated");
+            }
+        ));
+        CommandManager.addCommand("DELETE_TASK", new CommandManager.ServerCommand(
+            new Role("ADMIN"),
+            (ClientRequestString clientRequestString) -> {
+                Integer taskId = gson.fromJson(clientRequestString.requestString, Integer.class);
+                if (TaskFunctions.deleteTask(taskId)) {
+                    return "Task deleted";
+                }
+                throw new RuntimeException("Task not deleted");
             }
         ));
         CommandManager.addCommand("SET_POINT_COST", new CommandManager.ServerCommand(

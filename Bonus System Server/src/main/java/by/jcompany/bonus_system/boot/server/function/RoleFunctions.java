@@ -15,11 +15,15 @@ public class RoleFunctions extends Functions {
     }
     
     public static boolean deleteRole(String roleName) {
-        return false; //todo
+        Role role = roleService.read(roleName);
+        if (role == null) {
+            return false;
+        }
+        return roleService.delete(role);
     }
     
-    public static boolean changeRoleAccessLevel(String roleName, Integer newAccessLevel) {
-        return false; //todo
+    public static boolean updateRole(Role role) {
+        return roleService.update(role);
     }
     
     public static Integer readRoleAccessLevel(Role role) {

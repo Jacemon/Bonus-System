@@ -20,15 +20,24 @@ public class EmployeeFunctions extends Functions {
         return employeeService.update(employee);
     }
     
+    public static boolean deleteEmployee(Integer employeeId) {
+        Employee employee = employeeService.read(employeeId);
+        if (employee == null) {
+            return false;
+        }
+        return employeeService.delete(employee);
+    }
+    
     public static Float payEmployeeBonuses(Integer employeeId, boolean forThisYear) {
         Employee employee = employeeService.read(employeeId);
         float finalAmount = 0.0f;
+        
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        Calendar taskDate = Calendar.getInstance();
+        
         for (Task task : employee.getTasks()) {
             if (task.isCompleted() && !task.isPaid()) {
                 if (forThisYear) {
-                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-    
-                    Calendar taskDate = Calendar.getInstance();
                     taskDate.setTime(Date.from(task.getCreationTime()));
                     int taskYear = taskDate.get(Calendar.YEAR);
     
@@ -36,7 +45,7 @@ public class EmployeeFunctions extends Functions {
                         continue;
                     }
                 }
-                Float amount = task.getAmount(employee);
+                Float amount = task.getBonus().getAmount(employee);
                 if (amount == null) {
                     continue;
                 }
@@ -66,12 +75,14 @@ public class EmployeeFunctions extends Functions {
     public static Float calculateEmployeeBonuses(Integer employeeId, boolean forThisYear) {
         Employee employee = employeeService.read(employeeId);
         float finalAmount = 0.0f;
+        
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        Calendar taskDate = Calendar.getInstance();
+        
         for (Task task : employee.getTasks()) {
             if (task.isCompleted() && !task.isPaid()) {
                 if (forThisYear) {
-                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
                     
-                    Calendar taskDate = Calendar.getInstance();
                     taskDate.setTime(Date.from(task.getCreationTime()));
                     int taskYear = taskDate.get(Calendar.YEAR);
                     
@@ -79,7 +90,7 @@ public class EmployeeFunctions extends Functions {
                         continue;
                     }
                 }
-                Float amount = task.getAmount(employee);
+                Float amount = task.getBonus().getAmount(employee);
                 if (amount == null) {
                     continue;
                 }

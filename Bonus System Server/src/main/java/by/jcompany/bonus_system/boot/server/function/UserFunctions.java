@@ -1,8 +1,11 @@
 package by.jcompany.bonus_system.boot.server.function;
 
+import by.jcompany.bonus_system.boot.server.ClientHandler;
 import by.jcompany.bonus_system.entity.Employee;
 import by.jcompany.bonus_system.entity.User;
+import com.mysql.cj.conf.ConnectionUrlParser;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class UserFunctions extends Functions {
@@ -20,6 +23,27 @@ public class UserFunctions extends Functions {
             user.setEmployee(employeeService.read(user.getEmployee().getId()));
         }
         return userService.update(user);
+    }
+    
+    public static User updateUserLoginInfo(User user, byte[] oldPasswordHash, ClientHandler client) {
+        user.setRole(userService.read(user.getId()).getRole());
+        user.setEmployee(userService.read(user.getId()).getEmployee());
+        
+        if (user.getLogin() == null) {
+            user.setLogin(userService.read(user.getId()).getLogin());
+        }
+
+        if (user.getPasswordHash() == null) {
+            user.setPasswordHash(userService.read(user.getId()).getPasswordHash());
+        } else if (!Arrays.equals(userService.read(user.getId()).getPasswordHash(), oldPasswordHash)) {
+            return null;
+        }
+        if (userService.update(user)) {
+            User newUser = userService.read(user.getId());
+            client.setClientUser(newUser);
+            return newUser;
+        }
+        return null;
     }
     
     public static List<User> readAllUsers() {
@@ -41,13 +65,5 @@ public class UserFunctions extends Functions {
             user.setEmployee(employee);
         }
         return userService.update(user);
-    }
-    
-    public static boolean changeUserPassword(Integer userId, byte[] newPasswordHash) {
-        return false; // todo
-    }
-    
-    public static boolean changeUserLogin(Integer userId, String newLogin) {
-        return false; //todo
     }
 }

@@ -3,6 +3,8 @@ package by.jcompany.bonus_system.controller;
 import by.jcompany.bonus_system.controller.stage.StageManager;
 import by.jcompany.bonus_system.function.*;
 import by.jcompany.bonus_system.model.dto.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -12,17 +14,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -190,6 +191,7 @@ public class AdminHomeController implements Initializable {
         Stage stage = StageManager.reloadAndGetStage("login");
         stage.show();
         ((Stage) closeButton.getScene().getWindow()).close();
+        GeneralFunctions.logout();
     }
     
     @FXML
@@ -237,6 +239,7 @@ public class AdminHomeController implements Initializable {
         stage.showAndWait();
     
         reloadEmployeesAction();
+        reloadUsersAction();
         selectedEmployee = null;
     }
     
@@ -291,6 +294,7 @@ public class AdminHomeController implements Initializable {
         }
         System.out.println(EmployeeFunctions.deleteEmployee(employee.getId()));
         reloadEmployeesAction();
+        reloadUsersAction();
     }
     
     @FXML

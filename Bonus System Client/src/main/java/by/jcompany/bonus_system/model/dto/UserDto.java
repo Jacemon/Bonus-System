@@ -1,9 +1,6 @@
 package by.jcompany.bonus_system.model.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @NoArgsConstructor
 @Getter
@@ -28,5 +25,14 @@ public class UserDto {
         this.login = login;
         this.passwordHash = passwordHash;
         this.role = new RoleDto("COMMON");
+    }
+    
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public static class UserPair {
+        UserDto user;
+        byte[] passwordHash;
     }
 }

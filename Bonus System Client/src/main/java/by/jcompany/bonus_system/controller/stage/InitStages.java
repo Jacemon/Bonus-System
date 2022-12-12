@@ -15,6 +15,7 @@ public class InitStages {
         addStageWithSameName("changePointCost");
         addStageWithSameName("showEmployeeInfo");
         addStageWithSameName("showInfo");
+        addStageWithSameName("showProfileInfo");
         addStageWithSameName("payBonuses");
         addStageWithSameName("commonHome");
     }

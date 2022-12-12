@@ -7,6 +7,7 @@ import by.jcompany.bonus_system.model.dto.RoleDto;
 import by.jcompany.bonus_system.model.dto.UserDto;
 import by.jcompany.bonus_system.util.HashManager;
 import com.google.gson.reflect.TypeToken;
+import javafx.util.Pair;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -81,6 +82,35 @@ public class UserFunctions extends Functions {
                 return (String) response.getResponseObject(String.class);
             }
             return (String) response.getResponseObject(String.class);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static UserDto updateUserByEmployee(Integer userId, String login, String oldPassword, String newPassword) {
+        try {
+            UserDto user = new UserDto();
+            user.setId(userId);
+            if (!newPassword.equals("") && !oldPassword.equals("")) {
+                user.setPasswordHash(HashManager.getHash(newPassword));
+            } else {
+                user.setPasswordHash(null);
+            }
+            if (!login.equals("")) {
+                user.setLogin(login);
+            } else {
+                user.setLogin(null);
+            }
+            
+            UserDto.UserPair userPair = new UserDto.UserPair(user, HashManager.getHash(oldPassword));
+            
+            connection.makeRequest(new Request("UPDATE_USER_BY_EMPLOYEE", userPair));
+            Response response = connection.getResponse();
+            if (!response.isError()) {
+                return (UserDto) response.getResponseObject(UserDto.class);
+            }
+            return null;
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

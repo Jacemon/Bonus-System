@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="447.0" prefWidth="480.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.jcompany.bonus_system.controller.ShowInfoController">
+   <children>
+      <BorderPane prefHeight="454.0" prefWidth="480.0" style="-fx-border-color: black;">
+         <top>
+            <HBox prefHeight="36.0" prefWidth="305.0" style="-fx-background-color: #7f3fff;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label blendMode="SCREEN" prefHeight="35.0" prefWidth="101.0" styleClass="header-label" text="Статистика">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="12.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button fx:id="closeButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="35.0" prefWidth="35.0" styleClass="close-button">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../ico/close.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="330.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" prefHeight="423.0" prefWidth="478.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BarChart fx:id="barChart" prefHeight="234.0" prefWidth="478.0" title="Выплаты премий за последние шесть лет">
+                    <xAxis>
+                      <CategoryAxis fx:id="yearAxis" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+                  <PieChart fx:id="pieChart" prefHeight="231.0" prefWidth="478.0" title="Выполнение заданий за этот год" />
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

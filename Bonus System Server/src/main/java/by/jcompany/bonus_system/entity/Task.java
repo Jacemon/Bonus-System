@@ -70,21 +70,6 @@ public class Task implements IdHandler {
         this.bonus = bonus;
     }
     
-    // todo перенести в бонус
-    public Float getAmount(Employee employee) {
-        Float amount = null;
-        switch (bonus.getType()) {
-            case MONEY -> amount = bonus.getAmount();
-            case POINTS -> {
-                if (pointCost != null) {
-                    amount = bonus.getAmount() * pointCost;
-                }
-            }
-            case PERCENT -> amount = employee.getSalary() * bonus.getAmount() / 100.0f;
-        }
-        return amount;
-    }
-    
     @Override
     public Object getIdField() {
         return getId();

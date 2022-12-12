@@ -71,7 +71,7 @@ public class ShowEmployeeInfoController implements Initializable {
         bonusesForCompletedTasks.setText("error");
         bonusesForNotCompletedTasks.setText("error");
         
-        Float bonusesForCompleted = EmployeeFunctions.calculateBonuses(employee.getId());
+        Float bonusesForCompleted = EmployeeFunctions.calculateBonuses(employee.getId(), true);
         
         if (bonusesForCompleted != null) {
             bonusesForCompletedTasks.setText(bonusesForCompleted.toString());
@@ -82,7 +82,7 @@ public class ShowEmployeeInfoController implements Initializable {
         
         for (TaskDto task : employee.getTasks()) {
             if (!task.isPaid() && !task.isCompleted()) {
-                bonusesForNotCompleted += task.getAmount(employee, pointCost);
+                bonusesForNotCompleted += task.getBonus().getAmount(employee, pointCost);
             }
         }
         bonusesForNotCompletedTasks.setText(bonusesForNotCompleted.toString());

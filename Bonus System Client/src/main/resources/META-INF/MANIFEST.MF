@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-Class: by.jcompany.bonus_system.ClientBoot
+Class-Path: javafx-controls-19.jar itextpdf-5.5.13.3.jar javafx-base-19-
+ win.jar pdfbox-2.0.27.jar commons-logging-1.2.jar javafx-graphics-19.ja
+ r javafx-base-19.jar javafx-fxml-19.jar javafx-fxml-19-win.jar lombok-1
+ .18.24.jar fontbox-2.0.27.jar javafx-graphics-19-win.jar gson-2.10.jar 
+ javafx-controls-19-win.jar
+

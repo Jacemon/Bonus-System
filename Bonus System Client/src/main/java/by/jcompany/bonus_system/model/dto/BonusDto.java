@@ -24,4 +24,18 @@ public class BonusDto {
         MONEY,
         PERCENT
     }
+    
+    public Float getAmount(EmployeeDto employee, Float pointCost) {
+        Float amount = null;
+        switch (this.getType()) {
+            case MONEY -> amount = this.getAmount();
+            case POINTS -> {
+                if (pointCost != null) {
+                    amount = this.getAmount() * pointCost;
+                }
+            }
+            case PERCENT -> amount = employee.getSalary() * this.getAmount() / 100.0f;
+        }
+        return amount;
+    }
 }

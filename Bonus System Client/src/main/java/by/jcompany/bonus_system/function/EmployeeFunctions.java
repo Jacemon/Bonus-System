@@ -87,9 +87,14 @@ public class EmployeeFunctions extends Functions {
         }
     }
     
-    public static Float calculateBonuses(Integer employeeId) {
+    public static Float calculateBonuses(Integer employeeId, boolean forAll) {
         try {
-            connection.makeRequest(new Request("CALCULATE_BONUSES", employeeId));
+            if (forAll) {
+                connection.makeRequest(new Request("CALCULATE_BONUSES", employeeId));
+            } else {
+                connection.makeRequest(new Request("CALCULATE_BONUSES_BY_EMPLOYEE", null));
+            }
+            
             Response response = connection.getResponse();
             if (!response.isError()) {
                 return (Float) response.getResponseObject(Float.TYPE);

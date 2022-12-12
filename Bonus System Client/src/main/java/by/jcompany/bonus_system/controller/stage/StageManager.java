@@ -56,7 +56,6 @@ public class StageManager {
     
     public static Stage reloadAndGetStage(String stageName) throws IOException, URISyntaxException {
         String url = stageMap.get(stageName).getUrl();
-        
         Stage stage = new Stage();
         
         Scene scene = new Scene(FXMLLoader.load(
@@ -66,9 +65,9 @@ public class StageManager {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.getIcons().add(new Image(Objects.requireNonNull(
-            StageManager.class.getResource("/by/jcompany/bonus_system/ico/main-logo.png")).toURI().toString()));
-    
-    
+            StageManager.class.getResource("/by/jcompany/bonus_system/ico/desktop-logo.png"))
+            .toURI().toString()));
+        
         Parent parent = scene.getRoot();
         parent.setOnMousePressed(mouseEvent -> {
             point = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());

@@ -1,20 +1,32 @@
 package by.jcompany.bonus_system.controller;
 
+import by.jcompany.bonus_system.controller.stage.StageManager;
 import by.jcompany.bonus_system.function.EmployeeFunctions;
-import by.jcompany.bonus_system.function.TaskFunctions;
 import by.jcompany.bonus_system.model.dto.EmployeeDto;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 public class PayBonusesController implements Initializable {
     @FXML
@@ -30,6 +42,9 @@ public class PayBonusesController implements Initializable {
     private ComboBox<EmployeeDto> comboBoxEmployee;
     
     @FXML
+    private CheckBox makePdf;
+    
+    @FXML
     private Label labelStatus;
     
     @FXML
@@ -40,12 +55,141 @@ public class PayBonusesController implements Initializable {
     @FXML
     void payBonusesAction() {
         EmployeeDto employee = comboBoxEmployee.getValue();
+        String status;
+        Float amount;
         if (employee == null) {
-            System.out.println(EmployeeFunctions.payBonuses(null));
+            amount = EmployeeFunctions.payBonuses(null);
+            if (amount == null) {
+                status = "Бонусы не были выплачены";
+            } else {
+                status = "Бонусы были выплачены";
+            }
+            if (makePdf.isSelected()) {
+                makeTxtAction();
+            }
         } else {
-            System.out.println(EmployeeFunctions.payBonuses(employee.getId()));
+            amount = EmployeeFunctions.payBonuses(employee.getId());
+            if (amount == null) {
+                status = "Бонусы не были выплачены";
+            } else {
+                status = "Бонусы были выплачены";
+            }
         }
+        System.out.println(status);
+        labelStatus.setText(status);
         reloadBonusesAction();
+    }
+    
+    void makeTxtAction() {
+        String path = System.getProperty("user.home") +
+            File.separator + "Documents";
+    
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Сохранение отчёта");
+        fileChooser.setInitialFileName("Отчёт по выплате премий за "
+            + Calendar.getInstance().get(Calendar.YEAR) + " год");
+        fileChooser.setInitialDirectory(new File(path));
+    
+        FileChooser.ExtensionFilter extensionFilter =
+            new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+    
+        try {
+            File file = fileChooser.showSaveDialog(StageManager.getStage("payBonuses"));
+            
+            if (file != null) {
+                System.out.println(file);
+    
+                List<EmployeeDto> employees = EmployeeFunctions.readAllEmployees();
+                assert employees != null;
+                
+                try (FileWriter writer = new FileWriter(file)) {
+                    writer.write("Отчёт по выплате премий за "
+                        + Calendar.getInstance().get(Calendar.YEAR) + " год");
+                    writer.write('\n');
+                    writer.write('\n');
+    
+                    for (EmployeeDto employee : employees) {
+                        writer.write(employee.getLastName() + " " + employee.getFirstName() + '\t' +
+                            EmployeeFunctions.calculateBonuses(employee.getId(), true) + "$");
+                        writer.write('\n');
+                    }
+                    writer.write('\n');
+                    writer.write("Итого:\t" +
+                        EmployeeFunctions.calculateBonuses(null, true) + "$");
+                }
+            } else {
+                System.out.println("Файл не выбран");
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            System.out.println("Ошибка сохранения файла");
+        }
+    }
+    
+    void makePdfAction() {
+        String path = System.getProperty("user.home") +
+            File.separator + "Documents";
+    
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Сохранение отчёта");
+        fileChooser.setInitialFileName("Отчёт по выплате премий за "
+            + Calendar.getInstance().get(Calendar.YEAR) + " год");
+        fileChooser.setInitialDirectory(new File(path));
+    
+        FileChooser.ExtensionFilter extensionFilter =
+            new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        
+        try {
+            File file = fileChooser.showSaveDialog(StageManager.getStage("payBonuses"));
+            if (file != null) {
+                System.out.println(file);
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+        
+                List<EmployeeDto> employees = EmployeeFunctions.readAllEmployees();
+                assert employees != null;
+    
+                document.open();
+    
+                BaseFont baseFont = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1251", BaseFont.EMBEDDED);
+                
+                Font font = new Font(baseFont, 16, Font.NORMAL);
+                Font headerFont = new Font(baseFont, 20, Font.BOLD);
+    
+                document.add(new Paragraph("Отчёт по выплате премий за "
+                    + Calendar.getInstance().get(Calendar.YEAR) + " год", headerFont));
+                document.add(new Paragraph("\n", headerFont));
+                
+                PdfPTable table = new PdfPTable(3);
+                Stream.of("Фамилия", "Имя", "Годовая премия")
+                    .forEach(columnTitle -> {
+                        PdfPCell header = new PdfPCell();
+                        header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                        header.setBorderWidth(2);
+                        header.setPhrase(new Phrase(columnTitle));
+                        table.addCell(header);
+                    });
+                
+                for (EmployeeDto employee : employees) {
+                    table.addCell(new Phrase(employee.getLastName(), font));
+                    table.addCell(new Phrase(employee.getFirstName(), font));
+                    table.addCell(new Phrase(EmployeeFunctions.calculateBonuses(employee.getId(), true) + "$", font));
+                }
+                table.addCell(new Phrase("Итого:", font));
+                table.addCell(new Phrase());
+                table.addCell(new Phrase(EmployeeFunctions.calculateBonuses(null, true) + "$", font));
+                
+                document.add(table);
+                document.close();
+            } else {
+                System.out.println("Файл не выбран");
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            System.out.println("Ошибка сохранения файла");
+        }
     }
     
     @FXML
@@ -53,15 +197,15 @@ public class PayBonusesController implements Initializable {
         Float amount;
         EmployeeDto employee = comboBoxEmployee.getValue();
         if (employee == null) {
-            amount = EmployeeFunctions.calculateBonuses(null);
+            amount = EmployeeFunctions.calculateBonuses(null, true);
+            makePdf.setVisible(true);
         } else {
-            amount = EmployeeFunctions.calculateBonuses(employee.getId());
+            amount = EmployeeFunctions.calculateBonuses(employee.getId(), true);
+            makePdf.setVisible(false);
         }
         if (amount != null) {
             bonuses.setText(amount + "$");
-            labelStatus.setText("Bonuses were paid");
         } else {
-            labelStatus.setText("error");
             bonuses.setText("");
         }
     }

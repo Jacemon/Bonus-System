@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import static by.jcompany.bonus_system.model.dto.BonusDto.BonusType.MONEY;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -31,6 +33,20 @@ public class Bonus implements IdHandler {
     public Bonus(BonusType type, Float amount) {
         this.type = type;
         this.amount = amount;
+    }
+    
+    public Float getAmount(Employee employee) {
+        Float amount = null;
+        switch (this.getType()) {
+            case MONEY -> amount = this.getAmount();
+            case POINTS -> {
+                if (Task.getPointCost() != null) {
+                    amount = this.getAmount() * Task.getPointCost();
+                }
+            }
+            case PERCENT -> amount = employee.getSalary() * this.getAmount() / 100.0f;
+        }
+        return amount;
     }
     
     @Override
