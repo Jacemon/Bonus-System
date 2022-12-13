@@ -25,6 +25,7 @@ import java.io.FileWriter;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
@@ -58,14 +59,14 @@ public class PayBonusesController implements Initializable {
         String status;
         Float amount;
         if (employee == null) {
+            if (makePdf.isSelected()) {
+                makePdfAction();
+            }
             amount = EmployeeFunctions.payBonuses(null);
             if (amount == null) {
                 status = "Бонусы не были выплачены";
             } else {
                 status = "Бонусы были выплачены";
-            }
-            if (makePdf.isSelected()) {
-                makeTxtAction();
             }
         } else {
             amount = EmployeeFunctions.payBonuses(employee.getId());
@@ -153,7 +154,9 @@ public class PayBonusesController implements Initializable {
                 
                 document.open();
                 
-                BaseFont baseFont = BaseFont.createFont(BaseFont.TIMES_ROMAN, "Cp1251", BaseFont.EMBEDDED);
+                BaseFont baseFont = BaseFont.createFont(Objects.requireNonNull(
+                    getClass().getResource("/by/jcompany/bonus_system/font/times.ttf")).toURI().toString(),
+                    BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 
                 Font font = new Font(baseFont, 16, Font.NORMAL);
                 Font headerFont = new Font(baseFont, 20, Font.BOLD);
