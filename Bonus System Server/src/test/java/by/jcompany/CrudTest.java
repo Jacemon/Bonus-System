@@ -1,5 +1,7 @@
 package by.jcompany;
 
+import by.jcompany.bonus_system.dao.BonusDao;
+import by.jcompany.bonus_system.dao.Dao;
 import by.jcompany.bonus_system.entity.*;
 import by.jcompany.bonus_system.service.*;
 import by.jcompany.bonus_system.util.HashManager;
@@ -22,6 +24,8 @@ public class CrudTest {
     Service<Employee, Integer> employeeService = new EmployeeService();
     Service<Task, Integer> taskService = new TaskService();
     
+    BonusDao bonusDao = new BonusDao();
+    
     String getRandomNumberString() {
         Random random = new Random();
         StringBuilder randomString = new StringBuilder();
@@ -39,7 +43,7 @@ public class CrudTest {
     void ReadUserByLogin() {
         System.out.println("------------ReadUserByLogin------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login));
             if (!userService.create(user)) {
                 throw new Exception("Cannot create user " + login + " !");
@@ -62,7 +66,7 @@ public class CrudTest {
     void CrudUser() {
         System.out.println("------------CrudUser------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login));
             if (!userService.create(user)) {
                 throw new Exception("Cannot create user " + login + " !");
@@ -72,7 +76,7 @@ public class CrudTest {
             user = userService.read(user.getId());
             System.out.println(user);
             
-            String newLogin = "testUser" + getRandomNumberString();
+            String newLogin = "test_user" + getRandomNumberString();
             user.setLogin(newLogin);
             user.setPasswordHash(HashManager.getHash(newLogin));
             
@@ -95,7 +99,7 @@ public class CrudTest {
     void UpdateUserRole() {
         System.out.println("------------UpdateUserRole------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login));
             if (!userService.create(user)) {
                 throw new Exception("Cannot create user " + login + " !");
@@ -159,8 +163,12 @@ public class CrudTest {
         try {
             System.out.println("------------CreateAndDeleteTask------------");
             String desc = "testTask" + getRandomNumberString();
-            Task task = new Task(desc, new Bonus(Bonus.BonusType.MONEY, 1.0f));
-            
+            Bonus bonus = new Bonus(Bonus.BonusType.MONEY, 1.0f);
+            Task task = new Task(desc, bonus);
+    
+            if (!bonusDao.create(bonus)) {
+                throw new Exception("Cannot create task " + desc + " !");
+            }
             if (!taskService.create(task)) {
                 throw new Exception("Cannot create task " + desc + " !");
             }
@@ -200,15 +208,55 @@ public class CrudTest {
     }
     
     @Test
+    void UpdateTaskBonus() {
+        try {
+            System.out.println("------------UpdateTaskBonus------------");
+            String desc = "testTask" + getRandomNumberString();
+            Bonus bonus = new Bonus(Bonus.BonusType.MONEY, 1.0f);
+            Bonus bonus2 = new Bonus(Bonus.BonusType.MONEY, 1.0f);
+            Task task = new Task(desc, bonus);
+        
+            if (!bonusDao.create(bonus)) {
+                throw new Exception("Cannot create bonus " + desc + " !");
+            }
+            if (!taskService.create(task)) {
+                throw new Exception("Cannot create task " + desc + " !");
+            }
+            
+            System.out.println(task);
+    
+            if (!bonusDao.create(bonus2)) {
+                throw new Exception("Cannot create bonus " + desc + " !");
+            }
+            task.setBonus(bonus2);
+            if (!taskService.update(task)) {
+                throw new Exception("Cannot update task " + desc + " !");
+            }
+            
+            if (!taskService.delete(task)) {
+                throw new Exception("Cannot delete task!");
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail("Failed to make composite update task operations.");
+        }
+    }
+    
+    @Test
     void UpdateTaskWithDescriptionAndDefaultCreationTimeAndIsCompleted() {
         try {
             System.out.println("------------UpdateTaskWithDescriptionAndDefaultCreationTimeAndIsCompleted------------");
             String desc = "testTask" + getRandomNumberString();
-            Task task = new Task(desc, new Bonus(Bonus.BonusType.MONEY, 1.0f));
-            
+            Bonus bonus = new Bonus(Bonus.BonusType.MONEY, 1.0f);
+            Task task = new Task(desc, bonus);
+    
+            if (!bonusDao.create(bonus)) {
+                throw new Exception("Cannot create bonus " + desc + " !");
+            }
             if (!taskService.create(task)) {
                 throw new Exception("Cannot create task " + desc + " !");
             }
+            
             System.out.println(task);
             
             task.setCreationTime(new Date(0).toInstant());
@@ -216,7 +264,7 @@ public class CrudTest {
             String newDesc = "testTask" + getRandomNumberString();
             task.setDescription(newDesc);
             if (!taskService.update(task)) {
-                throw new Exception("Cannot create task " + desc + " !");
+                throw new Exception("Cannot update task " + desc + " !");
             }
             
             if (!task.getDescription().equals(newDesc)) {
@@ -280,7 +328,7 @@ public class CrudTest {
     void CrudEmployeeWithUser() {
         try {
             System.out.println("------------CrudEmployeeWithUser------------");
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
             Employee employee = new Employee(name, name, 1000.0f);
             User user = new User(login, HashManager.getHash(login));
@@ -312,20 +360,12 @@ public class CrudTest {
         }
     }
     
-    /**
-     * Проверяет создание Пользователя и добавление ему Работника.
-     * 4 типа:
-     * - совместное создание юзера и работника через userService
-     * - раздельное создание и установка юзеру работника
-     * - создание юзера с уже созданным работником
-     * - создание работника через обновление созданного юзера
-     */
     @Test
     void CrudUserWithEmployee() {
         try {
             System.out.println("------------CreateUserWithEmployee------------");
-            String login = "testUser" + getRandomNumberString();
-            String login2 = "testUserS" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
+            String login2 = "test_user2" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
             String name2 = "testEmplS" + getRandomNumberString();
             
@@ -334,9 +374,12 @@ public class CrudTest {
             Employee employee = new Employee(name, name, 1000.0f);
             Employee employee2 = new Employee(name2, name2, 1000.0f);
             user.setEmployee(employee);
-            
+    
+            if (!employeeService.create(employee)) {
+                throw new Exception("Cannot create employee " + name + "!");
+            }
             if (!userService.create(user)) {
-                throw new Exception("Cannot create user " + login + " with new Employee!");
+                throw new Exception("Cannot create user " + login + "!");
             }
             System.out.println(user);
             System.out.println(user.getEmployee());
@@ -461,14 +504,18 @@ public class CrudTest {
             String name = "testEmpl" + getRandomNumberString();
             
             Employee employee = new Employee(name, name, 1000.0f);
-            Task task = new Task(desc, new Bonus(Bonus.BonusType.POINTS, 100.0f));
+            Bonus bonus = new Bonus(Bonus.BonusType.POINTS, 100.0f);
+            Task task = new Task(desc, bonus);
             
             if (!employeeService.create(employee)) {
                 throw new Exception("Cannot create employee " + name + " !");
             }
             
             task.setEmployee(employee);
-            
+    
+            if (!bonusDao.create(bonus)) {
+                throw new Exception("Cannot create bonus " + name + " !");
+            }
             if (!taskService.create(task)) {
                 throw new Exception("Cannot create task " + desc + " !");
             }
@@ -481,8 +528,12 @@ public class CrudTest {
             }
             System.out.println(task);
             
-            task.setBonus(new Bonus(Bonus.BonusType.MONEY, 10.0f));
+            bonus = new Bonus(Bonus.BonusType.MONEY, 10.0f);
+            task.setBonus(bonus);
             task.setEmployee(employee);
+            if (!bonusDao.create(bonus)) {
+                throw new Exception("Cannot create bonus " + name + " !");
+            }
             if (!taskService.update(task)) {
                 throw new Exception("Cannot update task " + desc + " !");
             }
@@ -519,7 +570,7 @@ public class CrudTest {
     @Test
     void CreateDuplicateUser() {
         System.out.println("------------CreateDuplicateUser------------");
-        String login = "testUser" + getRandomNumberString();
+        String login = "test_user" + getRandomNumberString();
         User user = new User(login, HashManager.getHash(login));
         User user2 = new User(login, HashManager.getHash(login));
         try {
@@ -543,7 +594,7 @@ public class CrudTest {
     void CreateUserWithId() {
         System.out.println("------------CreateUserWithId------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login));
             user.setId(999);
             
@@ -562,7 +613,7 @@ public class CrudTest {
     void CreateUserWithNotExistingRole() {
         System.out.println("------------CreateUserWithNotExistingRole------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login), new Role("SUPER_ROLE", 0));
             
             if (!userService.create(user)) {
