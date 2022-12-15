@@ -39,7 +39,7 @@ public class CrudTest {
     void ReadUserByLogin() {
         System.out.println("------------ReadUserByLogin------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login));
             if (!userService.create(user)) {
                 throw new Exception("Cannot create user " + login + " !");
@@ -62,7 +62,7 @@ public class CrudTest {
     void CrudUser() {
         System.out.println("------------CrudUser------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login));
             if (!userService.create(user)) {
                 throw new Exception("Cannot create user " + login + " !");
@@ -72,7 +72,7 @@ public class CrudTest {
             user = userService.read(user.getId());
             System.out.println(user);
             
-            String newLogin = "testUser" + getRandomNumberString();
+            String newLogin = "test_user" + getRandomNumberString();
             user.setLogin(newLogin);
             user.setPasswordHash(HashManager.getHash(newLogin));
             
@@ -95,7 +95,7 @@ public class CrudTest {
     void UpdateUserRole() {
         System.out.println("------------UpdateUserRole------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login));
             if (!userService.create(user)) {
                 throw new Exception("Cannot create user " + login + " !");
@@ -280,7 +280,7 @@ public class CrudTest {
     void CrudEmployeeWithUser() {
         try {
             System.out.println("------------CrudEmployeeWithUser------------");
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
             Employee employee = new Employee(name, name, 1000.0f);
             User user = new User(login, HashManager.getHash(login));
@@ -324,8 +324,8 @@ public class CrudTest {
     void CrudUserWithEmployee() {
         try {
             System.out.println("------------CreateUserWithEmployee------------");
-            String login = "testUser" + getRandomNumberString();
-            String login2 = "testUserS" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
+            String login2 = "test_user2" + getRandomNumberString();
             String name = "testEmpl" + getRandomNumberString();
             String name2 = "testEmplS" + getRandomNumberString();
             
@@ -519,7 +519,7 @@ public class CrudTest {
     @Test
     void CreateDuplicateUser() {
         System.out.println("------------CreateDuplicateUser------------");
-        String login = "testUser" + getRandomNumberString();
+        String login = "test_user" + getRandomNumberString();
         User user = new User(login, HashManager.getHash(login));
         User user2 = new User(login, HashManager.getHash(login));
         try {
@@ -543,7 +543,7 @@ public class CrudTest {
     void CreateUserWithId() {
         System.out.println("------------CreateUserWithId------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login));
             user.setId(999);
             
@@ -562,7 +562,7 @@ public class CrudTest {
     void CreateUserWithNotExistingRole() {
         System.out.println("------------CreateUserWithNotExistingRole------------");
         try {
-            String login = "testUser" + getRandomNumberString();
+            String login = "test_user" + getRandomNumberString();
             User user = new User(login, HashManager.getHash(login), new Role("SUPER_ROLE", 0));
             
             if (!userService.create(user)) {
