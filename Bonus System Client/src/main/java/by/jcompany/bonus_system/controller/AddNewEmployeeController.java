@@ -44,6 +44,5 @@ public class AddNewEmployeeController implements Initializable {
     }
     
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) { }
 }
