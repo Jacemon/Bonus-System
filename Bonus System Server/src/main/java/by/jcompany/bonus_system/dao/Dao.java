@@ -11,7 +11,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Dao<T, K> {
+public class Dao<T, K> {
     private final Class<T> entityClass;
     
     public Dao() {
@@ -37,6 +37,15 @@ public abstract class Dao<T, K> {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             return new ArrayList<>(session.createQuery("FROM " + entityClass.getName(),
                 entityClass).getResultList());
+        } catch (RuntimeException exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    public T read(K key) {
+        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+            return session.get(entityClass, key);
         } catch (RuntimeException exception) {
             exception.printStackTrace();
             return null;
@@ -85,14 +94,5 @@ public abstract class Dao<T, K> {
             return false;
         }
         return true;
-    }
-
-    public T read(K key) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return session.get(entityClass, key);
-        } catch (RuntimeException exception) {
-            exception.printStackTrace();
-            return null;
-        }
     }
 }

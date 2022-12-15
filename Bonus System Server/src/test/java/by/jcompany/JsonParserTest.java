@@ -5,9 +5,8 @@ import by.jcompany.bonus_system.model.dto.EmployeeDto;
 import by.jcompany.bonus_system.model.dto.RoleDto;
 import by.jcompany.bonus_system.model.dto.TaskDto;
 import by.jcompany.bonus_system.model.dto.UserDto;
-import by.jcompany.bonus_system.service.EmployeeService;
 import by.jcompany.bonus_system.service.RoleService;
-import by.jcompany.bonus_system.service.TaskService;
+import by.jcompany.bonus_system.service.Service;
 import by.jcompany.bonus_system.service.UserService;
 import by.jcompany.bonus_system.util.HashManager;
 import by.jcompany.bonus_system.util.json.GsonManager;
@@ -20,9 +19,9 @@ public class JsonParserTest {
     Gson gson = GsonManager.getGson();
     
     UserService userService = new UserService();
-    EmployeeService employeeService = new EmployeeService();
+    Service<Employee, Integer> employeeService = new Service<>();
     RoleService roleService = new RoleService();
-    TaskService taskService = new TaskService();
+    Service<Task, Integer> taskService = new Service<>();
     
     @Test
     void UserToJson() {

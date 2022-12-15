@@ -1,15 +1,29 @@
 package by.jcompany.bonus_system.service;
 
+import by.jcompany.bonus_system.dao.Dao;
+
 import java.util.List;
 
-public interface Service<T, K> {
-    boolean create(T entity);
+public class Service<T, K> {
+    protected Dao<T, K> entityDao = new Dao<>();
     
-    List<T> readAll();
+    public boolean create(T entity) {
+        return entityDao.create(entity);
+    }
+
+    public List<T> readAll() {
+        return entityDao.readAll();
+    }
     
-    boolean update(T entity);
+    public T read(K key) {
+        return entityDao.read(key);
+    }
     
-    boolean delete(T entity);
-    
-    T read(K id);
+    public boolean update(T entity) {
+        return entityDao.update(entity);
+    }
+
+    public boolean delete(T entity) {
+        return entityDao.delete(entity);
+    }
 }
